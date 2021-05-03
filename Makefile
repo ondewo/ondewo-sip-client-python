@@ -1,7 +1,6 @@
 install:
 	pip install .
 
-
 # GENERATE PYTHON FILES FROM PROTOS
 ONDEWO_PROTOS_DIR=ondewo-sip-api/ondewo/sip
 ONDEWO_APIS_DIR=ondewo-sip-api
