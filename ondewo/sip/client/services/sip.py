@@ -1,49 +1,36 @@
-from google.protobuf.empty_pb2 import Empty
 from ondewo.utils.base_services_interface import BaseServicesInterface
 
-from ondewo.t2s.text_to_speech_pb2 import (
-    ListT2sPipelinesRequest,
-    ListT2sPipelinesResponse,
-    SynthesizeRequest,
-    SynthesizeResponse,
-    T2sPipelineId,
-    Text2SpeechConfig,
+from ondewo.sip.sip_pb2 import (
+    StartSessionRequest,
+    StartSessionResponse,
+    StartCallRequest,
+    StartCallResponse,
+    RegisterAccountRequest,
+    RegisterAccountResponse,
 )
-from ondewo.t2s.text_to_speech_pb2_grpc import Text2SpeechStub
+from ondewo.sip.sip_pb2_grpc import SipStub
 
 
-class Text2Speech(BaseServicesInterface):
+class Sip(BaseServicesInterface):
     """
-    Exposes the t2s endpoints of ONDEWO t2s in a user-friendly way.
+    Exposes the sip endpoints of ONDEWO sip in a user-friendly way.
 
-    See text_to_speech.proto.
+    See sip.proto.
     """
 
     @property
-    def stub(self) -> Text2SpeechStub:
-        stub: Text2SpeechStub = Text2SpeechStub(channel=self.grpc_channel)
+    def stub(self) -> SipStub:
+        stub: SipStub = SipStub(channel=self.grpc_channel)
         return stub
 
-    def synthesize(self, request: SynthesizeRequest) -> SynthesizeResponse:
-        response: SynthesizeResponse = self.stub.Synthesize(request)
+    def start_session(self, request: StartSessionRequest) -> StartSessionResponse:
+        response: StartSessionResponse = self.stub.StartSession(request)
         return response
 
-    def get_t2s_pipeline(self, request: T2sPipelineId) -> Text2SpeechConfig:
-        response: Text2SpeechConfig = self.stub.GetT2sPipeline(request)
+    def start_call(self, request: StartCallRequest) -> StartCallResponse:
+        response: StartCallResponse = self.stub.StartCall(request)
         return response
 
-    def create_t2s_pipeline(self, request: Text2SpeechConfig) -> T2sPipelineId:
-        response: T2sPipelineId = self.stub.CreateT2sPipeline(request)
-        return response
-
-    def delete_t2s_pipeline(self, request: T2sPipelineId) -> Empty:
-        response: Empty = self.stub.DeleteT2sPipeline(request)
-        return response
-
-    def update_t2s_pipeline(self, request: Text2SpeechConfig) -> Empty:
-        response: Empty = self.stub.UpdateT2sPipeline(request)
-        return response
-
-    def list_t2s_pipelines(self, request: ListT2sPipelinesRequest) -> ListT2sPipelinesResponse:
-        response: ListT2sPipelinesResponse = self.stub.ListT2sPipelines(request)
+    def register_account(self, request: RegisterAccountRequest) -> RegisterAccountResponse:
+        response: RegisterAccountResponse = self.stub.RegisterAccount(request)
         return response

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\"P\n\x10StartCallRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x63si_server_host\x18\x02 \x01(\t\x12\x17\n\x0f\x63si_server_port\x18\x03 \x01(\t\"$\n\x11StartCallResponse\x12\x0f\n\x07\x63\x61ll_id\x18\x01 \x01(\t\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\x32\xf5\x01\n\x0bSipSessions\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x1d.ondewo.sip.StartCallResponse\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\"P\n\x10StartCallRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x63si_server_host\x18\x02 \x01(\t\x12\x17\n\x0f\x63si_server_port\x18\x03 \x01(\t\"$\n\x11StartCallResponse\x12\x0f\n\x07\x63\x61ll_id\x18\x01 \x01(\t\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\x32\xed\x01\n\x03Sip\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x1d.ondewo.sip.StartCallResponse\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -218,19 +218,19 @@ _sym_db.RegisterMessage(StartSessionRequest)
 
 
 
-_SIPSESSIONS = _descriptor.ServiceDescriptor(
-  name='SipSessions',
-  full_name='ondewo.sip.SipSessions',
+_SIP = _descriptor.ServiceDescriptor(
+  name='Sip',
+  full_name='ondewo.sip.Sip',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=327,
-  serialized_end=572,
+  serialized_end=564,
   methods=[
   _descriptor.MethodDescriptor(
     name='StartSession',
-    full_name='ondewo.sip.SipSessions.StartSession',
+    full_name='ondewo.sip.Sip.StartSession',
     index=0,
     containing_service=None,
     input_type=_STARTSESSIONREQUEST,
@@ -240,7 +240,7 @@ _SIPSESSIONS = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='StartCall',
-    full_name='ondewo.sip.SipSessions.StartCall',
+    full_name='ondewo.sip.Sip.StartCall',
     index=1,
     containing_service=None,
     input_type=_STARTCALLREQUEST,
@@ -250,7 +250,7 @@ _SIPSESSIONS = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='RegisterAccount',
-    full_name='ondewo.sip.SipSessions.RegisterAccount',
+    full_name='ondewo.sip.Sip.RegisterAccount',
     index=2,
     containing_service=None,
     input_type=_REGISTERACCOUNTREQUEST,
@@ -259,8 +259,8 @@ _SIPSESSIONS = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_SIPSESSIONS)
+_sym_db.RegisterServiceDescriptor(_SIP)
 
-DESCRIPTOR.services_by_name['SipSessions'] = _SIPSESSIONS
+DESCRIPTOR.services_by_name['Sip'] = _SIP
 
 # @@protoc_insertion_point(module_scope)

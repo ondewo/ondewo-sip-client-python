@@ -6,7 +6,7 @@ from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from ondewo.sip import sip_pb2 as ondewo_dot_sip_dot_sip__pb2
 
 
-class SipSessionsStub(object):
+class SipStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -16,23 +16,23 @@ class SipSessionsStub(object):
             channel: A grpc.Channel.
         """
         self.StartSession = channel.unary_unary(
-                '/ondewo.sip.SipSessions/StartSession',
+                '/ondewo.sip.Sip/StartSession',
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.StartCall = channel.unary_unary(
-                '/ondewo.sip.SipSessions/StartCall',
+                '/ondewo.sip.Sip/StartCall',
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
                 response_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallResponse.FromString,
                 )
         self.RegisterAccount = channel.unary_unary(
-                '/ondewo.sip.SipSessions/RegisterAccount',
+                '/ondewo.sip.Sip/RegisterAccount',
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
 
 
-class SipSessionsServicer(object):
+class SipServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def StartSession(self, request, context):
@@ -60,7 +60,7 @@ class SipSessionsServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_SipSessionsServicer_to_server(servicer, server):
+def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'StartSession': grpc.unary_unary_rpc_method_handler(
                     servicer.StartSession,
@@ -79,12 +79,12 @@ def add_SipSessionsServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'ondewo.sip.SipSessions', rpc_method_handlers)
+            'ondewo.sip.Sip', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class SipSessions(object):
+class Sip(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -98,7 +98,7 @@ class SipSessions(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.SipSessions/StartSession',
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartSession',
             ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
@@ -115,7 +115,7 @@ class SipSessions(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.SipSessions/StartCall',
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartCall',
             ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
             ondewo_dot_sip_dot_sip__pb2.StartCallResponse.FromString,
             options, channel_credentials,
@@ -132,7 +132,7 @@ class SipSessions(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.SipSessions/RegisterAccount',
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/RegisterAccount',
             ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
