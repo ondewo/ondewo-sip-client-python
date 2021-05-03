@@ -1,0 +1,3 @@
+[submodule "ondewo-sip-api"]
+	path = ondewo-sip-api
+	url = https://github.com/ondewo/ondewo-sip-api

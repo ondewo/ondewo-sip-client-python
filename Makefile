@@ -3,8 +3,8 @@ install:
 
 
 # GENERATE PYTHON FILES FROM PROTOS
-ONDEWO_PROTOS_DIR=ondewo-t2s-api/ondewo/t2s
-ONDEWO_APIS_DIR=ondewo-t2s-api
+ONDEWO_PROTOS_DIR=ondewo-sip-api/ondewo/sip
+ONDEWO_APIS_DIR=ondewo-sip-api
 PROTO_OUTPUT_FOLDER= .
 
 generate_ondewo_protos:
