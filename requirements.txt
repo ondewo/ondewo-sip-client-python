@@ -9,3 +9,4 @@ polling==0.3.1
 protobuf==3.13.0
 pytest==6.0.1
 regex==2020.7.14
+ondewo-nlu-client>=1.1.2
