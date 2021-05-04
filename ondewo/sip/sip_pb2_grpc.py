@@ -20,10 +20,25 @@ class SipStub(object):
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.EndSession = channel.unary_unary(
+                '/ondewo.sip.Sip/EndSession',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
         self.StartCall = channel.unary_unary(
                 '/ondewo.sip.Sip/StartCall',
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-                response_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallResponse.FromString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+        self.EndCall = channel.unary_unary(
+                '/ondewo.sip.Sip/EndCall',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+        self.TransferCall = channel.unary_unary(
+                '/ondewo.sip.Sip/TransferCall',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.RegisterAccount = channel.unary_unary(
                 '/ondewo.sip.Sip/RegisterAccount',
@@ -41,20 +56,32 @@ class SipServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def EndSession(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def StartCall(self, request, context):
-        """}; 
-        """
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def EndCall(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def TransferCall(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RegisterAccount(self, request, context):
-        """}; 
-
-        rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) { 
-
-        }; 
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -67,10 +94,25 @@ def add_SipServicer_to_server(servicer, server):
                     request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
+            'EndSession': grpc.unary_unary_rpc_method_handler(
+                    servicer.EndSession,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
             'StartCall': grpc.unary_unary_rpc_method_handler(
                     servicer.StartCall,
                     request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.FromString,
-                    response_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallResponse.SerializeToString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'EndCall': grpc.unary_unary_rpc_method_handler(
+                    servicer.EndCall,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'TransferCall': grpc.unary_unary_rpc_method_handler(
+                    servicer.TransferCall,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'RegisterAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.RegisterAccount,
@@ -105,6 +147,23 @@ class Sip(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def EndSession(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndSession',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def StartCall(request,
             target,
             options=(),
@@ -117,7 +176,41 @@ class Sip(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartCall',
             ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-            ondewo_dot_sip_dot_sip__pb2.StartCallResponse.FromString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def EndCall(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndCall',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def TransferCall(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/TransferCall',
+            ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

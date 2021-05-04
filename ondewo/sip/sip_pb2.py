@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\"P\n\x10StartCallRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x63si_server_host\x18\x02 \x01(\t\x12\x17\n\x0f\x63si_server_port\x18\x03 \x01(\t\"$\n\x11StartCallResponse\x12\x0f\n\x07\x63\x61ll_id\x18\x01 \x01(\t\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\x32\xed\x01\n\x03Sip\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x1d.ondewo.sip.StartCallResponse\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\"%\n\x10StartCallRequest\x12\x11\n\tcallee_id\x18\x01 \x01(\t\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\"*\n\x13TransferCallRequest\x12\x13\n\x0btransfer_id\x18\x01 \x01(\t2\xae\x03\n\x03Sip\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12>\n\nEndSession\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12;\n\x07\x45ndCall\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12I\n\x0cTransferCall\x12\x1f.ondewo.sip.TransferCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -36,22 +36,8 @@ _STARTCALLREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='ondewo.sip.StartCallRequest.id', index=0,
+      name='callee_id', full_name='ondewo.sip.StartCallRequest.callee_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='csi_server_host', full_name='ondewo.sip.StartCallRequest.csi_server_host', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='csi_server_port', full_name='ondewo.sip.StartCallRequest.csi_server_port', index=2,
-      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -69,39 +55,7 @@ _STARTCALLREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=65,
-  serialized_end=145,
-)
-
-
-_STARTCALLRESPONSE = _descriptor.Descriptor(
-  name='StartCallResponse',
-  full_name='ondewo.sip.StartCallResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='call_id', full_name='ondewo.sip.StartCallResponse.call_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=147,
-  serialized_end=183,
+  serialized_end=102,
 )
 
 
@@ -139,8 +93,8 @@ _REGISTERACCOUNTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=185,
-  serialized_end=249,
+  serialized_start=104,
+  serialized_end=168,
 )
 
 
@@ -178,14 +132,46 @@ _STARTSESSIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=251,
-  serialized_end=324,
+  serialized_start=170,
+  serialized_end=243,
+)
+
+
+_TRANSFERCALLREQUEST = _descriptor.Descriptor(
+  name='TransferCallRequest',
+  full_name='ondewo.sip.TransferCallRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='transfer_id', full_name='ondewo.sip.TransferCallRequest.transfer_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=245,
+  serialized_end=287,
 )
 
 DESCRIPTOR.message_types_by_name['StartCallRequest'] = _STARTCALLREQUEST
-DESCRIPTOR.message_types_by_name['StartCallResponse'] = _STARTCALLRESPONSE
 DESCRIPTOR.message_types_by_name['RegisterAccountRequest'] = _REGISTERACCOUNTREQUEST
 DESCRIPTOR.message_types_by_name['StartSessionRequest'] = _STARTSESSIONREQUEST
+DESCRIPTOR.message_types_by_name['TransferCallRequest'] = _TRANSFERCALLREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 StartCallRequest = _reflection.GeneratedProtocolMessageType('StartCallRequest', (_message.Message,), {
@@ -194,13 +180,6 @@ StartCallRequest = _reflection.GeneratedProtocolMessageType('StartCallRequest', 
   # @@protoc_insertion_point(class_scope:ondewo.sip.StartCallRequest)
   })
 _sym_db.RegisterMessage(StartCallRequest)
-
-StartCallResponse = _reflection.GeneratedProtocolMessageType('StartCallResponse', (_message.Message,), {
-  'DESCRIPTOR' : _STARTCALLRESPONSE,
-  '__module__' : 'ondewo.sip.sip_pb2'
-  # @@protoc_insertion_point(class_scope:ondewo.sip.StartCallResponse)
-  })
-_sym_db.RegisterMessage(StartCallResponse)
 
 RegisterAccountRequest = _reflection.GeneratedProtocolMessageType('RegisterAccountRequest', (_message.Message,), {
   'DESCRIPTOR' : _REGISTERACCOUNTREQUEST,
@@ -216,6 +195,13 @@ StartSessionRequest = _reflection.GeneratedProtocolMessageType('StartSessionRequ
   })
 _sym_db.RegisterMessage(StartSessionRequest)
 
+TransferCallRequest = _reflection.GeneratedProtocolMessageType('TransferCallRequest', (_message.Message,), {
+  'DESCRIPTOR' : _TRANSFERCALLREQUEST,
+  '__module__' : 'ondewo.sip.sip_pb2'
+  # @@protoc_insertion_point(class_scope:ondewo.sip.TransferCallRequest)
+  })
+_sym_db.RegisterMessage(TransferCallRequest)
+
 
 
 _SIP = _descriptor.ServiceDescriptor(
@@ -225,8 +211,8 @@ _SIP = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=327,
-  serialized_end=564,
+  serialized_start=290,
+  serialized_end=720,
   methods=[
   _descriptor.MethodDescriptor(
     name='StartSession',
@@ -239,19 +225,49 @@ _SIP = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='StartCall',
-    full_name='ondewo.sip.Sip.StartCall',
+    name='EndSession',
+    full_name='ondewo.sip.Sip.EndSession',
     index=1,
     containing_service=None,
+    input_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='StartCall',
+    full_name='ondewo.sip.Sip.StartCall',
+    index=2,
+    containing_service=None,
     input_type=_STARTCALLREQUEST,
-    output_type=_STARTCALLRESPONSE,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='EndCall',
+    full_name='ondewo.sip.Sip.EndCall',
+    index=3,
+    containing_service=None,
+    input_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='TransferCall',
+    full_name='ondewo.sip.Sip.TransferCall',
+    index=4,
+    containing_service=None,
+    input_type=_TRANSFERCALLREQUEST,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
     name='RegisterAccount',
     full_name='ondewo.sip.Sip.RegisterAccount',
-    index=2,
+    index=5,
     containing_service=None,
     input_type=_REGISTERACCOUNTREQUEST,
     output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
