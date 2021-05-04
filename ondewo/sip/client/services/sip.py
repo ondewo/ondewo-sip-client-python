@@ -18,7 +18,6 @@ from google.protobuf.empty_pb2 import Empty
 from ondewo.sip.sip_pb2 import (
     StartSessionRequest,
     StartCallRequest,
-    StartCallResponse,
     RegisterAccountRequest,
 )
 from ondewo.sip.sip_pb2_grpc import SipStub
@@ -40,10 +39,11 @@ class Sip(BaseServicesInterface):
         response: Empty = self.stub.StartSession(request)
         return response
 
-    def start_call(self, request: StartCallRequest) -> StartCallResponse:
-        response: StartCallResponse = self.stub.StartCall(request)
-        return response
-
     def register_account(self, request: RegisterAccountRequest) -> Empty:
         response: Empty = self.stub.RegisterAccount(request)
         return response
+
+    def start_call(self, request: StartCallRequest) -> Empty:
+        response: Empty = self.stub.StartCall(request)
+        return response
+
