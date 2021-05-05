@@ -2,6 +2,11 @@
 import sys
 from google.protobuf.descriptor import (
     Descriptor as google___protobuf___descriptor___Descriptor,
+    EnumDescriptor as google___protobuf___descriptor___EnumDescriptor,
+)
+
+from google.protobuf.internal.containers import (
+    RepeatedCompositeFieldContainer as google___protobuf___internal___containers___RepeatedCompositeFieldContainer,
 )
 
 from google.protobuf.message import (
@@ -9,9 +14,13 @@ from google.protobuf.message import (
 )
 
 from typing import (
+    Iterable as typing___Iterable,
+    List as typing___List,
     Optional as typing___Optional,
     Text as typing___Text,
+    Tuple as typing___Tuple,
     Union as typing___Union,
+    cast as typing___cast,
 )
 
 from typing_extensions import (
@@ -23,6 +32,7 @@ builtin___bool = bool
 builtin___bytes = bytes
 builtin___float = float
 builtin___int = int
+builtin___str = str
 if sys.version_info < (3,):
     builtin___buffer = buffer
     builtin___unicode = unicode
@@ -107,3 +117,75 @@ class TransferCallRequest(google___protobuf___message___Message):
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def ClearField(self, field_name: typing_extensions___Literal[u"transfer_id",b"transfer_id"]) -> None: ...
 global___TransferCallRequest = TransferCallRequest
+
+class SipStatus(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    class StatusType(builtin___int):
+        DESCRIPTOR: google___protobuf___descriptor___EnumDescriptor = ...
+        @classmethod
+        def Name(cls, number: builtin___int) -> builtin___str: ...
+        @classmethod
+        def Value(cls, name: builtin___str) -> 'SipStatus.StatusType': ...
+        @classmethod
+        def keys(cls) -> typing___List[builtin___str]: ...
+        @classmethod
+        def values(cls) -> typing___List['SipStatus.StatusType']: ...
+        @classmethod
+        def items(cls) -> typing___List[typing___Tuple[builtin___str, 'SipStatus.StatusType']]: ...
+        not_started = typing___cast('SipStatus.StatusType', 0)
+        idle = typing___cast('SipStatus.StatusType', 1)
+        incoming_call = typing___cast('SipStatus.StatusType', 2)
+        outgoing_call = typing___cast('SipStatus.StatusType', 3)
+        transfer_call = typing___cast('SipStatus.StatusType', 4)
+    not_started = typing___cast('SipStatus.StatusType', 0)
+    idle = typing___cast('SipStatus.StatusType', 1)
+    incoming_call = typing___cast('SipStatus.StatusType', 2)
+    outgoing_call = typing___cast('SipStatus.StatusType', 3)
+    transfer_call = typing___cast('SipStatus.StatusType', 4)
+    global___StatusType = StatusType
+
+    account_name = ... # type: typing___Text
+    timestamp = ... # type: builtin___int
+    status_type = ... # type: global___SipStatus.StatusType
+    callee_id = ... # type: typing___Text
+    transfer_call_id = ... # type: typing___Text
+
+    def __init__(self,
+        *,
+        account_name : typing___Optional[typing___Text] = None,
+        timestamp : typing___Optional[builtin___int] = None,
+        status_type : typing___Optional[global___SipStatus.StatusType] = None,
+        callee_id : typing___Optional[typing___Text] = None,
+        transfer_call_id : typing___Optional[typing___Text] = None,
+        ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> SipStatus: ...
+    else:
+        @classmethod
+        def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> SipStatus: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"account_name",b"account_name",u"callee_id",b"callee_id",u"status_type",b"status_type",u"timestamp",b"timestamp",u"transfer_call_id",b"transfer_call_id"]) -> None: ...
+global___SipStatus = SipStatus
+
+class SipStatusHistoryResponse(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+
+    @property
+    def status_history(self) -> google___protobuf___internal___containers___RepeatedCompositeFieldContainer[global___SipStatus]: ...
+
+    def __init__(self,
+        *,
+        status_history : typing___Optional[typing___Iterable[global___SipStatus]] = None,
+        ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> SipStatusHistoryResponse: ...
+    else:
+        @classmethod
+        def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> SipStatusHistoryResponse: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"status_history",b"status_history"]) -> None: ...
+global___SipStatusHistoryResponse = SipStatusHistoryResponse

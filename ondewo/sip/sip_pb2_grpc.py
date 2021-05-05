@@ -45,6 +45,16 @@ class SipStub(object):
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.GetSipStatus = channel.unary_unary(
+                '/ondewo.sip.Sip/GetSipStatus',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
+        self.GetSipStatusHistory = channel.unary_unary(
+                '/ondewo.sip.Sip/GetSipStatusHistory',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
+                )
 
 
 class SipServicer(object):
@@ -86,6 +96,18 @@ class SipServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetSipStatus(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSipStatusHistory(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -118,6 +140,16 @@ def add_SipServicer_to_server(servicer, server):
                     servicer.RegisterAccount,
                     request_deserializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'GetSipStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSipStatus,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'GetSipStatusHistory': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSipStatusHistory,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -228,5 +260,39 @@ class Sip(object):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/RegisterAccount',
             ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSipStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/GetSipStatus',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSipStatusHistory(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/GetSipStatusHistory',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
