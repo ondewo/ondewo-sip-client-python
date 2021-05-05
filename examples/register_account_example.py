@@ -20,7 +20,23 @@ from ondewo.sip.client.client import Client
 
 import ondewo.sip.sip_pb2 as sip
 
-with open('sip.json') as fi:
+with open('sip_config.json') as fi:
     config = ClientConfig.from_json(fi.read())
 
-client = Client(config=config)
+client = Client(config=config, use_secure_channel=False)
+
+request = sip.RegisterAccountRequest(
+    account_name='example@aim.ondewo.com',
+    password='asdfasdfasdfasdfasfdasfsdf',
+)
+client.services.sip.register_account(request=request)
+
+request = sip.StartSessionRequest(
+    account='example'
+)
+client.services.sip.start_session(request=request)
+
+request = sip.StartCallRequest(
+    callee_id='0043123123123'
+)
+client.services.sip.start_call(request=request)
