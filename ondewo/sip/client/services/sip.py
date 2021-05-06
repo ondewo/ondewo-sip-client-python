@@ -18,6 +18,10 @@ from google.protobuf.empty_pb2 import Empty
 from ondewo.sip.sip_pb2 import (
     StartSessionRequest,
     StartCallRequest,
+    EndCallRequest,
+    SipStatus,
+    SipStatusHistoryResponse,
+    PlayWavFilesRequest,
     RegisterAccountRequest,
 )
 from ondewo.sip.sip_pb2_grpc import SipStub
@@ -39,6 +43,10 @@ class Sip(BaseServicesInterface):
         response: Empty = self.stub.StartSession(request)
         return response
 
+    def end_session(self, request: Empty) -> Empty:
+        response: Empty = self.stub.EndSession(request)
+        return response
+
     def register_account(self, request: RegisterAccountRequest) -> Empty:
         response: Empty = self.stub.RegisterAccount(request)
         return response
@@ -47,3 +55,18 @@ class Sip(BaseServicesInterface):
         response: Empty = self.stub.StartCall(request)
         return response
 
+    def end_call(self, request: EndCallRequest) -> Empty:
+        response: Empty = self.stub.EndCall(request)
+        return response
+
+    def get_sip_status(self, request: Empty) -> SipStatus:
+        response: SipStatus = self.stub.GetSipStatus(request)
+        return response
+
+    def get_sip_status_history(self, request: Empty) -> SipStatusHistoryResponse:
+        response: SipStatusHistoryResponse = self.stub.GetSipStatusHistory(request)
+        return response
+
+    def play_wav_files(self, request: PlayWavFilesRequest) -> Empty:
+        response: PlayWavFilesRequest = self.stub.PlayWavFiles(request)
+        return response
