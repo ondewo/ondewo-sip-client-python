@@ -32,7 +32,7 @@ class SipStub(object):
                 )
         self.EndCall = channel.unary_unary(
                 '/ondewo.sip.Sip/EndCall',
-                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.TransferCall = channel.unary_unary(
@@ -54,6 +54,11 @@ class SipStub(object):
                 '/ondewo.sip.Sip/GetSipStatusHistory',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
+                )
+        self.PlayWavFiles = channel.unary_unary(
+                '/ondewo.sip.Sip/PlayWavFiles',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
 
 
@@ -108,6 +113,12 @@ class SipServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def PlayWavFiles(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -128,7 +139,7 @@ def add_SipServicer_to_server(servicer, server):
             ),
             'EndCall': grpc.unary_unary_rpc_method_handler(
                     servicer.EndCall,
-                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'TransferCall': grpc.unary_unary_rpc_method_handler(
@@ -150,6 +161,11 @@ def add_SipServicer_to_server(servicer, server):
                     servicer.GetSipStatusHistory,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.SerializeToString,
+            ),
+            'PlayWavFiles': grpc.unary_unary_rpc_method_handler(
+                    servicer.PlayWavFiles,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -224,7 +240,7 @@ class Sip(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndCall',
-            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -294,5 +310,22 @@ class Sip(object):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/GetSipStatusHistory',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def PlayWavFiles(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/PlayWavFiles',
+            ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

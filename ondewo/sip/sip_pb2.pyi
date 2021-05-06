@@ -7,6 +7,7 @@ from google.protobuf.descriptor import (
 
 from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer as google___protobuf___internal___containers___RepeatedCompositeFieldContainer,
+    RepeatedScalarFieldContainer as google___protobuf___internal___containers___RepeatedScalarFieldContainer,
 )
 
 from google.protobuf.message import (
@@ -37,6 +38,25 @@ if sys.version_info < (3,):
     builtin___buffer = buffer
     builtin___unicode = unicode
 
+
+class EndCallRequest(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    hard_hangup = ... # type: builtin___bool
+
+    def __init__(self,
+        *,
+        hard_hangup : typing___Optional[builtin___bool] = None,
+        ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> EndCallRequest: ...
+    else:
+        @classmethod
+        def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> EndCallRequest: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"hard_hangup",b"hard_hangup"]) -> None: ...
+global___EndCallRequest = EndCallRequest
 
 class StartCallRequest(google___protobuf___message___Message):
     DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
@@ -132,16 +152,34 @@ class SipStatus(google___protobuf___message___Message):
         def values(cls) -> typing___List['SipStatus.StatusType']: ...
         @classmethod
         def items(cls) -> typing___List[typing___Tuple[builtin___str, 'SipStatus.StatusType']]: ...
-        not_started = typing___cast('SipStatus.StatusType', 0)
-        idle = typing___cast('SipStatus.StatusType', 1)
-        incoming_call = typing___cast('SipStatus.StatusType', 2)
-        outgoing_call = typing___cast('SipStatus.StatusType', 3)
-        transfer_call = typing___cast('SipStatus.StatusType', 4)
-    not_started = typing___cast('SipStatus.StatusType', 0)
-    idle = typing___cast('SipStatus.StatusType', 1)
-    incoming_call = typing___cast('SipStatus.StatusType', 2)
-    outgoing_call = typing___cast('SipStatus.StatusType', 3)
-    transfer_call = typing___cast('SipStatus.StatusType', 4)
+        no_session = typing___cast('SipStatus.StatusType', 0)
+        registered = typing___cast('SipStatus.StatusType', 1)
+        ready = typing___cast('SipStatus.StatusType', 2)
+        incoming_call_initiated = typing___cast('SipStatus.StatusType', 3)
+        outgoing_call_initiated = typing___cast('SipStatus.StatusType', 4)
+        outgoing_call_connected = typing___cast('SipStatus.StatusType', 5)
+        incoming_call_connected = typing___cast('SipStatus.StatusType', 6)
+        transfer_call_initiated = typing___cast('SipStatus.StatusType', 7)
+        soft_hangup_initiated = typing___cast('SipStatus.StatusType', 8)
+        hard_hangup_initiated = typing___cast('SipStatus.StatusType', 9)
+        incoming_call_failed = typing___cast('SipStatus.StatusType', 10)
+        outgoing_call_failed = typing___cast('SipStatus.StatusType', 11)
+        incoming_call_finished = typing___cast('SipStatus.StatusType', 12)
+        outgoing_call_finished = typing___cast('SipStatus.StatusType', 13)
+    no_session = typing___cast('SipStatus.StatusType', 0)
+    registered = typing___cast('SipStatus.StatusType', 1)
+    ready = typing___cast('SipStatus.StatusType', 2)
+    incoming_call_initiated = typing___cast('SipStatus.StatusType', 3)
+    outgoing_call_initiated = typing___cast('SipStatus.StatusType', 4)
+    outgoing_call_connected = typing___cast('SipStatus.StatusType', 5)
+    incoming_call_connected = typing___cast('SipStatus.StatusType', 6)
+    transfer_call_initiated = typing___cast('SipStatus.StatusType', 7)
+    soft_hangup_initiated = typing___cast('SipStatus.StatusType', 8)
+    hard_hangup_initiated = typing___cast('SipStatus.StatusType', 9)
+    incoming_call_failed = typing___cast('SipStatus.StatusType', 10)
+    outgoing_call_failed = typing___cast('SipStatus.StatusType', 11)
+    incoming_call_finished = typing___cast('SipStatus.StatusType', 12)
+    outgoing_call_finished = typing___cast('SipStatus.StatusType', 13)
     global___StatusType = StatusType
 
     account_name = ... # type: typing___Text
@@ -189,3 +227,22 @@ class SipStatusHistoryResponse(google___protobuf___message___Message):
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def ClearField(self, field_name: typing_extensions___Literal[u"status_history",b"status_history"]) -> None: ...
 global___SipStatusHistoryResponse = SipStatusHistoryResponse
+
+class PlayWavFilesRequest(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    wav_files = ... # type: google___protobuf___internal___containers___RepeatedScalarFieldContainer[builtin___bytes]
+
+    def __init__(self,
+        *,
+        wav_files : typing___Optional[typing___Iterable[builtin___bytes]] = None,
+        ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> PlayWavFilesRequest: ...
+    else:
+        @classmethod
+        def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> PlayWavFilesRequest: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"wav_files",b"wav_files"]) -> None: ...
+global___PlayWavFilesRequest = PlayWavFilesRequest
