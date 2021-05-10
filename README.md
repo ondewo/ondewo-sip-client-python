@@ -13,7 +13,7 @@ Python Installation
 ```bash
 git clone git@github.com:ondewo/ondewo-sip-client-python.git
 cd ondewo-sip-client-python
-pip install -r requirements.txt
+pip install -e .
 ```
 
 Let's Get Started! (WIP)
