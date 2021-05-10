@@ -43,8 +43,8 @@ class Sip(BaseServicesInterface):
         response: Empty = self.stub.StartSession(request)
         return response
 
-    def end_session(self, request: Empty) -> Empty:
-        response: Empty = self.stub.EndSession(request)
+    def end_session(self) -> Empty:
+        response: Empty = self.stub.EndSession(Empty())
         return response
 
     def register_account(self, request: RegisterAccountRequest) -> Empty:
@@ -59,12 +59,12 @@ class Sip(BaseServicesInterface):
         response: Empty = self.stub.EndCall(request)
         return response
 
-    def get_sip_status(self, request: Empty) -> SipStatus:
-        response: SipStatus = self.stub.GetSipStatus(request)
+    def get_sip_status(self) -> SipStatus:
+        response: SipStatus = self.stub.GetSipStatus(Empty())
         return response
 
-    def get_sip_status_history(self, request: Empty) -> SipStatusHistoryResponse:
-        response: SipStatusHistoryResponse = self.stub.GetSipStatusHistory(request)
+    def get_sip_status_history(self) -> SipStatusHistoryResponse:
+        response: SipStatusHistoryResponse = self.stub.GetSipStatusHistory(Empty())
         return response
 
     def play_wav_files(self, request: PlayWavFilesRequest) -> Empty:

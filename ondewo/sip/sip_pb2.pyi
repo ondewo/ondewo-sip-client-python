@@ -14,6 +14,10 @@ from google.protobuf.message import (
     Message as google___protobuf___message___Message,
 )
 
+from google.protobuf.timestamp_pb2 import (
+    Timestamp as google___protobuf___timestamp_pb2___Timestamp,
+)
+
 from typing import (
     Iterable as typing___Iterable,
     List as typing___List,
@@ -183,15 +187,17 @@ class SipStatus(google___protobuf___message___Message):
     global___StatusType = StatusType
 
     account_name = ... # type: typing___Text
-    timestamp = ... # type: builtin___int
     status_type = ... # type: global___SipStatus.StatusType
     callee_id = ... # type: typing___Text
     transfer_call_id = ... # type: typing___Text
 
+    @property
+    def timestamp(self) -> google___protobuf___timestamp_pb2___Timestamp: ...
+
     def __init__(self,
         *,
         account_name : typing___Optional[typing___Text] = None,
-        timestamp : typing___Optional[builtin___int] = None,
+        timestamp : typing___Optional[google___protobuf___timestamp_pb2___Timestamp] = None,
         status_type : typing___Optional[global___SipStatus.StatusType] = None,
         callee_id : typing___Optional[typing___Text] = None,
         transfer_call_id : typing___Optional[typing___Text] = None,
@@ -204,6 +210,7 @@ class SipStatus(google___protobuf___message___Message):
         def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> SipStatus: ...
     def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def HasField(self, field_name: typing_extensions___Literal[u"timestamp",b"timestamp"]) -> builtin___bool: ...
     def ClearField(self, field_name: typing_extensions___Literal[u"account_name",b"account_name",u"callee_id",b"callee_id",u"status_type",b"status_type",u"timestamp",b"timestamp",u"transfer_call_id",b"transfer_call_id"]) -> None: ...
 global___SipStatus = SipStatus
 
