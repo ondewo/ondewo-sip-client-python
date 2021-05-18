@@ -1,6 +1,12 @@
 # Release History
 *****************
 
+## ONDEWO-SIP Python Client 2.2.1
+
+### New Features
+ * transfer requests included
+
+*****************
 ## ONDEWO-SIP Python Client 2.2.0
 
 ### New Features
