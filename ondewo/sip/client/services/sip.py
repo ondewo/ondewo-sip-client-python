@@ -19,6 +19,7 @@ from ondewo.sip.sip_pb2 import (
     StartSessionRequest,
     StartCallRequest,
     EndCallRequest,
+    TransferCallRequest,
     SipStatus,
     SipStatusHistoryResponse,
     PlayWavFilesRequest,
@@ -57,6 +58,10 @@ class Sip(BaseServicesInterface):
 
     def end_call(self, request: EndCallRequest) -> Empty:
         response: Empty = self.stub.EndCall(request)
+        return response
+
+    def transfer_call(self, request: TransferCallRequest) -> Empty:
+        response: Empty = self.stub.TransferCall(request)
         return response
 
     def get_sip_status(self) -> SipStatus:
