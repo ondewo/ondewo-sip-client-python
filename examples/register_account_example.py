@@ -20,23 +20,37 @@ from ondewo.sip.client.client import Client
 
 import ondewo.sip.sip_pb2 as sip
 
-with open('sip_config.json') as fi:
-    config = ClientConfig.from_json(fi.read())
+HOST: str = 'localhost'
+PORT: int = 0
+ACCOUNT_NAME: str = 'name@domain.com'
+ACCOUNT_PASSWORD: str = 'password'
 
+CALLEE_ADDRESS: str = 'callee'
+# TRANSFER_ADDRESS: str = 'transfer'
+
+# with open('sip_config.json') as fi:
+#     config = ClientConfig.from_json(fi.read())
+
+config = ClientConfig(host=HOST, port=PORT)
 client = Client(config=config, use_secure_channel=False)
 
 request = sip.RegisterAccountRequest(
-    account_name='example@aim.ondewo.com',
-    password='asdfasdfasdfasdfasfdasfsdf',
+    account_name=ACCOUNT_NAME,
+    password=ACCOUNT_PASSWORD,
 )
 client.services.sip.register_account(request=request)
 
 request = sip.StartSessionRequest(
-    account='example'
+    account_name=ACCOUNT_NAME
 )
 client.services.sip.start_session(request=request)
 
 request = sip.StartCallRequest(
-    callee_id='0043123123123'
+    callee_id=CALLEE_ADDRESS
 )
 client.services.sip.start_call(request=request)
+
+# request = sip.TransferCallRequest(
+#     transfer_id=TRANSFER_ADDRESS
+# )
+# client.services.sip.transfer_call(request=request)
