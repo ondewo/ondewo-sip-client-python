@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"%\n\x0e\x45ndCallRequest\x12\x13\n\x0bhard_hangup\x18\x01 \x01(\x08\"%\n\x10StartCallRequest\x12\x11\n\tcallee_id\x18\x01 \x01(\t\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\"*\n\x13TransferCallRequest\x12\x13\n\x0btransfer_id\x18\x01 \x01(\t\"\xa1\x04\n\tSipStatus\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12-\n\ttimestamp\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x35\n\x0bstatus_type\x18\x03 \x01(\x0e\x32 .ondewo.sip.SipStatus.StatusType\x12\x11\n\tcallee_id\x18\x04 \x01(\t\x12\x18\n\x10transfer_call_id\x18\x05 \x01(\t\"\xea\x02\n\nStatusType\x12\x0e\n\nno_session\x10\x00\x12\x0e\n\nregistered\x10\x01\x12\t\n\x05ready\x10\x02\x12\x1b\n\x17incoming_call_initiated\x10\x03\x12\x1b\n\x17outgoing_call_initiated\x10\x04\x12\x1b\n\x17outgoing_call_connected\x10\x05\x12\x1b\n\x17incoming_call_connected\x10\x06\x12\x1b\n\x17transfer_call_initiated\x10\x07\x12\x19\n\x15soft_hangup_initiated\x10\x08\x12\x19\n\x15hard_hangup_initiated\x10\t\x12\x18\n\x14incoming_call_failed\x10\n\x12\x18\n\x14outgoing_call_failed\x10\x0b\x12\x1a\n\x16incoming_call_finished\x10\x0c\x12\x1a\n\x16outgoing_call_finished\x10\r\"I\n\x18SipStatusHistoryResponse\x12-\n\x0estatus_history\x18\x01 \x03(\x0b\x32\x15.ondewo.sip.SipStatus\"(\n\x13PlayWavFilesRequest\x12\x11\n\twav_files\x18\x01 \x03(\x0c\x32\x95\x05\n\x03Sip\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12>\n\nEndSession\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12?\n\x07\x45ndCall\x12\x1a.ondewo.sip.EndCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12I\n\x0cTransferCall\x12\x1f.ondewo.sip.TransferCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x12?\n\x0cGetSipStatus\x12\x16.google.protobuf.Empty\x1a\x15.ondewo.sip.SipStatus\"\x00\x12U\n\x13GetSipStatusHistory\x12\x16.google.protobuf.Empty\x1a$.ondewo.sip.SipStatusHistoryResponse\"\x00\x12I\n\x0cPlayWavFiles\x12\x1f.ondewo.sip.PlayWavFilesRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x14ondewo/sip/sip.proto\x12\nondewo.sip\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"%\n\x0e\x45ndCallRequest\x12\x13\n\x0bhard_hangup\x18\x01 \x01(\x08\"\x91\x01\n\x10StartCallRequest\x12\x11\n\tcallee_id\x18\x01 \x01(\t\x12:\n\x07headers\x18\x02 \x03(\x0b\x32).ondewo.sip.StartCallRequest.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"@\n\x16RegisterAccountRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"I\n\x13StartSessionRequest\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12\x1c\n\x14\x61uto_answer_interval\x18\x02 \x01(\x05\"\x99\x01\n\x13TransferCallRequest\x12\x13\n\x0btransfer_id\x18\x01 \x01(\t\x12=\n\x07headers\x18\x02 \x03(\x0b\x32,.ondewo.sip.TransferCallRequest.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xa1\x04\n\tSipStatus\x12\x14\n\x0c\x61\x63\x63ount_name\x18\x01 \x01(\t\x12-\n\ttimestamp\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x35\n\x0bstatus_type\x18\x03 \x01(\x0e\x32 .ondewo.sip.SipStatus.StatusType\x12\x11\n\tcallee_id\x18\x04 \x01(\t\x12\x18\n\x10transfer_call_id\x18\x05 \x01(\t\"\xea\x02\n\nStatusType\x12\x0e\n\nno_session\x10\x00\x12\x0e\n\nregistered\x10\x01\x12\t\n\x05ready\x10\x02\x12\x1b\n\x17incoming_call_initiated\x10\x03\x12\x1b\n\x17outgoing_call_initiated\x10\x04\x12\x1b\n\x17outgoing_call_connected\x10\x05\x12\x1b\n\x17incoming_call_connected\x10\x06\x12\x1b\n\x17transfer_call_initiated\x10\x07\x12\x19\n\x15soft_hangup_initiated\x10\x08\x12\x19\n\x15hard_hangup_initiated\x10\t\x12\x18\n\x14incoming_call_failed\x10\n\x12\x18\n\x14outgoing_call_failed\x10\x0b\x12\x1a\n\x16incoming_call_finished\x10\x0c\x12\x1a\n\x16outgoing_call_finished\x10\r\"I\n\x18SipStatusHistoryResponse\x12-\n\x0estatus_history\x18\x01 \x03(\x0b\x32\x15.ondewo.sip.SipStatus\"(\n\x13PlayWavFilesRequest\x12\x11\n\twav_files\x18\x01 \x03(\x0c\x32\x95\x05\n\x03Sip\x12I\n\x0cStartSession\x12\x1f.ondewo.sip.StartSessionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12>\n\nEndSession\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\tStartCall\x12\x1c.ondewo.sip.StartCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12?\n\x07\x45ndCall\x12\x1a.ondewo.sip.EndCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12I\n\x0cTransferCall\x12\x1f.ondewo.sip.TransferCallRequest\x1a\x16.google.protobuf.Empty\"\x00\x12O\n\x0fRegisterAccount\x12\".ondewo.sip.RegisterAccountRequest\x1a\x16.google.protobuf.Empty\"\x00\x12?\n\x0cGetSipStatus\x12\x16.google.protobuf.Empty\x1a\x15.ondewo.sip.SipStatus\"\x00\x12U\n\x13GetSipStatusHistory\x12\x16.google.protobuf.Empty\x1a$.ondewo.sip.SipStatusHistoryResponse\"\x00\x12I\n\x0cPlayWavFiles\x12\x1f.ondewo.sip.PlayWavFilesRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -107,8 +107,8 @@ _SIPSTATUS_STATUSTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=545,
-  serialized_end=907,
+  serialized_start=766,
+  serialized_end=1128,
 )
 _sym_db.RegisterEnumDescriptor(_SIPSTATUS_STATUSTYPE)
 
@@ -145,6 +145,44 @@ _ENDCALLREQUEST = _descriptor.Descriptor(
 )
 
 
+_STARTCALLREQUEST_HEADERSENTRY = _descriptor.Descriptor(
+  name='HeadersEntry',
+  full_name='ondewo.sip.StartCallRequest.HeadersEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='ondewo.sip.StartCallRequest.HeadersEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='ondewo.sip.StartCallRequest.HeadersEntry.value', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=237,
+  serialized_end=283,
+)
+
 _STARTCALLREQUEST = _descriptor.Descriptor(
   name='StartCallRequest',
   full_name='ondewo.sip.StartCallRequest',
@@ -160,10 +198,17 @@ _STARTCALLREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='headers', full_name='ondewo.sip.StartCallRequest.headers', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_STARTCALLREQUEST_HEADERSENTRY, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -172,8 +217,8 @@ _STARTCALLREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=137,
-  serialized_end=174,
+  serialized_start=138,
+  serialized_end=283,
 )
 
 
@@ -211,8 +256,8 @@ _REGISTERACCOUNTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=176,
-  serialized_end=240,
+  serialized_start=285,
+  serialized_end=349,
 )
 
 
@@ -250,10 +295,48 @@ _STARTSESSIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=242,
-  serialized_end=315,
+  serialized_start=351,
+  serialized_end=424,
 )
 
+
+_TRANSFERCALLREQUEST_HEADERSENTRY = _descriptor.Descriptor(
+  name='HeadersEntry',
+  full_name='ondewo.sip.TransferCallRequest.HeadersEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='ondewo.sip.TransferCallRequest.HeadersEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='ondewo.sip.TransferCallRequest.HeadersEntry.value', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=237,
+  serialized_end=283,
+)
 
 _TRANSFERCALLREQUEST = _descriptor.Descriptor(
   name='TransferCallRequest',
@@ -270,10 +353,17 @@ _TRANSFERCALLREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='headers', full_name='ondewo.sip.TransferCallRequest.headers', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_TRANSFERCALLREQUEST_HEADERSENTRY, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -282,8 +372,8 @@ _TRANSFERCALLREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=317,
-  serialized_end=359,
+  serialized_start=427,
+  serialized_end=580,
 )
 
 
@@ -343,8 +433,8 @@ _SIPSTATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=362,
-  serialized_end=907,
+  serialized_start=583,
+  serialized_end=1128,
 )
 
 
@@ -375,8 +465,8 @@ _SIPSTATUSHISTORYRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=909,
-  serialized_end=982,
+  serialized_start=1130,
+  serialized_end=1203,
 )
 
 
@@ -407,10 +497,14 @@ _PLAYWAVFILESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=984,
-  serialized_end=1024,
+  serialized_start=1205,
+  serialized_end=1245,
 )
 
+_STARTCALLREQUEST_HEADERSENTRY.containing_type = _STARTCALLREQUEST
+_STARTCALLREQUEST.fields_by_name['headers'].message_type = _STARTCALLREQUEST_HEADERSENTRY
+_TRANSFERCALLREQUEST_HEADERSENTRY.containing_type = _TRANSFERCALLREQUEST
+_TRANSFERCALLREQUEST.fields_by_name['headers'].message_type = _TRANSFERCALLREQUEST_HEADERSENTRY
 _SIPSTATUS.fields_by_name['timestamp'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _SIPSTATUS.fields_by_name['status_type'].enum_type = _SIPSTATUS_STATUSTYPE
 _SIPSTATUS_STATUSTYPE.containing_type = _SIPSTATUS
@@ -433,11 +527,19 @@ EndCallRequest = _reflection.GeneratedProtocolMessageType('EndCallRequest', (_me
 _sym_db.RegisterMessage(EndCallRequest)
 
 StartCallRequest = _reflection.GeneratedProtocolMessageType('StartCallRequest', (_message.Message,), {
+
+  'HeadersEntry' : _reflection.GeneratedProtocolMessageType('HeadersEntry', (_message.Message,), {
+    'DESCRIPTOR' : _STARTCALLREQUEST_HEADERSENTRY,
+    '__module__' : 'ondewo.sip.sip_pb2'
+    # @@protoc_insertion_point(class_scope:ondewo.sip.StartCallRequest.HeadersEntry)
+    })
+  ,
   'DESCRIPTOR' : _STARTCALLREQUEST,
   '__module__' : 'ondewo.sip.sip_pb2'
   # @@protoc_insertion_point(class_scope:ondewo.sip.StartCallRequest)
   })
 _sym_db.RegisterMessage(StartCallRequest)
+_sym_db.RegisterMessage(StartCallRequest.HeadersEntry)
 
 RegisterAccountRequest = _reflection.GeneratedProtocolMessageType('RegisterAccountRequest', (_message.Message,), {
   'DESCRIPTOR' : _REGISTERACCOUNTREQUEST,
@@ -454,11 +556,19 @@ StartSessionRequest = _reflection.GeneratedProtocolMessageType('StartSessionRequ
 _sym_db.RegisterMessage(StartSessionRequest)
 
 TransferCallRequest = _reflection.GeneratedProtocolMessageType('TransferCallRequest', (_message.Message,), {
+
+  'HeadersEntry' : _reflection.GeneratedProtocolMessageType('HeadersEntry', (_message.Message,), {
+    'DESCRIPTOR' : _TRANSFERCALLREQUEST_HEADERSENTRY,
+    '__module__' : 'ondewo.sip.sip_pb2'
+    # @@protoc_insertion_point(class_scope:ondewo.sip.TransferCallRequest.HeadersEntry)
+    })
+  ,
   'DESCRIPTOR' : _TRANSFERCALLREQUEST,
   '__module__' : 'ondewo.sip.sip_pb2'
   # @@protoc_insertion_point(class_scope:ondewo.sip.TransferCallRequest)
   })
 _sym_db.RegisterMessage(TransferCallRequest)
+_sym_db.RegisterMessage(TransferCallRequest.HeadersEntry)
 
 SipStatus = _reflection.GeneratedProtocolMessageType('SipStatus', (_message.Message,), {
   'DESCRIPTOR' : _SIPSTATUS,
@@ -482,6 +592,8 @@ PlayWavFilesRequest = _reflection.GeneratedProtocolMessageType('PlayWavFilesRequ
 _sym_db.RegisterMessage(PlayWavFilesRequest)
 
 
+_STARTCALLREQUEST_HEADERSENTRY._options = None
+_TRANSFERCALLREQUEST_HEADERSENTRY._options = None
 
 _SIP = _descriptor.ServiceDescriptor(
   name='Sip',
@@ -490,8 +602,8 @@ _SIP = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1027,
-  serialized_end=1688,
+  serialized_start=1248,
+  serialized_end=1909,
   methods=[
   _descriptor.MethodDescriptor(
     name='StartSession',

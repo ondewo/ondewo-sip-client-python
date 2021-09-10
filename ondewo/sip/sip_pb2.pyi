@@ -21,6 +21,8 @@ from google.protobuf.timestamp_pb2 import (
 from typing import (
     Iterable as typing___Iterable,
     List as typing___List,
+    Mapping as typing___Mapping,
+    MutableMapping as typing___MutableMapping,
     Optional as typing___Optional,
     Text as typing___Text,
     Tuple as typing___Tuple,
@@ -64,11 +66,36 @@ global___EndCallRequest = EndCallRequest
 
 class StartCallRequest(google___protobuf___message___Message):
     DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    class HeadersEntry(google___protobuf___message___Message):
+        DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+        key = ... # type: typing___Text
+        value = ... # type: typing___Text
+
+        def __init__(self,
+            *,
+            key : typing___Optional[typing___Text] = None,
+            value : typing___Optional[typing___Text] = None,
+            ) -> None: ...
+        if sys.version_info >= (3,):
+            @classmethod
+            def FromString(cls, s: builtin___bytes) -> StartCallRequest.HeadersEntry: ...
+        else:
+            @classmethod
+            def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> StartCallRequest.HeadersEntry: ...
+        def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def ClearField(self, field_name: typing_extensions___Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+    global___HeadersEntry = HeadersEntry
+
     callee_id = ... # type: typing___Text
+
+    @property
+    def headers(self) -> typing___MutableMapping[typing___Text, typing___Text]: ...
 
     def __init__(self,
         *,
         callee_id : typing___Optional[typing___Text] = None,
+        headers : typing___Optional[typing___Mapping[typing___Text, typing___Text]] = None,
         ) -> None: ...
     if sys.version_info >= (3,):
         @classmethod
@@ -78,7 +105,7 @@ class StartCallRequest(google___protobuf___message___Message):
         def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> StartCallRequest: ...
     def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
-    def ClearField(self, field_name: typing_extensions___Literal[u"callee_id",b"callee_id"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"callee_id",b"callee_id",u"headers",b"headers"]) -> None: ...
 global___StartCallRequest = StartCallRequest
 
 class RegisterAccountRequest(google___protobuf___message___Message):
@@ -125,11 +152,36 @@ global___StartSessionRequest = StartSessionRequest
 
 class TransferCallRequest(google___protobuf___message___Message):
     DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    class HeadersEntry(google___protobuf___message___Message):
+        DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+        key = ... # type: typing___Text
+        value = ... # type: typing___Text
+
+        def __init__(self,
+            *,
+            key : typing___Optional[typing___Text] = None,
+            value : typing___Optional[typing___Text] = None,
+            ) -> None: ...
+        if sys.version_info >= (3,):
+            @classmethod
+            def FromString(cls, s: builtin___bytes) -> TransferCallRequest.HeadersEntry: ...
+        else:
+            @classmethod
+            def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> TransferCallRequest.HeadersEntry: ...
+        def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def ClearField(self, field_name: typing_extensions___Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+    global___HeadersEntry = HeadersEntry
+
     transfer_id = ... # type: typing___Text
+
+    @property
+    def headers(self) -> typing___MutableMapping[typing___Text, typing___Text]: ...
 
     def __init__(self,
         *,
         transfer_id : typing___Optional[typing___Text] = None,
+        headers : typing___Optional[typing___Mapping[typing___Text, typing___Text]] = None,
         ) -> None: ...
     if sys.version_info >= (3,):
         @classmethod
@@ -139,7 +191,7 @@ class TransferCallRequest(google___protobuf___message___Message):
         def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> TransferCallRequest: ...
     def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
-    def ClearField(self, field_name: typing_extensions___Literal[u"transfer_id",b"transfer_id"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"headers",b"headers",u"transfer_id",b"transfer_id"]) -> None: ...
 global___TransferCallRequest = TransferCallRequest
 
 class SipStatus(google___protobuf___message___Message):
