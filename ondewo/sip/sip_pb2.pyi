@@ -238,6 +238,27 @@ class SipStatus(google___protobuf___message___Message):
     outgoing_call_finished = typing___cast('SipStatus.StatusType', 13)
     global___StatusType = StatusType
 
+    class HeadersEntry(google___protobuf___message___Message):
+        DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+        key = ... # type: typing___Text
+        value = ... # type: typing___Text
+
+        def __init__(self,
+            *,
+            key : typing___Optional[typing___Text] = None,
+            value : typing___Optional[typing___Text] = None,
+            ) -> None: ...
+        if sys.version_info >= (3,):
+            @classmethod
+            def FromString(cls, s: builtin___bytes) -> SipStatus.HeadersEntry: ...
+        else:
+            @classmethod
+            def FromString(cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]) -> SipStatus.HeadersEntry: ...
+        def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+        def ClearField(self, field_name: typing_extensions___Literal[u"key",b"key",u"value",b"value"]) -> None: ...
+    global___HeadersEntry = HeadersEntry
+
     account_name = ... # type: typing___Text
     status_type = ... # type: global___SipStatus.StatusType
     callee_id = ... # type: typing___Text
@@ -246,6 +267,9 @@ class SipStatus(google___protobuf___message___Message):
     @property
     def timestamp(self) -> google___protobuf___timestamp_pb2___Timestamp: ...
 
+    @property
+    def headers(self) -> typing___MutableMapping[typing___Text, typing___Text]: ...
+
     def __init__(self,
         *,
         account_name : typing___Optional[typing___Text] = None,
@@ -253,6 +277,7 @@ class SipStatus(google___protobuf___message___Message):
         status_type : typing___Optional[global___SipStatus.StatusType] = None,
         callee_id : typing___Optional[typing___Text] = None,
         transfer_call_id : typing___Optional[typing___Text] = None,
+        headers : typing___Optional[typing___Mapping[typing___Text, typing___Text]] = None,
         ) -> None: ...
     if sys.version_info >= (3,):
         @classmethod
@@ -263,7 +288,7 @@ class SipStatus(google___protobuf___message___Message):
     def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
     def HasField(self, field_name: typing_extensions___Literal[u"timestamp",b"timestamp"]) -> builtin___bool: ...
-    def ClearField(self, field_name: typing_extensions___Literal[u"account_name",b"account_name",u"callee_id",b"callee_id",u"status_type",b"status_type",u"timestamp",b"timestamp",u"transfer_call_id",b"transfer_call_id"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions___Literal[u"account_name",b"account_name",u"callee_id",b"callee_id",u"headers",b"headers",u"status_type",b"status_type",u"timestamp",b"timestamp",u"transfer_call_id",b"transfer_call_id"]) -> None: ...
 global___SipStatus = SipStatus
 
 class SipStatusHistoryResponse(google___protobuf___message___Message):
