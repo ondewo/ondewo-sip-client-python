@@ -1,10 +1,11 @@
 # Release History
 *****************
 
-## ONDEWO-SIP Python Client 2.3.0
+## ONDEWO-SIP Python Client 3.0.0
 
 ### New Features
  * Supports adding extra headers in calls and transfers when needed
+ * Supports headers in get status when incoming call is connected 
 *****************
 
 ## ONDEWO-SIP Python Client 2.2.1
