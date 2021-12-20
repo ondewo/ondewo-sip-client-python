@@ -8,13 +8,13 @@ with open("requirements.txt") as f:
 
 setuptools.setup(
     name="ondewo-sip-client",
-    version="2.3.0",
+    version="3.0.0",
     author="Ondewo GbmH",
     author_email="info@ondewo.com",
     description="provides endpoints and messages for gRPC communication with the ONDEWO SIP server",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ondewo/ondewo-t2s-client-python",
+    url="https://github.com/ondewo/ondewo-sip-client-python",
     packages=[
         np
         for np in filter(
