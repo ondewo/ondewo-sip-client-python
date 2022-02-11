@@ -1,6 +1,13 @@
 # Release History
 *****************
 
+## ONDEWO-SIP Python Client 3.2.0
+
+### New Features
+ * Supports muting and unmuting
+*****************
+
+
 ## ONDEWO-SIP Python Client 3.0.0
 
 ### New Features

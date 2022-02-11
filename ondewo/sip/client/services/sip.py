@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ondewo.utils.base_services_interface import BaseServicesInterface
 from google.protobuf.empty_pb2 import Empty
+from ondewo.utils.base_services_interface import BaseServicesInterface
 
 from ondewo.sip.sip_pb2 import (
     StartSessionRequest,
@@ -74,4 +74,12 @@ class Sip(BaseServicesInterface):
 
     def play_wav_files(self, request: PlayWavFilesRequest) -> Empty:
         response: PlayWavFilesRequest = self.stub.PlayWavFiles(request)
+        return response
+
+    def mute(self) -> Empty:
+        response: Empty = self.stub.Mute(Empty())
+        return response
+
+    def un_mute(self) -> Empty:
+        response: Empty = self.stub.UnMute(Empty())
         return response
