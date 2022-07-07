@@ -11,151 +11,152 @@ import google.protobuf.timestamp_pb2
 import typing
 import typing_extensions
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor = ...
+DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 class EndCallRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     HARD_HANGUP_FIELD_NUMBER: builtins.int
-    hard_hangup: builtins.bool = ...
+    hard_hangup: builtins.bool
     def __init__(self,
         *,
-        hard_hangup : builtins.bool = ...,
+        hard_hangup: builtins.bool = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["hard_hangup",b"hard_hangup"]) -> None: ...
 global___EndCallRequest = EndCallRequest
 
 class StartCallRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
-        value: typing.Text = ...
+        key: typing.Text
+        value: typing.Text
         def __init__(self,
             *,
-            key : typing.Text = ...,
-            value : typing.Text = ...,
+            key: typing.Text = ...,
+            value: typing.Text = ...,
             ) -> None: ...
         def ClearField(self, field_name: typing_extensions.Literal["key",b"key","value",b"value"]) -> None: ...
 
     CALLEE_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
-    callee_id: typing.Text = ...
+    callee_id: typing.Text
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]: ...
     def __init__(self,
         *,
-        callee_id : typing.Text = ...,
-        headers : typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
+        callee_id: typing.Text = ...,
+        headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["callee_id",b"callee_id","headers",b"headers"]) -> None: ...
 global___StartCallRequest = StartCallRequest
 
 class RegisterAccountRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
     PASSWORD_FIELD_NUMBER: builtins.int
-    account_name: typing.Text = ...
-    password: typing.Text = ...
+    account_name: typing.Text
+    password: typing.Text
     def __init__(self,
         *,
-        account_name : typing.Text = ...,
-        password : typing.Text = ...,
+        account_name: typing.Text = ...,
+        password: typing.Text = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","password",b"password"]) -> None: ...
 global___RegisterAccountRequest = RegisterAccountRequest
 
 class StartSessionRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
     AUTO_ANSWER_INTERVAL_FIELD_NUMBER: builtins.int
-    account_name: typing.Text = ...
-    auto_answer_interval: builtins.int = ...
+    account_name: typing.Text
+    auto_answer_interval: builtins.int
     def __init__(self,
         *,
-        account_name : typing.Text = ...,
-        auto_answer_interval : builtins.int = ...,
+        account_name: typing.Text = ...,
+        auto_answer_interval: builtins.int = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","auto_answer_interval",b"auto_answer_interval"]) -> None: ...
 global___StartSessionRequest = StartSessionRequest
 
 class TransferCallRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
-        value: typing.Text = ...
+        key: typing.Text
+        value: typing.Text
         def __init__(self,
             *,
-            key : typing.Text = ...,
-            value : typing.Text = ...,
+            key: typing.Text = ...,
+            value: typing.Text = ...,
             ) -> None: ...
         def ClearField(self, field_name: typing_extensions.Literal["key",b"key","value",b"value"]) -> None: ...
 
     TRANSFER_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
-    transfer_id: typing.Text = ...
+    transfer_id: typing.Text
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]: ...
     def __init__(self,
         *,
-        transfer_id : typing.Text = ...,
-        headers : typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
+        transfer_id: typing.Text = ...,
+        headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["headers",b"headers","transfer_id",b"transfer_id"]) -> None: ...
 global___TransferCallRequest = TransferCallRequest
 
 class SipStatus(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    class _StatusType:
+        ValueType = typing.NewType('ValueType', builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+    class _StatusTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipStatus._StatusType.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        no_session: SipStatus._StatusType.ValueType  # 0
+        registered: SipStatus._StatusType.ValueType  # 1
+        ready: SipStatus._StatusType.ValueType  # 2
+        incoming_call_initiated: SipStatus._StatusType.ValueType  # 3
+        outgoing_call_initiated: SipStatus._StatusType.ValueType  # 4
+        outgoing_call_connected: SipStatus._StatusType.ValueType  # 5
+        incoming_call_connected: SipStatus._StatusType.ValueType  # 6
+        transfer_call_initiated: SipStatus._StatusType.ValueType  # 7
+        soft_hangup_initiated: SipStatus._StatusType.ValueType  # 8
+        hard_hangup_initiated: SipStatus._StatusType.ValueType  # 9
+        incoming_call_failed: SipStatus._StatusType.ValueType  # 10
+        outgoing_call_failed: SipStatus._StatusType.ValueType  # 11
+        incoming_call_finished: SipStatus._StatusType.ValueType  # 12
+        outgoing_call_finished: SipStatus._StatusType.ValueType  # 13
     class StatusType(_StatusType, metaclass=_StatusTypeEnumTypeWrapper):
         pass
-    class _StatusType:
-        V = typing.NewType('V', builtins.int)
-    class _StatusTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_StatusType.V], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-        no_session = SipStatus.StatusType.V(0)
-        registered = SipStatus.StatusType.V(1)
-        ready = SipStatus.StatusType.V(2)
-        incoming_call_initiated = SipStatus.StatusType.V(3)
-        outgoing_call_initiated = SipStatus.StatusType.V(4)
-        outgoing_call_connected = SipStatus.StatusType.V(5)
-        incoming_call_connected = SipStatus.StatusType.V(6)
-        transfer_call_initiated = SipStatus.StatusType.V(7)
-        soft_hangup_initiated = SipStatus.StatusType.V(8)
-        hard_hangup_initiated = SipStatus.StatusType.V(9)
-        incoming_call_failed = SipStatus.StatusType.V(10)
-        outgoing_call_failed = SipStatus.StatusType.V(11)
-        incoming_call_finished = SipStatus.StatusType.V(12)
-        outgoing_call_finished = SipStatus.StatusType.V(13)
 
-    no_session = SipStatus.StatusType.V(0)
-    registered = SipStatus.StatusType.V(1)
-    ready = SipStatus.StatusType.V(2)
-    incoming_call_initiated = SipStatus.StatusType.V(3)
-    outgoing_call_initiated = SipStatus.StatusType.V(4)
-    outgoing_call_connected = SipStatus.StatusType.V(5)
-    incoming_call_connected = SipStatus.StatusType.V(6)
-    transfer_call_initiated = SipStatus.StatusType.V(7)
-    soft_hangup_initiated = SipStatus.StatusType.V(8)
-    hard_hangup_initiated = SipStatus.StatusType.V(9)
-    incoming_call_failed = SipStatus.StatusType.V(10)
-    outgoing_call_failed = SipStatus.StatusType.V(11)
-    incoming_call_finished = SipStatus.StatusType.V(12)
-    outgoing_call_finished = SipStatus.StatusType.V(13)
+    no_session: SipStatus.StatusType.ValueType  # 0
+    registered: SipStatus.StatusType.ValueType  # 1
+    ready: SipStatus.StatusType.ValueType  # 2
+    incoming_call_initiated: SipStatus.StatusType.ValueType  # 3
+    outgoing_call_initiated: SipStatus.StatusType.ValueType  # 4
+    outgoing_call_connected: SipStatus.StatusType.ValueType  # 5
+    incoming_call_connected: SipStatus.StatusType.ValueType  # 6
+    transfer_call_initiated: SipStatus.StatusType.ValueType  # 7
+    soft_hangup_initiated: SipStatus.StatusType.ValueType  # 8
+    hard_hangup_initiated: SipStatus.StatusType.ValueType  # 9
+    incoming_call_failed: SipStatus.StatusType.ValueType  # 10
+    outgoing_call_failed: SipStatus.StatusType.ValueType  # 11
+    incoming_call_finished: SipStatus.StatusType.ValueType  # 12
+    outgoing_call_finished: SipStatus.StatusType.ValueType  # 13
 
     class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
         KEY_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        key: typing.Text = ...
-        value: typing.Text = ...
+        key: typing.Text
+        value: typing.Text
         def __init__(self,
             *,
-            key : typing.Text = ...,
-            value : typing.Text = ...,
+            key: typing.Text = ...,
+            value: typing.Text = ...,
             ) -> None: ...
         def ClearField(self, field_name: typing_extensions.Literal["key",b"key","value",b"value"]) -> None: ...
 
@@ -165,47 +166,47 @@ class SipStatus(google.protobuf.message.Message):
     CALLEE_ID_FIELD_NUMBER: builtins.int
     TRANSFER_CALL_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
-    account_name: typing.Text = ...
+    account_name: typing.Text
     @property
     def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp: ...
-    status_type: global___SipStatus.StatusType.V = ...
-    callee_id: typing.Text = ...
-    transfer_call_id: typing.Text = ...
+    status_type: global___SipStatus.StatusType.ValueType
+    callee_id: typing.Text
+    transfer_call_id: typing.Text
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]: ...
     def __init__(self,
         *,
-        account_name : typing.Text = ...,
-        timestamp : typing.Optional[google.protobuf.timestamp_pb2.Timestamp] = ...,
-        status_type : global___SipStatus.StatusType.V = ...,
-        callee_id : typing.Text = ...,
-        transfer_call_id : typing.Text = ...,
-        headers : typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
+        account_name: typing.Text = ...,
+        timestamp: typing.Optional[google.protobuf.timestamp_pb2.Timestamp] = ...,
+        status_type: global___SipStatus.StatusType.ValueType = ...,
+        callee_id: typing.Text = ...,
+        transfer_call_id: typing.Text = ...,
+        headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
         ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["timestamp",b"timestamp"]) -> builtins.bool: ...
     def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","callee_id",b"callee_id","headers",b"headers","status_type",b"status_type","timestamp",b"timestamp","transfer_call_id",b"transfer_call_id"]) -> None: ...
 global___SipStatus = SipStatus
 
 class SipStatusHistoryResponse(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     STATUS_HISTORY_FIELD_NUMBER: builtins.int
     @property
     def status_history(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SipStatus]: ...
     def __init__(self,
         *,
-        status_history : typing.Optional[typing.Iterable[global___SipStatus]] = ...,
+        status_history: typing.Optional[typing.Iterable[global___SipStatus]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["status_history",b"status_history"]) -> None: ...
 global___SipStatusHistoryResponse = SipStatusHistoryResponse
 
 class PlayWavFilesRequest(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
     WAV_FILES_FIELD_NUMBER: builtins.int
     @property
     def wav_files(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.bytes]: ...
     def __init__(self,
         *,
-        wav_files : typing.Optional[typing.Iterable[builtins.bytes]] = ...,
+        wav_files: typing.Optional[typing.Iterable[builtins.bytes]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["wav_files",b"wav_files"]) -> None: ...
 global___PlayWavFilesRequest = PlayWavFilesRequest
