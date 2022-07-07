@@ -1,6 +1,13 @@
 # Release History
 *****************
 
+## ONDEWO-SIP Python Client 3.3.0
+
+### New Features
+ * Uppdate grpc libraries.
+ * Refactor package generation.
+*****************
+
 ## ONDEWO-SIP Python Client 3.2.0
 
 ### New Features
