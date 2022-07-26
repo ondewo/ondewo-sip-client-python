@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name='ondewo-sip-client',
-    version='3.3.0',
+    version='3.4.0',
     author='Ondewo GbmH',
     author_email='info@ondewo.com',
     description='provides endpoints and messages for gRPC communication with the ONDEWO SIP server',
@@ -31,4 +31,3 @@ setuptools.setup(
     python_requires='>=2.7, !=3.0.1',
     install_requires=requires,
 )
-

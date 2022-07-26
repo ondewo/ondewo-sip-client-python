@@ -14,10 +14,10 @@ export
 
 # MUST BE THE SAME AS API in Mayor and Minor Version Number
 # example: API 2.9.0 --> Client 2.9.X
-ONDEWO_SIP_VERSION=3.3.0
+ONDEWO_SIP_VERSION=3.4.0
 
 # Choose the submodule version to build ondewo-sip-client-python
-ONDEWO_SIP_API_GIT_BRANCH=tags/1.2.0
+ONDEWO_SIP_API_GIT_BRANCH=tags/3.0.0
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/2.0.0
 PYPI_USERNAME?=ENTER_HERE_YOUR_PYPI_USERNAME
 PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
@@ -26,7 +26,7 @@ PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
 GITHUB_GH_TOKEN?=ENTER_YOUR_TOKEN_HERE
 
 CURRENT_RELEASE_NOTES=`cat RELEASE.md \
-	| sed -n '/ONDEWO-SIP Python Client ${ONDEWO_SIP_VERSION}/,/\*\*/p'`
+	| sed -n '/Release ONDEWO SIP Python Client ${ONDEWO_SIP_VERSION}/,/\*\*/p'`
 
 
 # Choose repo to release to - Example: "https://github.com/ondewo/ondewo-nlu-client-python"
@@ -76,7 +76,7 @@ login_to_gh: ## Login to Github CLI with Access Token
 build_gh_release: ## Generate Github Release with CLI
 	gh release create --repo $(GH_REPO) "$(ONDEWO_SIP_VERSION)" -n "$(CURRENT_RELEASE_NOTES)" -t "Release ${ONDEWO_SIP_VERSION}"
 
-build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos update_setup ## Build source code
+build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos update_setup update_setup## Build source code
 
 install:  ## Install requirements
 	pip install .
