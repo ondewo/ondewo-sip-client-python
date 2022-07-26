@@ -5,7 +5,7 @@
 
 ### New Features
 * [[OND211-2039]](https://ondewo.atlassian.net/browse/OND211-2039) - Automated release process
- * Updated to API 3.4.0
+ * Updated to API 3.0.0
 *****************
 
 ## Release ONDEWO SIP Python Client 3.3.0
