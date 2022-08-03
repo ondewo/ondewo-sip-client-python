@@ -19,7 +19,7 @@ export
 # example: API 2.9.0 --> Client 2.9.X
 ONDEWO_SIP_VERSION=3.5.0
 
-ONDEWO_SIP_API_GIT_BRANCH=tags/3.0.0
+ONDEWO_SIP_API_GIT_BRANCH=tags/3.1.0
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/2.0.0
 PYPI_USERNAME?=ENTER_HERE_YOUR_PYPI_USERNAME
 PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
@@ -61,7 +61,7 @@ install:  ## Install requirements
 	pip install -r requirements.txt
 
 flake8:
-	flake8
+	flake8 --exclude 'ondewo'
 
 mypy: ## Run mypy static code checking
 	pre-commit run mypy --all-files

@@ -3,7 +3,8 @@
 ## Release ONDEWO SIP Python Client 3.5.0
 
 ### New Features
-* [[OND211-2039]](https://ondewo.atlassian.net/browse/OND211-2039) - added precommit hooks and adjusted files to them
+* [[OND211-2039]](https://ondewo.atlassian.net/browse/OND211-2039) - Added pre-commit hooks and adjusted files to them
+* Updated API to 3.1.0
 *****************
 
 ## Release ONDEWO SIP Python Client 3.4.0

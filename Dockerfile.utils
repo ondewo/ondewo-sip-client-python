@@ -31,8 +31,6 @@ COPY Makefile .
 
 COPY .flake8 .
 
-COPY .isort.cfg .
-
 COPY CONTRIBUTING.md .
 
 COPY LICENSE .
