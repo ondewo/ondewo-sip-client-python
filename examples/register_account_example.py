@@ -15,10 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ondewo.sip.client.client_config import ClientConfig
-from ondewo.sip.client.client import Client
-
 import ondewo.sip.sip_pb2 as sip
+from ondewo.sip.client.client import Client
+from ondewo.sip.client.client_config import ClientConfig
 
 HOST: str = 'localhost'
 PORT: int = 0
@@ -34,21 +33,21 @@ CALLEE_ADDRESS: str = 'callee'
 config = ClientConfig(host=HOST, port=PORT)
 client = Client(config=config, use_secure_channel=False)
 
-request = sip.RegisterAccountRequest(
+request_register: sip.RegisterAccountRequest = sip.RegisterAccountRequest(
     account_name=ACCOUNT_NAME,
     password=ACCOUNT_PASSWORD,
 )
-client.services.sip.register_account(request=request)
+client.services.sip.register_account(request=request_register)
 
-request = sip.StartSessionRequest(
+request_start_session: sip.StartSessionRequest = sip.StartSessionRequest(
     account_name=ACCOUNT_NAME
 )
-client.services.sip.start_session(request=request)
+client.services.sip.start_session(request=request_start_session)
 
-request = sip.StartCallRequest(
+request_start_call: sip.StartCallRequest = sip.StartCallRequest(
     callee_id=CALLEE_ADDRESS
 )
-client.services.sip.start_call(request=request)
+client.services.sip.start_call(request=request_start_call)
 
 # request = sip.TransferCallRequest(
 #     transfer_id=TRANSFER_ADDRESS
