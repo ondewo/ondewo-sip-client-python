@@ -5,7 +5,9 @@ ONDEWO-SIP Client Library
 
 This library facilitates the interaction between a user and an ONDEWO-SIP server instance.
 
-It is structured around a series of python files generated from protobuf files. These protobuf files specify the details of the interface, and can be used to generate code in 10+ high-level languages. They are found in the [apis submodule](./ondewo-sip-api).
+It is structured around a series of python files generated from protobuf files. These protobuf files specify the details of the interface, and can be used to generate code in 10+ high-level languages. They are found in the submodule [ondewo-sip-api](./ondewo-sip-api) of this git repo.
+
+The documentation of the ondewo-sip API is available [here](https://ondewo.github.io/ondewo-sip-api/#ondewo/sip/sip.proto)
 
 Python Installation
 -------------------
