@@ -1,5 +1,14 @@
 # Release History
 *****************
+## Release ONDEWO SIP Python Client 3.6.1
+
+### New Features
+* Updated API to 3.2.0
+
+### Bug fix
+* Generation of files and submodules
+
+*****************
 
 ## Release ONDEWO SIP Python Client 3.6.0
 
