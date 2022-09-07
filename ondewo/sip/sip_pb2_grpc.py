@@ -7,7 +7,9 @@ from ondewo.sip import sip_pb2 as ondewo_dot_sip_dot_sip__pb2
 
 
 class SipStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
+    SIP LifeCyle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -18,32 +20,32 @@ class SipStub(object):
         self.StartSession = channel.unary_unary(
             '/ondewo.sip.Sip/StartSession',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.EndSession = channel.unary_unary(
             '/ondewo.sip.Sip/EndSession',
             request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.StartCall = channel.unary_unary(
             '/ondewo.sip.Sip/StartCall',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.EndCall = channel.unary_unary(
             '/ondewo.sip.Sip/EndCall',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.TransferCall = channel.unary_unary(
             '/ondewo.sip.Sip/TransferCall',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.RegisterAccount = channel.unary_unary(
             '/ondewo.sip.Sip/RegisterAccount',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
         )
         self.GetSipStatus = channel.unary_unary(
             '/ondewo.sip.Sip/GetSipStatus',
@@ -58,85 +60,99 @@ class SipStub(object):
         self.PlayWavFiles = channel.unary_unary(
             '/ondewo.sip.Sip/PlayWavFiles',
             request_serializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
         )
         self.Mute = channel.unary_unary(
             '/ondewo.sip.Sip/Mute',
             request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
         )
         self.UnMute = channel.unary_unary(
             '/ondewo.sip.Sip/UnMute',
             request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
         )
 
 
 class SipServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
+    SIP LifeCyle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """
 
     def StartSession(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Starts a new SIP session for an account registered at a SIP server. <code>RegisterAccount</code> need to be called before.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def EndSession(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Ends a SIP session for an account registered at a SIP server
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def StartCall(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Starts a call in an active SIP session for an account registered at a SIP server
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def EndCall(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Ends a call in an active SIP session for an account registered at a SIP server
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def TransferCall(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Transfers a call in an active SIP session for an account registered at a SIP server to
+        another SIP account or phone number specified by <code>tranfer_id</code>
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RegisterAccount(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Registers s SIP account at a SIP server
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetSipStatus(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Gets the current SIP status
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetSipStatusHistory(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Gets the history of SIP status
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def PlayWavFiles(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Plays wav files during an ongoing call of an active SIP session
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Mute(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Mutes the microphone in an ongoing call of an active SIP session
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UnMute(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Unmutes the microphone in an ongoing call of an active SIP session
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -147,32 +163,32 @@ def add_SipServicer_to_server(servicer, server):
         'StartSession': grpc.unary_unary_rpc_method_handler(
             servicer.StartSession,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'EndSession': grpc.unary_unary_rpc_method_handler(
             servicer.EndSession,
             request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'StartCall': grpc.unary_unary_rpc_method_handler(
             servicer.StartCall,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'EndCall': grpc.unary_unary_rpc_method_handler(
             servicer.EndCall,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'TransferCall': grpc.unary_unary_rpc_method_handler(
             servicer.TransferCall,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'RegisterAccount': grpc.unary_unary_rpc_method_handler(
             servicer.RegisterAccount,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
         ),
         'GetSipStatus': grpc.unary_unary_rpc_method_handler(
             servicer.GetSipStatus,
@@ -187,17 +203,17 @@ def add_SipServicer_to_server(servicer, server):
         'PlayWavFiles': grpc.unary_unary_rpc_method_handler(
             servicer.PlayWavFiles,
             request_deserializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.SerializeToString,
         ),
         'Mute': grpc.unary_unary_rpc_method_handler(
             servicer.Mute,
             request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.SerializeToString,
         ),
         'UnMute': grpc.unary_unary_rpc_method_handler(
             servicer.UnMute,
             request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -208,7 +224,9 @@ def add_SipServicer_to_server(servicer, server):
 
 
 class Sip(object):
-    """Missing associated documentation comment in .proto file."""
+    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
+    SIP LifeCyle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """
 
     @staticmethod
     def StartSession(request,
@@ -223,7 +241,7 @@ class Sip(object):
                      metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartSession',
                                              ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -240,7 +258,7 @@ class Sip(object):
                    metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndSession',
                                              google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -257,7 +275,7 @@ class Sip(object):
                   metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartCall',
                                              ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -274,7 +292,7 @@ class Sip(object):
                 metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndCall',
                                              ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -291,7 +309,7 @@ class Sip(object):
                      metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/TransferCall',
                                              ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -308,7 +326,7 @@ class Sip(object):
                         metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/RegisterAccount',
                                              ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -359,7 +377,7 @@ class Sip(object):
                      metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/PlayWavFiles',
                                              ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -376,7 +394,7 @@ class Sip(object):
              metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/Mute',
                                              google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -393,6 +411,6 @@ class Sip(object):
                metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/UnMute',
                                              google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                                             ondewo_dot_sip_dot_sip__pb2.SipMicrophoneResponse.FromString,
                                              options, channel_credentials,
                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
