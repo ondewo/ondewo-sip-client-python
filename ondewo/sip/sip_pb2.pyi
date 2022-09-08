@@ -80,7 +80,7 @@ class RegisterAccountRequest(google.protobuf.message.Message):
     """Optional: authentication user name"""
 
     outbound_proxy: typing.Text
-    """Optional: outbound proxy address, e.g. <code>myoutboundproxy.com</code>"""
+    """Optional: outbound proxy address, e.g. <code>my.outbound.proxy.com</code>"""
 
     def __init__(self,
         *,
@@ -116,7 +116,7 @@ class StartSessionRequest(google.protobuf.message.Message):
 global___StartSessionRequest = StartSessionRequest
 
 class TransferCallRequest(google.protobuf.message.Message):
-    """Request for tranfering a call with or without headers"""
+    """Request for transferring a call with or without headers"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     class HeadersEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
@@ -138,7 +138,7 @@ class TransferCallRequest(google.protobuf.message.Message):
 
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]:
-        """The headers to include when transfering the call"""
+        """The headers to include when transferring the call"""
         pass
     def __init__(self,
         *,
@@ -147,59 +147,6 @@ class TransferCallRequest(google.protobuf.message.Message):
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["headers",b"headers","transfer_id",b"transfer_id"]) -> None: ...
 global___TransferCallRequest = TransferCallRequest
-
-class SipMicrophoneResponse(google.protobuf.message.Message):
-    """Microphone respone"""
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
-    class _SipMicrophoneType:
-        ValueType = typing.NewType('ValueType', builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
-    class _SipMicrophoneTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipMicrophoneResponse._SipMicrophoneType.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
-        SIP_MICROPHONE_MUTED: SipMicrophoneResponse._SipMicrophoneType.ValueType  # 0
-        """Microphone is muted"""
-
-        SIP_MICROPHONE_UNMUTED: SipMicrophoneResponse._SipMicrophoneType.ValueType  # 1
-        """Microphone is unmuted"""
-
-        SIP_MICROPHONE_WAV_FILES_PLAYED: SipMicrophoneResponse._SipMicrophoneType.ValueType  # 2
-        """Microphone has played wav files"""
-
-    class SipMicrophoneType(_SipMicrophoneType, metaclass=_SipMicrophoneTypeEnumTypeWrapper):
-        """Microphone status"""
-        pass
-
-    SIP_MICROPHONE_MUTED: SipMicrophoneResponse.SipMicrophoneType.ValueType  # 0
-    """Microphone is muted"""
-
-    SIP_MICROPHONE_UNMUTED: SipMicrophoneResponse.SipMicrophoneType.ValueType  # 1
-    """Microphone is unmuted"""
-
-    SIP_MICROPHONE_WAV_FILES_PLAYED: SipMicrophoneResponse.SipMicrophoneType.ValueType  # 2
-    """Microphone has played wav files"""
-
-
-    ACCOUNT_NAME_FIELD_NUMBER: builtins.int
-    TIMESTAMP_FIELD_NUMBER: builtins.int
-    account_name: typing.Text
-    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
-    <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
-    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect
-    to a SIP server running on port <code>5099</code>
-    """
-
-    @property
-    def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
-        """Timestamp of the status"""
-        pass
-    def __init__(self,
-        *,
-        account_name: typing.Text = ...,
-        timestamp: typing.Optional[google.protobuf.timestamp_pb2.Timestamp] = ...,
-        ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["timestamp",b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","timestamp",b"timestamp"]) -> None: ...
-global___SipMicrophoneResponse = SipMicrophoneResponse
 
 class SipStatus(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
@@ -227,10 +174,10 @@ class SipStatus(google.protobuf.message.Message):
         """SIP account outbound call is connected"""
 
         INCOMING_CALL_CONNECTED: SipStatus._StatusType.ValueType  # 6
-        """SIP account incoming call is conneted"""
+        """SIP account incoming call is connected"""
 
         TRANSFER_CALL_INITIATED: SipStatus._StatusType.ValueType  # 7
-        """SIP account starts transfering the call"""
+        """SIP account starts transferring the call"""
 
         SOFT_HANGUP_INITIATED: SipStatus._StatusType.ValueType  # 8
         """SIP account hangs up the ongoing call"""
@@ -259,6 +206,21 @@ class SipStatus(google.protobuf.message.Message):
         SESSION_ENDED: SipStatus._StatusType.ValueType  # 16
         """SIP account ended active sip session with SIP server"""
 
+        TRANSFER_CALL_FAILED: SipStatus._StatusType.ValueType  # 17
+        """SIP account cannot transfer the call"""
+
+        MICROPHONE_MUTED: SipStatus._StatusType.ValueType  # 18
+        """Microphone is muted"""
+
+        MICROPHONE_UNMUTED: SipStatus._StatusType.ValueType  # 19
+        """Microphone is unmuted"""
+
+        MICROPHONE_WAV_FILES_PLAYED: SipStatus._StatusType.ValueType  # 20
+        """Microphone has played wav files"""
+
+        NO_ONGOING_CALL: SipStatus._StatusType.ValueType  # 21
+        """No ongoing call"""
+
     class StatusType(_StatusType, metaclass=_StatusTypeEnumTypeWrapper):
         """Types of status"""
         pass
@@ -282,10 +244,10 @@ class SipStatus(google.protobuf.message.Message):
     """SIP account outbound call is connected"""
 
     INCOMING_CALL_CONNECTED: SipStatus.StatusType.ValueType  # 6
-    """SIP account incoming call is conneted"""
+    """SIP account incoming call is connected"""
 
     TRANSFER_CALL_INITIATED: SipStatus.StatusType.ValueType  # 7
-    """SIP account starts transfering the call"""
+    """SIP account starts transferring the call"""
 
     SOFT_HANGUP_INITIATED: SipStatus.StatusType.ValueType  # 8
     """SIP account hangs up the ongoing call"""
@@ -314,6 +276,21 @@ class SipStatus(google.protobuf.message.Message):
     SESSION_ENDED: SipStatus.StatusType.ValueType  # 16
     """SIP account ended active sip session with SIP server"""
 
+    TRANSFER_CALL_FAILED: SipStatus.StatusType.ValueType  # 17
+    """SIP account cannot transfer the call"""
+
+    MICROPHONE_MUTED: SipStatus.StatusType.ValueType  # 18
+    """Microphone is muted"""
+
+    MICROPHONE_UNMUTED: SipStatus.StatusType.ValueType  # 19
+    """Microphone is unmuted"""
+
+    MICROPHONE_WAV_FILES_PLAYED: SipStatus.StatusType.ValueType  # 20
+    """Microphone has played wav files"""
+
+    NO_ONGOING_CALL: SipStatus.StatusType.ValueType  # 21
+    """No ongoing call"""
+
 
     class HeadersEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
@@ -334,6 +311,9 @@ class SipStatus(google.protobuf.message.Message):
     CALLEE_ID_FIELD_NUMBER: builtins.int
     TRANSFER_CALL_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
+    DESCRIPTION_FIELD_NUMBER: builtins.int
+    EXCEPTION_NAME_FIELD_NUMBER: builtins.int
+    EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
     account_name: typing.Text
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
     <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
@@ -358,6 +338,15 @@ class SipStatus(google.protobuf.message.Message):
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[typing.Text, typing.Text]:
         """Headers to include when calling outbound or transfer"""
         pass
+    description: typing.Text
+    """More detailed description of the status"""
+
+    exception_name: typing.Text
+    """Name of the exception"""
+
+    exception_traceback: typing.Text
+    """Traceback of the exception"""
+
     def __init__(self,
         *,
         account_name: typing.Text = ...,
@@ -366,9 +355,12 @@ class SipStatus(google.protobuf.message.Message):
         callee_id: typing.Text = ...,
         transfer_call_id: typing.Text = ...,
         headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
+        description: typing.Text = ...,
+        exception_name: typing.Text = ...,
+        exception_traceback: typing.Text = ...,
         ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["timestamp",b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","callee_id",b"callee_id","headers",b"headers","status_type",b"status_type","timestamp",b"timestamp","transfer_call_id",b"transfer_call_id"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","callee_id",b"callee_id","description",b"description","exception_name",b"exception_name","exception_traceback",b"exception_traceback","headers",b"headers","status_type",b"status_type","timestamp",b"timestamp","transfer_call_id",b"transfer_call_id"]) -> None: ...
 global___SipStatus = SipStatus
 
 class SipStatusHistoryResponse(google.protobuf.message.Message):
