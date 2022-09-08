@@ -18,60 +18,60 @@ class SipStub(object):
             channel: A grpc.Channel.
         """
         self.StartSession = channel.unary_unary(
-            '/ondewo.sip.Sip/StartSession',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/StartSession',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.EndSession = channel.unary_unary(
-            '/ondewo.sip.Sip/EndSession',
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/EndSession',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.StartCall = channel.unary_unary(
-            '/ondewo.sip.Sip/StartCall',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/StartCall',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.EndCall = channel.unary_unary(
-            '/ondewo.sip.Sip/EndCall',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/EndCall',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.TransferCall = channel.unary_unary(
-            '/ondewo.sip.Sip/TransferCall',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/TransferCall',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.RegisterAccount = channel.unary_unary(
-            '/ondewo.sip.Sip/RegisterAccount',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/RegisterAccount',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.GetSipStatus = channel.unary_unary(
-            '/ondewo.sip.Sip/GetSipStatus',
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/GetSipStatus',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.GetSipStatusHistory = channel.unary_unary(
-            '/ondewo.sip.Sip/GetSipStatusHistory',
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
-        )
+                '/ondewo.sip.Sip/GetSipStatusHistory',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
+                )
         self.PlayWavFiles = channel.unary_unary(
-            '/ondewo.sip.Sip/PlayWavFiles',
-            request_serializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/PlayWavFiles',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.Mute = channel.unary_unary(
-            '/ondewo.sip.Sip/Mute',
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/Mute',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
         self.UnMute = channel.unary_unary(
-            '/ondewo.sip.Sip/UnMute',
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-        )
+                '/ondewo.sip.Sip/UnMute',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                )
 
 
 class SipServicer(object):
@@ -160,69 +160,68 @@ class SipServicer(object):
 
 def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'StartSession': grpc.unary_unary_rpc_method_handler(
-            servicer.StartSession,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'EndSession': grpc.unary_unary_rpc_method_handler(
-            servicer.EndSession,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'StartCall': grpc.unary_unary_rpc_method_handler(
-            servicer.StartCall,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'EndCall': grpc.unary_unary_rpc_method_handler(
-            servicer.EndCall,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'TransferCall': grpc.unary_unary_rpc_method_handler(
-            servicer.TransferCall,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'RegisterAccount': grpc.unary_unary_rpc_method_handler(
-            servicer.RegisterAccount,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'GetSipStatus': grpc.unary_unary_rpc_method_handler(
-            servicer.GetSipStatus,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'GetSipStatusHistory': grpc.unary_unary_rpc_method_handler(
-            servicer.GetSipStatusHistory,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.SerializeToString,
-        ),
-        'PlayWavFiles': grpc.unary_unary_rpc_method_handler(
-            servicer.PlayWavFiles,
-            request_deserializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'Mute': grpc.unary_unary_rpc_method_handler(
-            servicer.Mute,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
-        'UnMute': grpc.unary_unary_rpc_method_handler(
-            servicer.UnMute,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
-        ),
+            'StartSession': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartSession,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'EndSession': grpc.unary_unary_rpc_method_handler(
+                    servicer.EndSession,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'StartCall': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartCall,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.StartCallRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'EndCall': grpc.unary_unary_rpc_method_handler(
+                    servicer.EndCall,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.EndCallRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'TransferCall': grpc.unary_unary_rpc_method_handler(
+                    servicer.TransferCall,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'RegisterAccount': grpc.unary_unary_rpc_method_handler(
+                    servicer.RegisterAccount,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'GetSipStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSipStatus,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'GetSipStatusHistory': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSipStatusHistory,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.SerializeToString,
+            ),
+            'PlayWavFiles': grpc.unary_unary_rpc_method_handler(
+                    servicer.PlayWavFiles,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'Mute': grpc.unary_unary_rpc_method_handler(
+                    servicer.Mute,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'UnMute': grpc.unary_unary_rpc_method_handler(
+                    servicer.UnMute,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'ondewo.sip.Sip', rpc_method_handlers)
+            'ondewo.sip.Sip', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
+
  # This class is part of an EXPERIMENTAL API.
-
-
 class Sip(object):
     """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
     SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
@@ -230,187 +229,187 @@ class Sip(object):
 
     @staticmethod
     def StartSession(request,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartSession',
-                                             ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.StartSessionRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def EndSession(request,
-                   target,
-                   options=(),
-                   channel_credentials=None,
-                   call_credentials=None,
-                   insecure=False,
-                   compression=None,
-                   wait_for_ready=None,
-                   timeout=None,
-                   metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndSession',
-                                             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def StartCall(request,
-                  target,
-                  options=(),
-                  channel_credentials=None,
-                  call_credentials=None,
-                  insecure=False,
-                  compression=None,
-                  wait_for_ready=None,
-                  timeout=None,
-                  metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/StartCall',
-                                             ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.StartCallRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def EndCall(request,
-                target,
-                options=(),
-                channel_credentials=None,
-                call_credentials=None,
-                insecure=False,
-                compression=None,
-                wait_for_ready=None,
-                timeout=None,
-                metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/EndCall',
-                                             ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.EndCallRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def TransferCall(request,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/TransferCall',
-                                             ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.TransferCallRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RegisterAccount(request,
-                        target,
-                        options=(),
-                        channel_credentials=None,
-                        call_credentials=None,
-                        insecure=False,
-                        compression=None,
-                        wait_for_ready=None,
-                        timeout=None,
-                        metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/RegisterAccount',
-                                             ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.RegisterAccountRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def GetSipStatus(request,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/GetSipStatus',
-                                             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def GetSipStatusHistory(request,
-                            target,
-                            options=(),
-                            channel_credentials=None,
-                            call_credentials=None,
-                            insecure=False,
-                            compression=None,
-                            wait_for_ready=None,
-                            timeout=None,
-                            metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/GetSipStatusHistory',
-                                             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatusHistoryResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def PlayWavFiles(request,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/PlayWavFiles',
-                                             ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            ondewo_dot_sip_dot_sip__pb2.PlayWavFilesRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Mute(request,
-             target,
-             options=(),
-             channel_credentials=None,
-             call_credentials=None,
-             insecure=False,
-             compression=None,
-             wait_for_ready=None,
-             timeout=None,
-             metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/Mute',
-                                             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def UnMute(request,
-               target,
-               options=(),
-               channel_credentials=None,
-               call_credentials=None,
-               insecure=False,
-               compression=None,
-               wait_for_ready=None,
-               timeout=None,
-               metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ondewo.sip.Sip/UnMute',
-                                             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                                             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
