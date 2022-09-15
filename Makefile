@@ -142,7 +142,7 @@ create_conda_env: ##Creates CONDA Environment
 release: ## Automate the entire release process
 	@echo "Start Release"
 	make build
-	/bin/bash -c 'source `conda info --base`/bin/activate ondewo-sip-client-python; make precommit_hooks_run_all_files || echo "PRECOMMIT FOUND SOMETHING"'
+	/bin/bash -c 'source `conda info --base`/bin/activate ondewo-sip-client-python; make precommit_hooks_run_all_files || echo "PRECOMMIT FOUND SOMETHING "'
 	git status
 	make check_build
 	git add ondewo
@@ -159,6 +159,7 @@ release: ## Automate the entire release process
 	make release_to_github_via_docker
 	make push_to_pypi_via_docker
 	@echo "Release Finished"
+
 
 
 create_release_branch: ## Create Release Branch and push it to origin
