@@ -154,11 +154,12 @@ release: ## Automate the entire release process
 	git status
 	git commit -m "PREPARING FOR RELEASE ${ONDEWO_SIP_VERSION}"
 	git push
-	create_release_branch
-	create_release_tag
-	release_to_github_via_docker
-	push_to_pypi_via_docker
+	make create_release_branch
+	make create_release_tag
+	make release_to_github_via_docker
+	make push_to_pypi_via_docker
 	@echo "Release Finished"
+
 
 create_release_branch: ## Create Release Branch and push it to origin
 	git checkout -b "release/${ONDEWO_SIP_VERSION}"
