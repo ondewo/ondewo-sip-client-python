@@ -129,14 +129,12 @@ generate_ondewo_protos:  ## Generate python code from proto files
 
 setup_conda_env: ## Checks for CONDA Environment
 	@echo "\n START SETTING UP CONDA ENV \n"
-	@conda env list | grep -q ondewo-sip-client-python \
-	&& make release || ( echo "\n CONDA ENV FOR REPO DOESNT EXIST \n" \
+	@conda env list | grep -q ondewo-sip-client-python || ( echo "\n CONDA ENV FOR REPO DOESNT EXIST \n" \
 	&& make create_conda_env)
 
 create_conda_env: ##Creates CONDA Environment
 	conda create -y --name ondewo-sip-client-python python=3.8
 	/bin/bash -c 'source `conda info --base`/bin/activate ondewo-sip-client-python; make setup_developer_environment_locally && echo "\n PRECOMMIT INSTALLED \n"'
-	make release
 
 ########################################################
 #		Release
@@ -254,7 +252,7 @@ clone_devops_accounts: ## Clones devops-accounts repo
 
 run_release_with_devops:
 	$(eval info:= $(shell cat ${DEVOPS_ACCOUNT_DIR}/account_github.env | grep GITHUB_GH & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_USERNAME & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_PASSWORD))
-	@echo ${CONDA_PREFIX} | grep -q sip-client-python && make release $(info) || (make setup_conda_env $(info))
+	@(echo ${CONDA_PREFIX} | grep -q sip-client-python || make setup_conda_env $(info)) && make release $(info)
 
 spc: ## Checks if the Release Branch, Tag and Pypi version already exist
 	$(eval filtered_branches:= $(shell git branch --all | grep "release/${ONDEWO_SIP_VERSION}"))
