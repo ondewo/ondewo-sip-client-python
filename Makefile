@@ -162,6 +162,7 @@ release: ## Automate the entire release process
 	push_to_pypi_via_docker
 	@echo "Release Finished"
 
+
 create_release_branch: ## Create Release Branch and push it to origin
 	git checkout -b "release/${ONDEWO_SIP_VERSION}"
 	git push -u origin "release/${ONDEWO_SIP_VERSION}"
