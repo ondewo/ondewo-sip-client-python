@@ -107,7 +107,7 @@ build: clear_package_data init_submodules checkout_defined_submodule_versions bu
 
 push_to_pypi_via_docker: push_to_pypi_via_docker_image  ## Release automation for building and pushing to pypi via a docker image
 
-release_to_github_via_docker: build build_utils_docker_image release_to_github_via_docker_image  ## Release automation for building and releasing on GitHub via a docker image
+release_to_github_via_docker: build_utils_docker_image release_to_github_via_docker_image  ## Release automation for building and releasing on GitHub via a docker image
 
 clean_python_api:  ## Clear generated python files
 	find ./ondewo -name \*pb2.py -type f -exec rm -f {} \;
@@ -151,6 +151,7 @@ release: ## Automate the entire release process
 	git add RELEASE.md
 	git add setup.py
 	git add ${ONDEWO_PROTO_COMPILER_DIR}
+	git add ${ONDEWO_SIP_API_DIR}
 	git status
 	git commit -m "PREPARING FOR RELEASE ${ONDEWO_SIP_VERSION}"
 	git push
