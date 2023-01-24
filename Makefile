@@ -48,7 +48,8 @@ IMAGE_UTILS_NAME=ondewo-sip-client-utils-python:${ONDEWO_SIP_VERSION}
 setup_developer_environment_locally: install_precommit_hooks install_dependencies_locally
 
 install_precommit_hooks: ## Installs pre-commit hooks and sets them up for the ondewo-csi-client repo
-	pip install pre-commit
+	-pip install pre-commit
+	-conda -y install pre-commit
 	pre-commit install
 	pre-commit install --hook-type commit-msg
 
@@ -63,7 +64,7 @@ install:  ## Install requirements
 	pip install -r requirements.txt
 
 flake8: ## Runs flake8
-	flake8 --exclude 'ondewo'
+	flake8 --config .flake8 .
 
 mypy: ## Run mypy static code checking
 	pre-commit run mypy --all-files
@@ -126,6 +127,8 @@ generate_ondewo_protos:  ## Generate python code from proto files
 		PROTO_DIR=${ONDEWO_PROTOS_DIR} \
 		TARGET_DIR='ondewo' \
 		OUTPUT_DIR=${OUTPUT_DIR}
+	-make precommit_hooks_run_all_files
+	make precommit_hooks_run_all_files
 
 setup_conda_env: ## Checks for CONDA Environment
 	@echo "\n START SETTING UP CONDA ENV \n"
