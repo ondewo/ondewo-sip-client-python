@@ -1,4 +1,4 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open('README.md', 'r') as f:
     long_description = f.read()
@@ -6,11 +6,11 @@ with open('README.md', 'r') as f:
 with open('requirements.txt') as f:
     requires = f.read().splitlines()
 
-setuptools.setup(
+setup(
     name='ondewo-sip-client',
     version='4.0.0',
     author='Ondewo GbmH',
-    author_email='info@ondewo.com',
+    author_email='office@ondewo.com',
     description='provides endpoints and messages for gRPC communication with the ONDEWO SIP server',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -19,15 +19,19 @@ setuptools.setup(
         np
         for np in filter(
             lambda n: n.startswith('ondewo.') or n == 'ondewo',
-            setuptools.find_packages()
+            find_packages()
         )
     ],
+    include_package_data=True,
+    package_data={
+        'ondewo.sip': ['py.typed', '*.pyi'],
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent',
         'Development Status :: 3 - Alpha',
         'Topic :: Software Development :: Libraries',
     ],
-    python_requires='>=2.7, !=3.0.1',
+    python_requires='>=3',
     install_requires=requires,
 )
