@@ -16,14 +16,14 @@ from google.protobuf.empty_pb2 import Empty
 from ondewo.utils.base_services_interface import BaseServicesInterface
 
 from ondewo.sip.sip_pb2 import (
-    StartSessionRequest,
-    StartCallRequest,
     EndCallRequest,
-    TransferCallRequest,
-    SipStatus,
-    SipStatusHistoryResponse,
     PlayWavFilesRequest,
     RegisterAccountRequest,
+    SipStatus,
+    SipStatusHistoryResponse,
+    StartCallRequest,
+    StartSessionRequest,
+    TransferCallRequest,
 )
 from ondewo.sip.sip_pb2_grpc import SipStub
 
@@ -40,28 +40,28 @@ class Sip(BaseServicesInterface):
         stub: SipStub = SipStub(channel=self.grpc_channel)
         return stub
 
-    def start_session(self, request: StartSessionRequest) -> Empty:
-        response: Empty = self.stub.StartSession(request)
+    def start_session(self, request: StartSessionRequest) -> SipStatus:
+        response: SipStatus = self.stub.StartSession(request)
         return response
 
-    def end_session(self) -> Empty:
-        response: Empty = self.stub.EndSession(Empty())
+    def end_session(self) -> SipStatus:
+        response: SipStatus = self.stub.EndSession(Empty())
         return response
 
-    def register_account(self, request: RegisterAccountRequest) -> Empty:
-        response: Empty = self.stub.RegisterAccount(request)
+    def register_account(self, request: RegisterAccountRequest) -> SipStatus:
+        response: SipStatus = self.stub.RegisterAccount(request)
         return response
 
-    def start_call(self, request: StartCallRequest) -> Empty:
-        response: Empty = self.stub.StartCall(request)
+    def start_call(self, request: StartCallRequest) -> SipStatus:
+        response: SipStatus = self.stub.StartCall(request)
         return response
 
-    def end_call(self, request: EndCallRequest) -> Empty:
-        response: Empty = self.stub.EndCall(request)
+    def end_call(self, request: EndCallRequest) -> SipStatus:
+        response: SipStatus = self.stub.EndCall(request)
         return response
 
-    def transfer_call(self, request: TransferCallRequest) -> Empty:
-        response: Empty = self.stub.TransferCall(request)
+    def transfer_call(self, request: TransferCallRequest) -> SipStatus:
+        response: SipStatus = self.stub.TransferCall(request)
         return response
 
     def get_sip_status(self) -> SipStatus:
@@ -72,14 +72,14 @@ class Sip(BaseServicesInterface):
         response: SipStatusHistoryResponse = self.stub.GetSipStatusHistory(Empty())
         return response
 
-    def play_wav_files(self, request: PlayWavFilesRequest) -> Empty:
-        response: PlayWavFilesRequest = self.stub.PlayWavFiles(request)
+    def play_wav_files(self, request: PlayWavFilesRequest) -> SipStatus:
+        response: SipStatus = self.stub.PlayWavFiles(request)
         return response
 
-    def mute(self) -> Empty:
-        response: Empty = self.stub.Mute(Empty())
+    def mute(self) -> SipStatus:
+        response: SipStatus = self.stub.Mute(Empty())
         return response
 
-    def un_mute(self) -> Empty:
-        response: Empty = self.stub.UnMute(Empty())
+    def un_mute(self) -> SipStatus:
+        response: SipStatus = self.stub.UnMute(Empty())
         return response

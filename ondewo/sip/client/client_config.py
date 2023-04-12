@@ -21,4 +21,4 @@ from ondewo.utils.base_client_config import BaseClientConfig
 @dataclass_json
 @dataclass(frozen=True)
 class ClientConfig(BaseClientConfig):
-    """ Config for ONDEWO T2S client. """
+    """ Config for ONDEWO SIP Client. """
