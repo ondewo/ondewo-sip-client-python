@@ -17,7 +17,7 @@ export
 
 # MUST BE THE SAME AS API in Mayor and Minor Version Number
 # example: API 2.9.0 --> Client 2.9.X
-ONDEWO_SIP_VERSION = 4.0.0
+ONDEWO_SIP_VERSION = 4.0.1
 
 
 ONDEWO_SIP_API_GIT_BRANCH=tags/4.0.0
