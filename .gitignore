@@ -33,7 +33,7 @@ share/python-wheels/
 MANIFEST
 ondewo-sip-client-python.zip
 
-*ondewo-devops-accounts*/**
+ondewo-devops-accounts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -146,5 +146,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-/ondewo-devops-accounts/
-/ondewo-devops-accounts/**
