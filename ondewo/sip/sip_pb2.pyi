@@ -13,7 +13,7 @@ import typing_extensions
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-class EndCallRequest(google.protobuf.message.Message):
+class SipEndCallRequest(google.protobuf.message.Message):
     """Ends an ongoing call of the active SIP session of the active SIP account"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     HARD_HANGUP_FIELD_NUMBER: builtins.int
@@ -25,9 +25,9 @@ class EndCallRequest(google.protobuf.message.Message):
         hard_hangup: builtins.bool = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["hard_hangup",b"hard_hangup"]) -> None: ...
-global___EndCallRequest = EndCallRequest
+global___SipEndCallRequest = SipEndCallRequest
 
-class StartCallRequest(google.protobuf.message.Message):
+class SipStartCallRequest(google.protobuf.message.Message):
     """Request to start the call with the active SIP session of the active SIP account"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     class HeadersEntry(google.protobuf.message.Message):
@@ -58,9 +58,9 @@ class StartCallRequest(google.protobuf.message.Message):
         headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["callee_id",b"callee_id","headers",b"headers"]) -> None: ...
-global___StartCallRequest = StartCallRequest
+global___SipStartCallRequest = SipStartCallRequest
 
-class RegisterAccountRequest(google.protobuf.message.Message):
+class SipRegisterAccountRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
     PASSWORD_FIELD_NUMBER: builtins.int
@@ -90,9 +90,9 @@ class RegisterAccountRequest(google.protobuf.message.Message):
         outbound_proxy: typing.Text = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","auth_username",b"auth_username","outbound_proxy",b"outbound_proxy","password",b"password"]) -> None: ...
-global___RegisterAccountRequest = RegisterAccountRequest
+global___SipRegisterAccountRequest = SipRegisterAccountRequest
 
-class StartSessionRequest(google.protobuf.message.Message):
+class SipStartSessionRequest(google.protobuf.message.Message):
     """Request for starting a new SIP session for a specified account"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
@@ -113,9 +113,9 @@ class StartSessionRequest(google.protobuf.message.Message):
         auto_answer_interval: builtins.int = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","auto_answer_interval",b"auto_answer_interval"]) -> None: ...
-global___StartSessionRequest = StartSessionRequest
+global___SipStartSessionRequest = SipStartSessionRequest
 
-class TransferCallRequest(google.protobuf.message.Message):
+class SipTransferCallRequest(google.protobuf.message.Message):
     """Request for transferring a call with or without headers"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     class HeadersEntry(google.protobuf.message.Message):
@@ -146,7 +146,7 @@ class TransferCallRequest(google.protobuf.message.Message):
         headers: typing.Optional[typing.Mapping[typing.Text, typing.Text]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["headers",b"headers","transfer_id",b"transfer_id"]) -> None: ...
-global___TransferCallRequest = TransferCallRequest
+global___SipTransferCallRequest = SipTransferCallRequest
 
 class SipStatus(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
@@ -378,7 +378,7 @@ class SipStatusHistoryResponse(google.protobuf.message.Message):
     def ClearField(self, field_name: typing_extensions.Literal["status_history",b"status_history"]) -> None: ...
 global___SipStatusHistoryResponse = SipStatusHistoryResponse
 
-class PlayWavFilesRequest(google.protobuf.message.Message):
+class SipPlayWavFilesRequest(google.protobuf.message.Message):
     """Plays a list of wav files"""
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
     WAV_FILES_FIELD_NUMBER: builtins.int
@@ -391,4 +391,4 @@ class PlayWavFilesRequest(google.protobuf.message.Message):
         wav_files: typing.Optional[typing.Iterable[builtins.bytes]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal["wav_files",b"wav_files"]) -> None: ...
-global___PlayWavFilesRequest = PlayWavFilesRequest
+global___SipPlayWavFilesRequest = SipPlayWavFilesRequest

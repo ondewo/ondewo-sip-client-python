@@ -30,26 +30,26 @@ CALLEE_ADDRESS: str = 'callee'
 # with open('sip_config.json') as fi:
 #     config = ClientConfig.from_json(fi.read())
 
-config = ClientConfig(host=HOST, port=PORT)
+config = ClientConfig(host=HOST, port=str(PORT))
 client = Client(config=config, use_secure_channel=False)
 
-request_register: sip.RegisterAccountRequest = sip.RegisterAccountRequest(
+request_register: sip.SipRegisterAccountRequest = sip.SipRegisterAccountRequest(
     account_name=ACCOUNT_NAME,
     password=ACCOUNT_PASSWORD,
 )
 client.services.sip.register_account(request=request_register)
 
-request_start_session: sip.StartSessionRequest = sip.StartSessionRequest(
+request_start_session: sip.SipStartSessionRequest = sip.SipStartSessionRequest(
     account_name=ACCOUNT_NAME
 )
 client.services.sip.start_session(request=request_start_session)
 
-request_start_call: sip.StartCallRequest = sip.StartCallRequest(
+request_start_call: sip.SipStartCallRequest = sip.SipStartCallRequest(
     callee_id=CALLEE_ADDRESS
 )
 client.services.sip.start_call(request=request_start_call)
 
-# request = sip.TransferCallRequest(
-#     transfer_id=TRANSFER_ADDRESS
-# )
-# client.services.sip.transfer_call(request=request)
+request = sip.SipTransferCallRequest(
+    transfer_id=CALLEE_ADDRESS
+)
+client.services.sip.transfer_call(request=request)
