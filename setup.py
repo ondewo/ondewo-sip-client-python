@@ -27,7 +27,7 @@ requires: List[str] = read_requirements('requirements.txt')
 
 setup(
     name='ondewo-sip-client',
-    version='5.0.0',
+    version='5.1.0',
     author='Ondewo GbmH',
     author_email='office@ondewo.com',
     description='provides endpoints and messages for gRPC communication with the ONDEWO SIP server',

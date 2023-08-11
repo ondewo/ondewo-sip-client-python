@@ -314,6 +314,7 @@ class SipStatus(google.protobuf.message.Message):
     DESCRIPTION_FIELD_NUMBER: builtins.int
     EXCEPTION_NAME_FIELD_NUMBER: builtins.int
     EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
+    NLU_SESSION_NAME_FIELD_NUMBER: builtins.int
     account_name: typing.Text
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
     <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
@@ -347,6 +348,9 @@ class SipStatus(google.protobuf.message.Message):
     exception_traceback: typing.Text
     """Traceback of the exception"""
 
+    nlu_session_name: typing.Text
+    """session name of the NLU session"""
+
     def __init__(self,
         *,
         account_name: typing.Text = ...,
@@ -358,9 +362,10 @@ class SipStatus(google.protobuf.message.Message):
         description: typing.Text = ...,
         exception_name: typing.Text = ...,
         exception_traceback: typing.Text = ...,
+        nlu_session_name: typing.Text = ...,
         ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["timestamp",b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","callee_id",b"callee_id","description",b"description","exception_name",b"exception_name","exception_traceback",b"exception_traceback","headers",b"headers","status_type",b"status_type","timestamp",b"timestamp","transfer_call_id",b"transfer_call_id"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["account_name",b"account_name","callee_id",b"callee_id","description",b"description","exception_name",b"exception_name","exception_traceback",b"exception_traceback","headers",b"headers","nlu_session_name",b"nlu_session_name","status_type",b"status_type","timestamp",b"timestamp","transfer_call_id",b"transfer_call_id"]) -> None: ...
 global___SipStatus = SipStatus
 
 class SipStatusHistoryResponse(google.protobuf.message.Message):
