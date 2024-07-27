@@ -1,5 +1,7 @@
-mypy
-pytest
-jupyter
-mypy-protobuf
+-r requirements.txt
 flake8
+jupyter
+mypy
+mypy-protobuf
+pre-commit
+pytest
