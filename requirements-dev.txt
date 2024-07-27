@@ -3,5 +3,5 @@ flake8
 jupyter
 mypy
 mypy-protobuf
-pre-commit
+# pre-commit # Do not add this here
 pytest
