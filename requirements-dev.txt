@@ -5,3 +5,4 @@ mypy
 mypy-protobuf
 # pre-commit # Do not add this here
 pytest
+setuptools

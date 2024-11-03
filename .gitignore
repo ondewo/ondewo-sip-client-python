@@ -1,13 +1,14 @@
 # release automation
 ondewo-devops-accounts
-.idea
-.isort.cfg
-**/__pycache__/**
-.mypy_cache
-*grpc.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+**/__pycache__/**
+.vscode
+.idea
+.isort.cfg
+.mypy_cache
+*grpc.json
 *.py[cod]
 *$py.class
 
