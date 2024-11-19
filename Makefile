@@ -66,7 +66,15 @@ flake8: ## Runs flake8
 	flake8 --config .flake8 .
 
 mypy: ## Run mypy static code checking
+	@echo "---------------------------------------------"
+	@echo "START: Run mypy in pre-commit hook ..."
 	pre-commit run mypy --all-files
+	@echo "DONE: Run mypy in pre-commit hook."
+	@echo "---------------------------------------------"
+	@echo "START: Run mypy directly ..."
+	mypy --config-file=mypy.ini .
+	@echo "DONE: Run mypy directly"
+	@echo "---------------------------------------------"
 
 help: ## Print usage info about help targets
 	# (first comment after target starting with double hashes ##)
@@ -104,7 +112,7 @@ update_setup: ## Update SIP Version in setup.py
 	@sed -i "s/version='[0-9]*.[0-9]*.[0-9]*'/version='${ONDEWO_SIP_VERSION}'/g" setup.py
 	@sed -i "s/version=\"[0-9]*.[0-9]*.[0-9]*\"/version='${ONDEWO_SIP_VERSION}'/g" setup.py
 
-build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos update_setup update_setup ## Build source code
+build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos update_setup ## Build source code
 
 push_to_pypi_via_docker: push_to_pypi_via_docker_image  ## Release automation for building and pushing to pypi via a docker image
 
@@ -256,7 +264,7 @@ clone_devops_accounts: ## Clones devops-accounts repo
 	if [ -d $(DEVOPS_ACCOUNT_GIT) ]; then rm -Rf $(DEVOPS_ACCOUNT_GIT); fi
 	git clone git@bitbucket.org:ondewo/${DEVOPS_ACCOUNT_GIT}.git
 
-run_release_with_devops:
+run_release_with_devops: ## Gets Credentials from devops-repo and run release command with them
 	$(eval info:= $(shell cat ${DEVOPS_ACCOUNT_DIR}/account_github.env | grep GITHUB_GH & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_USERNAME & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_PASSWORD))
 	@(echo ${CONDA_PREFIX} | grep -q sip-client-python || make setup_conda_env $(info)) && make release $(info)
 
