@@ -15,6 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import builtins
 import collections.abc
 import google.protobuf.descriptor
@@ -32,7 +33,7 @@ else:
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-@typing_extensions.final
+@typing.final
 class SipEndCallRequest(google.protobuf.message.Message):
     """Ends an ongoing call of the active SIP session of the active SIP account"""
 
@@ -46,17 +47,17 @@ class SipEndCallRequest(google.protobuf.message.Message):
         *,
         hard_hangup: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["hard_hangup", b"hard_hangup"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["hard_hangup", b"hard_hangup"]) -> None: ...
 
 global___SipEndCallRequest = SipEndCallRequest
 
-@typing_extensions.final
+@typing.final
 class SipStartCallRequest(google.protobuf.message.Message):
     """Request to start the call with the active SIP session of the active SIP account"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class HeadersEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -70,7 +71,7 @@ class SipStartCallRequest(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     CALLEE_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
@@ -79,17 +80,18 @@ class SipStartCallRequest(google.protobuf.message.Message):
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Headers to include when starting the call"""
+
     def __init__(
         self,
         *,
         callee_id: builtins.str = ...,
         headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["callee_id", b"callee_id", "headers", b"headers"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["callee_id", b"callee_id", "headers", b"headers"]) -> None: ...
 
 global___SipStartCallRequest = SipStartCallRequest
 
-@typing_extensions.final
+@typing.final
 class SipRegisterAccountRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -117,11 +119,11 @@ class SipRegisterAccountRequest(google.protobuf.message.Message):
         auth_username: builtins.str = ...,
         outbound_proxy: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name", b"account_name", "auth_username", b"auth_username", "outbound_proxy", b"outbound_proxy", "password", b"password"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "auth_username", b"auth_username", "outbound_proxy", b"outbound_proxy", "password", b"password"]) -> None: ...
 
 global___SipRegisterAccountRequest = SipRegisterAccountRequest
 
-@typing_extensions.final
+@typing.final
 class SipStartSessionRequest(google.protobuf.message.Message):
     """Request for starting a new SIP session for a specified account"""
 
@@ -143,17 +145,17 @@ class SipStartSessionRequest(google.protobuf.message.Message):
         account_name: builtins.str = ...,
         auto_answer_interval: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name", b"account_name", "auto_answer_interval", b"auto_answer_interval"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "auto_answer_interval", b"auto_answer_interval"]) -> None: ...
 
 global___SipStartSessionRequest = SipStartSessionRequest
 
-@typing_extensions.final
+@typing.final
 class SipTransferCallRequest(google.protobuf.message.Message):
     """Request for transferring a call with or without headers"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class HeadersEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -167,7 +169,7 @@ class SipTransferCallRequest(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     TRANSFER_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
@@ -176,17 +178,18 @@ class SipTransferCallRequest(google.protobuf.message.Message):
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """The headers to include when transferring the call"""
+
     def __init__(
         self,
         *,
         transfer_id: builtins.str = ...,
         headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["headers", b"headers", "transfer_id", b"transfer_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["headers", b"headers", "transfer_id", b"transfer_id"]) -> None: ...
 
 global___SipTransferCallRequest = SipTransferCallRequest
 
-@typing_extensions.final
+@typing.final
 class SipStatus(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -289,7 +292,7 @@ class SipStatus(google.protobuf.message.Message):
     NO_ONGOING_CALL: SipStatus.StatusType.ValueType  # 21
     """No ongoing call"""
 
-    @typing_extensions.final
+    @typing.final
     class HeadersEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -303,7 +306,7 @@ class SipStatus(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
     TIMESTAMP_FIELD_NUMBER: builtins.int
@@ -321,18 +324,12 @@ class SipStatus(google.protobuf.message.Message):
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect
     to a SIP server running on port <code>5099</code>
     """
-    @property
-    def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
-        """Timestamp of the status"""
     status_type: global___SipStatus.StatusType.ValueType
     """Status type"""
     callee_id: builtins.str
     """SIP account name"""
     transfer_call_id: builtins.str
     """SIP account of the transfer"""
-    @property
-    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
-        """Headers to include when calling outbound or transfer"""
     description: builtins.str
     """More detailed description of the status"""
     exception_name: builtins.str
@@ -341,6 +338,14 @@ class SipStatus(google.protobuf.message.Message):
     """Traceback of the exception"""
     nlu_session_name: builtins.str
     """session name of the NLU session"""
+    @property
+    def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
+        """Timestamp of the status"""
+
+    @property
+    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+        """Headers to include when calling outbound or transfer"""
+
     def __init__(
         self,
         *,
@@ -355,12 +360,12 @@ class SipStatus(google.protobuf.message.Message):
         exception_traceback: builtins.str = ...,
         nlu_session_name: builtins.str = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["account_name", b"account_name", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "nlu_session_name", b"nlu_session_name", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["timestamp", b"timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "nlu_session_name", b"nlu_session_name", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
 
 global___SipStatus = SipStatus
 
-@typing_extensions.final
+@typing.final
 class SipStatusHistoryResponse(google.protobuf.message.Message):
     """History of SIP status"""
 
@@ -370,16 +375,17 @@ class SipStatusHistoryResponse(google.protobuf.message.Message):
     @property
     def status_history(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SipStatus]:
         """History of SIP status"""
+
     def __init__(
         self,
         *,
         status_history: collections.abc.Iterable[global___SipStatus] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["status_history", b"status_history"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["status_history", b"status_history"]) -> None: ...
 
 global___SipStatusHistoryResponse = SipStatusHistoryResponse
 
-@typing_extensions.final
+@typing.final
 class SipPlayWavFilesRequest(google.protobuf.message.Message):
     """Plays a list of wav files"""
 
@@ -389,11 +395,12 @@ class SipPlayWavFilesRequest(google.protobuf.message.Message):
     @property
     def wav_files(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.bytes]:
         """Wav files as bytes in a list that will be played"""
+
     def __init__(
         self,
         *,
         wav_files: collections.abc.Iterable[builtins.bytes] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["wav_files", b"wav_files"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["wav_files", b"wav_files"]) -> None: ...
 
 global___SipPlayWavFilesRequest = SipPlayWavFilesRequest

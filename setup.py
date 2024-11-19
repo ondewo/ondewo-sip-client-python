@@ -27,7 +27,7 @@ requires: List[str] = read_requirements('requirements.txt')
 
 setup(
     name='ondewo-sip-client',
-    version='5.1.1',
+    version='5.2.0',
     author='ONDEWO GmbH',
     author_email='office@ondewo.com',
     description="ONDEWO Session Initiation Protocol (SIP) Client library for Python",
