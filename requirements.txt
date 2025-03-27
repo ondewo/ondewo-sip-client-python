@@ -1,9 +1,9 @@
 google-api-core
 googleapis-common-protos
+grpcio
 grpcio-reflection
 grpcio-tools
-grpcio
-ondewo-client-utils
+ondewo-client-utils>=3.1.0
 polling
 protobuf
 regex

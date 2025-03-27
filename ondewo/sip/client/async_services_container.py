@@ -11,13 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 from dataclasses import dataclass
 
-from dataclasses_json import dataclass_json
-from ondewo.utils.base_client_config import BaseClientConfig
+from ondewo.utils.base_service_container import BaseServicesContainer
+
+from ondewo.sip.client.services.async_sip import Sip
 
 
-@dataclass_json
-@dataclass(frozen=True)
-class ClientConfig(BaseClientConfig):
-    """ Config for ONDEWO SIP Client. """
+@dataclass
+class AsyncServicesContainer(BaseServicesContainer):
+    sip: Sip
