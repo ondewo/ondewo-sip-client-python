@@ -6,3 +6,4 @@ mypy-protobuf
 # pre-commit # Do not add this here
 pytest
 setuptools
+typing_extensions
