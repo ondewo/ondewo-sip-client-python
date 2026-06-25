@@ -26,7 +26,14 @@ CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
 
 
 class TestLegacyPath:
+    """Validate the legacy `Login`-RPC auth path (D5): `http_token` is optional."""
+
     def test_legacy_config_without_http_token_is_valid(self) -> None:
+        """A config with only `user_name`/`password` is valid and not Keycloak-flagged.
+
+        Returns:
+            None
+        """
         # http_token is no longer mandatory (D5).
         config = ClientConfig(host=HOST, port=PORT, user_name=USERNAME, password=PASSWORD)
 
@@ -34,6 +41,11 @@ class TestLegacyPath:
         assert config.use_keycloak is False
 
     def test_legacy_config_with_http_token_still_valid(self) -> None:
+        """Supplying the legacy `http_token` is still accepted and stays non-Keycloak.
+
+        Returns:
+            None
+        """
         config = ClientConfig(
             host=HOST,
             port=PORT,
@@ -46,16 +58,33 @@ class TestLegacyPath:
         assert config.use_keycloak is False
 
     def test_missing_user_name_raises(self) -> None:
+        """A config without `user_name` is rejected by `__post_init__` validation.
+
+        Returns:
+            None
+        """
         with pytest.raises(ValueError):
             ClientConfig(host=HOST, port=PORT, password=PASSWORD)
 
     def test_missing_password_raises(self) -> None:
+        """A config without `password` is rejected by `__post_init__` validation.
+
+        Returns:
+            None
+        """
         with pytest.raises(ValueError):
             ClientConfig(host=HOST, port=PORT, user_name=USERNAME)
 
 
 class TestKeycloakPath:
+    """Validate the Keycloak headless offline-token auth path (D18) and its all-or-nothing rule."""
+
     def test_full_keycloak_config_is_valid_and_flagged(self) -> None:
+        """A fully populated Keycloak triple is valid and `use_keycloak` is True.
+
+        Returns:
+            None
+        """
         config = ClientConfig(
             host=HOST,
             port=PORT,
@@ -72,6 +101,11 @@ class TestKeycloakPath:
         assert config.client_id == CLIENT_ID
 
     def test_token_expiration_optional_defaults_none(self) -> None:
+        """`token_expiration_in_s` defaults to None while the Keycloak path stays flagged.
+
+        Returns:
+            None
+        """
         config = ClientConfig(
             host=HOST,
             port=PORT,
@@ -86,6 +120,11 @@ class TestKeycloakPath:
         assert config.use_keycloak is True
 
     def test_partial_keycloak_config_raises(self) -> None:
+        """A partially populated Keycloak triple violates the all-or-nothing rule.
+
+        Returns:
+            None
+        """
         # realm + client_id missing while keycloak_url is set → all-or-nothing violation.
         with pytest.raises(ValueError):
             ClientConfig(
@@ -97,6 +136,11 @@ class TestKeycloakPath:
             )
 
     def test_no_client_secret_field_present(self) -> None:
+        """The public SDK config exposes no `client_secret` field (Q1).
+
+        Returns:
+            None
+        """
         # Q1: the public SDK client has no client_secret — the config must not expose one.
         config = ClientConfig(
             host=HOST,

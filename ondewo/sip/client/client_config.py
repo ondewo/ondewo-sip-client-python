@@ -11,6 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Client configuration for the ONDEWO SIP Python client.
+
+Defines :class:`ClientConfig`, the frozen dataclass that carries the connection and
+authentication settings for the SIP services. It supports two auth paths: the Keycloak
+headless offline-token flow (D18) and the legacy `Login`-RPC flow, and validates that
+the Keycloak fields are supplied all-or-nothing.
+"""
 from dataclasses import dataclass
 from typing import Optional
 
