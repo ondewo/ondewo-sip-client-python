@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from dataclasses import dataclass
+from typing import Optional
 
 from dataclasses_json import dataclass_json
 from ondewo.utils.base_client_config import BaseClientConfig
@@ -20,4 +21,84 @@ from ondewo.utils.base_client_config import BaseClientConfig
 @dataclass_json
 @dataclass(frozen=True)
 class ClientConfig(BaseClientConfig):
-    """ Config for ONDEWO SIP Client. """
+    """
+    Configuration for the ONDEWO SIP Python client.
+
+    This class extends `BaseClientConfig` with the authentication details required for
+    connecting to ONDEWO SIP services. Two authentication paths are supported:
+
+    * **Keycloak headless offline-token auth (D18)** — set `keycloak_url`, `realm`,
+      `client_id`, `user_name`, and `password` (and optionally `token_expiration_in_s`).
+      The client performs an ROPC login with `scope=offline_access` against the *public*
+      Keycloak SDK client (no `client_secret`), then auto-refreshes the short-lived access
+      token and attaches it as `Authorization: Bearer`.
+    * **Legacy `Login` RPC auth** — set `user_name` and `password` (and optionally the
+      legacy `http_token`). The client calls the `Login` RPC and attaches the returned
+      `cai-token`. Kept for backward compatibility (dual-mode).
+
+    Attributes:
+        http_token (str):
+            Legacy token for bypassing nginx or other proxies (`Authorization: Basic`).
+            Optional — kept only for backward compatibility with the legacy login path.
+        user_name (str):
+            The user name for authenticating with ONDEWO SIP services.
+            Example: 'testuser@ondewo.com'.
+        password (str):
+            The password associated with the ONDEWO SIP services user.
+        keycloak_url (str):
+            Base URL of the Keycloak server (the part before `/realms/<realm>`),
+            e.g. 'https://my-host/auth'. Required for the Keycloak offline-token path.
+        realm (str):
+            Keycloak realm name, e.g. 'ondewo-ccai-platform'. Required for the Keycloak path.
+        client_id (str):
+            The public Keycloak SDK client id, e.g. 'ondewo-sip-cai-sdk-public'
+            (public client, no `client_secret`). Required for the Keycloak path.
+        token_expiration_in_s (Optional[int]):
+            Bounds how long the auto-refresh loop runs (seconds since login). `None`
+            keeps refreshing until the offline session itself expires.
+    """
+    http_token: str = ''
+    user_name: str = ''
+    password: str = ''
+    keycloak_url: str = ''
+    realm: str = ''
+    client_id: str = ''
+    token_expiration_in_s: Optional[int] = None
+
+    @property
+    def use_keycloak(self) -> bool:
+        """
+        Whether the Keycloak headless offline-token path (D18) is configured.
+
+        Returns:
+            bool: True when `keycloak_url`, `realm`, and `client_id` are all set.
+        """
+        return bool(self.keycloak_url and self.realm and self.client_id)
+
+    def __post_init__(self) -> None:
+        """
+        Post-initialization hook to validate the configured authentication path.
+
+        `http_token` is no longer mandatory (D5 — clients no longer send
+        `Authorization: Basic`; Envoy validates the Bearer JWT). The check requires
+        `user_name` and `password` for both paths, and additionally requires the full
+        Keycloak triple (`keycloak_url`, `realm`, `client_id`) to be all-or-nothing.
+
+        Raises:
+            ValueError:
+                If `user_name` or `password` is empty, or if the Keycloak fields are only
+                partially provided.
+        """
+        super(ClientConfig, self).__post_init__()
+
+        if not self.user_name:
+            raise ValueError(f'The field `user_name` is mandatory in {self.__class__.__name__}.')
+        if not self.password:
+            raise ValueError(f'The field `password` is mandatory in {self.__class__.__name__}.')
+
+        keycloak_fields = (self.keycloak_url, self.realm, self.client_id)
+        if any(keycloak_fields) and not all(keycloak_fields):
+            raise ValueError(
+                'The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided '
+                f'together in {self.__class__.__name__}.'
+            )
