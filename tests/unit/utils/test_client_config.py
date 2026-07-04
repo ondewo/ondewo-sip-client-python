@@ -26,36 +26,27 @@ CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
 
 
 class TestNonKeycloakPath:
-    """Validate the non-Keycloak auth path (D5): `http_token` is optional and non-functional."""
+    """Validate the non-Keycloak auth path (bearer-only): no auth token is attached."""
 
-    def test_legacy_config_without_http_token_is_valid(self) -> None:
+    def test_config_without_keycloak_is_valid(self) -> None:
         """A config with only `user_name`/`password` is valid and not Keycloak-flagged.
 
         Returns:
             None
         """
-        # http_token is no longer mandatory (D5).
         config = ClientConfig(host=HOST, port=PORT, user_name=USERNAME, password=PASSWORD)
 
-        assert config.http_token == ''
         assert config.use_keycloak is False
 
-    def test_legacy_config_with_http_token_still_valid(self) -> None:
-        """Supplying the legacy `http_token` is still accepted and stays non-Keycloak.
+    def test_no_http_token_field_present(self) -> None:
+        """The bearer-only config exposes no legacy `http_token` field.
 
         Returns:
             None
         """
-        config = ClientConfig(
-            host=HOST,
-            port=PORT,
-            http_token='Basic abc',
-            user_name=USERNAME,
-            password=PASSWORD,
-        )
+        config = ClientConfig(host=HOST, port=PORT, user_name=USERNAME, password=PASSWORD)
 
-        assert config.http_token == 'Basic abc'
-        assert config.use_keycloak is False
+        assert not hasattr(config, 'http_token')
 
     def test_missing_user_name_raises(self) -> None:
         """A config without `user_name` is rejected by `__post_init__` validation.

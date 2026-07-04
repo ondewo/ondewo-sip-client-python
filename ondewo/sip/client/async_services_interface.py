@@ -18,8 +18,7 @@ The generated async service wrappers (``ondewo/sip/client/services/async_*.py``)
 stub call. When the :class:`~ondewo.sip.client.client_config.ClientConfig` opts into the D18
 headless offline-token flow, that metadata carries a freshly auto-refreshed
 ``Authorization: Bearer`` header; otherwise it is empty and calls travel unauthenticated
-(e.g. against a plaintext server or an Envoy ingress that injects auth). SIP has no legacy
-``Login`` RPC and no ``cai-token`` path.
+(e.g. against a plaintext server or an Envoy ingress that injects auth).
 """
 from abc import ABC
 from typing import (

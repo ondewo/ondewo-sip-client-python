@@ -108,7 +108,6 @@ The `/examples` folder provides a possible implementation of this library. To ru
 - port `// Port of the Server - e.g. 6600`
 - user_name `// Username - same as you would use in AIM`
 - password `// Password of the user`
-- http_token `// Retained only for backward compatibility - no longer the auth mechanism`
 - grpc_cert `// gRPC Certificate of the server`
 
 ## Authentication
@@ -121,7 +120,7 @@ The client authenticates via the Keycloak headless offline-token flow (D18). Set
 
 On first use the SDK performs a one-time ROPC `offline_access` login and then auto-refreshes the short-lived access token in the background. Every RPC carries the resulting `Authorization: Bearer <jwt>` header, injected via the service wrapper's `self.metadata`.
 
-Leaving the three Keycloak fields empty attaches no auth token. SIP has no legacy `Login` RPC and no `cai-token` path; the `http_token` field is retained only for backward compatibility and is no longer the auth mechanism.
+Leaving the three Keycloak fields empty attaches no auth token (for use against a plaintext server or an Envoy ingress that injects auth).
 
 ## Automatic Release Process
 

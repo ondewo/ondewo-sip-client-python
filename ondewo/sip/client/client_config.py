@@ -40,13 +40,10 @@ class ClientConfig(BaseClientConfig):
       Keycloak SDK client (no `client_secret`), then auto-refreshes the short-lived access
       token and attaches it as `Authorization: Bearer`.
     * **No Keycloak** — when the `keycloak_url`/`realm`/`client_id` triple is absent, no
-      auth token is attached. SIP has no `Login` RPC and no `cai-token` path; the optional
-      `http_token` field is retained (non-functional) only for backward compatibility.
+      auth token is attached (e.g. against a plaintext server or an Envoy ingress that
+      injects auth).
 
     Attributes:
-        http_token (str):
-            Optional token retained only for backward compatibility. It is not wired to any
-            SIP RPC and plays no part in the auth flow.
         user_name (str):
             The user name for authenticating with ONDEWO SIP services.
             Example: 'testuser@ondewo.com'.
@@ -64,7 +61,6 @@ class ClientConfig(BaseClientConfig):
             Bounds how long the auto-refresh loop runs (seconds since login). `None`
             keeps refreshing until the offline session itself expires.
     """
-    http_token: str = ''
     user_name: str = ''
     password: str = ''
     keycloak_url: str = ''
@@ -86,10 +82,9 @@ class ClientConfig(BaseClientConfig):
         """
         Post-initialization hook to validate the configured authentication path.
 
-        `http_token` is no longer mandatory (D5 — clients no longer send
-        `Authorization: Basic`; Envoy validates the Bearer JWT). The check requires
-        `user_name` and `password` for both paths, and additionally requires the full
-        Keycloak triple (`keycloak_url`, `realm`, `client_id`) to be all-or-nothing.
+        The check requires `user_name` and `password` for both paths, and additionally
+        requires the full Keycloak triple (`keycloak_url`, `realm`, `client_id`) to be
+        all-or-nothing.
 
         Raises:
             ValueError:
