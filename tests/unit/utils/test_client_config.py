@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Unit tests for `ClientConfig` validation across the dual-mode auth paths (D5/D18)."""
+"""Unit tests for `ClientConfig` validation across the Keycloak and non-Keycloak paths (D5/D18)."""
 import pytest
 
 from ondewo.sip.client.client_config import ClientConfig
@@ -25,8 +25,8 @@ REALM: str = 'ondewo-ccai-platform'
 CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
 
 
-class TestLegacyPath:
-    """Validate the legacy `Login`-RPC auth path (D5): `http_token` is optional."""
+class TestNonKeycloakPath:
+    """Validate the non-Keycloak auth path (D5): `http_token` is optional and non-functional."""
 
     def test_legacy_config_without_http_token_is_valid(self) -> None:
         """A config with only `user_name`/`password` is valid and not Keycloak-flagged.

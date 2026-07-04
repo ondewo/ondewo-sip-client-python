@@ -29,6 +29,10 @@ jobs:
           pytest tests/unit -q \
             --cov=ondewo.sip.utils.keycloak \
             --cov=ondewo.sip.client.client_config \
+            --cov=ondewo.sip.client.services_interface \
+            --cov=ondewo.sip.client.async_services_interface \
+            --cov=ondewo.sip.client.services.sip \
+            --cov=ondewo.sip.client.services.async_sip \
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-fail-under=100

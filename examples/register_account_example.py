@@ -18,9 +18,9 @@ starts a session, places a call, and reads the resulting :class:`SipStatus`.
 
 Authentication follows the client's current convention: the Keycloak headless
 offline-token flow (D18). Set ``keycloak_url``, ``realm``, and ``client_id`` together with
-``user_name``/``password`` to use it. Leaving the three Keycloak fields empty falls back to
-the legacy ``Login``-RPC path (``user_name``/``password`` are always required). No
-``cai-token`` / HTTP-Basic credentials are involved anymore.
+``user_name``/``password`` to use it. Leaving the three Keycloak fields empty attaches no
+auth token (``user_name``/``password`` are always required). SIP has no legacy ``Login``
+RPC and no ``cai-token`` / HTTP-Basic path.
 
 Run it directly against a deployment::
 
@@ -48,7 +48,7 @@ USER_NAME: str = 'tech-user@example.com'
 PASSWORD: str = 'secret'
 
 # Keycloak headless offline-token auth (D18). The public SDK client carries no secret.
-# Leave the three fields empty to fall back to the legacy `Login`-RPC auth path.
+# Leave the three fields empty to attach no auth token (SIP has no legacy `Login` RPC).
 KEYCLOAK_URL: str = 'https://my-host/auth'
 REALM: str = 'ondewo-ccai-platform'
 CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'

@@ -14,9 +14,9 @@
 """Client configuration for the ONDEWO SIP Python client.
 
 Defines :class:`ClientConfig`, the frozen dataclass that carries the connection and
-authentication settings for the SIP services. It supports two auth paths: the Keycloak
-headless offline-token flow (D18) and the legacy `Login`-RPC flow, and validates that
-the Keycloak fields are supplied all-or-nothing.
+authentication settings for the SIP services. Its auth path is the Keycloak headless
+offline-token flow (D18); when the Keycloak fields are absent no auth token is attached.
+It validates that the Keycloak fields are supplied all-or-nothing.
 """
 from dataclasses import dataclass
 from typing import Optional
@@ -32,21 +32,21 @@ class ClientConfig(BaseClientConfig):
     Configuration for the ONDEWO SIP Python client.
 
     This class extends `BaseClientConfig` with the authentication details required for
-    connecting to ONDEWO SIP services. Two authentication paths are supported:
+    connecting to ONDEWO SIP services:
 
     * **Keycloak headless offline-token auth (D18)** — set `keycloak_url`, `realm`,
       `client_id`, `user_name`, and `password` (and optionally `token_expiration_in_s`).
       The client performs an ROPC login with `scope=offline_access` against the *public*
       Keycloak SDK client (no `client_secret`), then auto-refreshes the short-lived access
       token and attaches it as `Authorization: Bearer`.
-    * **Legacy `Login` RPC auth** — set `user_name` and `password` (and optionally the
-      legacy `http_token`). The client calls the `Login` RPC and attaches the returned
-      `cai-token`. Kept for backward compatibility (dual-mode).
+    * **No Keycloak** — when the `keycloak_url`/`realm`/`client_id` triple is absent, no
+      auth token is attached. SIP has no `Login` RPC and no `cai-token` path; the optional
+      `http_token` field is retained (non-functional) only for backward compatibility.
 
     Attributes:
         http_token (str):
-            Legacy token for bypassing nginx or other proxies (`Authorization: Basic`).
-            Optional — kept only for backward compatibility with the legacy login path.
+            Optional token retained only for backward compatibility. It is not wired to any
+            SIP RPC and plays no part in the auth flow.
         user_name (str):
             The user name for authenticating with ONDEWO SIP services.
             Example: 'testuser@ondewo.com'.
@@ -103,7 +103,7 @@ class ClientConfig(BaseClientConfig):
         if not self.password:
             raise ValueError(f'The field `password` is mandatory in {self.__class__.__name__}.')
 
-        keycloak_fields = (self.keycloak_url, self.realm, self.client_id)
+        keycloak_fields: tuple[str, str, str] = (self.keycloak_url, self.realm, self.client_id)
         if any(keycloak_fields) and not all(keycloak_fields):
             raise ValueError(
                 'The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided '
