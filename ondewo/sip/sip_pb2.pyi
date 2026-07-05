@@ -35,7 +35,7 @@ DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
 @typing.final
 class SipEndCallRequest(google.protobuf.message.Message):
-    """Ends an ongoing call of the active SIP session of the active SIP account"""
+    """<p>Ends an ongoing call of the active SIP session of the active SIP account</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -53,7 +53,7 @@ global___SipEndCallRequest = SipEndCallRequest
 
 @typing.final
 class SipStartCallRequest(google.protobuf.message.Message):
-    """Request to start the call with the active SIP session of the active SIP account"""
+    """<p>Request to start the call with the active SIP session of the active SIP account</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -93,6 +93,8 @@ global___SipStartCallRequest = SipStartCallRequest
 
 @typing.final
 class SipRegisterAccountRequest(google.protobuf.message.Message):
+    """<p>Request for registering a SIP account at a SIP server</p>"""
+
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
@@ -100,10 +102,8 @@ class SipRegisterAccountRequest(google.protobuf.message.Message):
     AUTH_USERNAME_FIELD_NUMBER: builtins.int
     OUTBOUND_PROXY_FIELD_NUMBER: builtins.int
     account_name: builtins.str
-    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
-    <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
-    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect
-    to a SIP server running on port <code>5099</code>
+    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
+    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
     password: builtins.str
     """Password of the account"""
@@ -125,20 +125,18 @@ global___SipRegisterAccountRequest = SipRegisterAccountRequest
 
 @typing.final
 class SipStartSessionRequest(google.protobuf.message.Message):
-    """Request for starting a new SIP session for a specified account"""
+    """<p>Request for starting a new SIP session for a specified account</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     ACCOUNT_NAME_FIELD_NUMBER: builtins.int
     AUTO_ANSWER_INTERVAL_FIELD_NUMBER: builtins.int
     account_name: builtins.str
-    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
-    <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
-    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect
-    to a SIP server running on port <code>5099</code>
+    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
+    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
     auto_answer_interval: builtins.int
-    """answer interval"""
+    """Auto-answer interval in seconds. The call will be automatically answered after this interval"""
     def __init__(
         self,
         *,
@@ -151,7 +149,7 @@ global___SipStartSessionRequest = SipStartSessionRequest
 
 @typing.final
 class SipTransferCallRequest(google.protobuf.message.Message):
-    """Request for transferring a call with or without headers"""
+    """<p>Request for transferring a call with or without headers</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -191,6 +189,8 @@ global___SipTransferCallRequest = SipTransferCallRequest
 
 @typing.final
 class SipStatus(google.protobuf.message.Message):
+    """<p>Status information for a SIP account, session, or call</p>"""
+
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     class _StatusType:
@@ -319,10 +319,8 @@ class SipStatus(google.protobuf.message.Message):
     EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
     NLU_SESSION_NAME_FIELD_NUMBER: builtins.int
     account_name: builtins.str
-    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or
-    <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
-    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect
-    to a SIP server running on port <code>5099</code>
+    """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
+    Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
     status_type: global___SipStatus.StatusType.ValueType
     """Status type"""
@@ -367,7 +365,7 @@ global___SipStatus = SipStatus
 
 @typing.final
 class SipStatusHistoryResponse(google.protobuf.message.Message):
-    """History of SIP status"""
+    """<p>History of SIP status</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -387,7 +385,7 @@ global___SipStatusHistoryResponse = SipStatusHistoryResponse
 
 @typing.final
 class SipPlayWavFilesRequest(google.protobuf.message.Message):
-    """Plays a list of wav files"""
+    """<p>Plays a list of wav files</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
