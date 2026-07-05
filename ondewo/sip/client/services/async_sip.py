@@ -13,7 +13,7 @@
 # limitations under the License.
 from google.protobuf.empty_pb2 import Empty
 
-from ondewo.sip.client.services_interface import ServicesInterface
+from ondewo.sip.client.async_services_interface import AsyncServicesInterface
 from ondewo.sip.sip_pb2 import (
     SipEndCallRequest,
     SipPlayWavFilesRequest,
@@ -27,7 +27,7 @@ from ondewo.sip.sip_pb2 import (
 from ondewo.sip.sip_pb2_grpc import SipStub
 
 
-class Sip(ServicesInterface):
+class Sip(AsyncServicesInterface):
     """
     Exposes the sip endpoints of ONDEWO sip in a user-friendly way.
 
