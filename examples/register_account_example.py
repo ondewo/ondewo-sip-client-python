@@ -21,6 +21,9 @@ offline-token flow (D18). Set ``keycloak_url``, ``realm``, and ``client_id`` tog
 ``user_name``/``password`` to use it. Leaving the three Keycloak fields empty attaches no
 auth token (``user_name``/``password`` are always required).
 
+Configuration is read from ``examples/environment.env`` (loaded via python-dotenv), so no
+values are hardcoded. Copy that template and fill in your deployment's values.
+
 Run it directly against a deployment::
 
     python -m examples.register_account_example            # insecure channel
@@ -28,6 +31,9 @@ Run it directly against a deployment::
 """
 import argparse
 import json
+import os
+import sys
+from pathlib import Path
 from typing import (
     Any,
     Set,
@@ -35,27 +41,52 @@ from typing import (
 )
 
 import grpc
+from dotenv import load_dotenv
+from loguru import logger as log
 
 import ondewo.sip.sip_pb2 as sip
 from ondewo.sip.client.client import Client
 from ondewo.sip.client.client_config import ClientConfig
 
-# Connection + SDK technical-user credentials (replace with your deployment's values).
-HOST: str = 'localhost'
-PORT: str = '1234'
-USER_NAME: str = 'tech-user@example.com'
-PASSWORD: str = 'secret'
+# Load the canonical env-var template next to this script so `cwd` does not matter.
+load_dotenv(Path(__file__).with_name('environment.env'))
+
+
+def _env_flag(name: str, default: str = 'false') -> bool:
+    """
+    Read a boolean-ish environment variable.
+
+    Args:
+        name (str):
+            The environment variable name.
+        default (str):
+            The value to assume when the variable is unset.
+
+    Returns:
+        bool:
+            True when the value is one of 'true', '1', 'yes' (case-insensitive).
+    """
+    return os.getenv(name, default).strip().lower() in ('true', '1', 'yes')
+
+
+# Connection + SDK technical-user credentials (from examples/environment.env).
+HOST: str = os.environ['ONDEWO_HOST']
+PORT: str = os.environ['ONDEWO_PORT']
+USER_NAME: str = os.environ['ONDEWO_USER_NAME']
+PASSWORD: str = os.environ['ONDEWO_PASSWORD']
+USE_SECURE_CHANNEL: bool = _env_flag('ONDEWO_USE_SECURE_CHANNEL')
+GRPC_CERT: str = os.getenv('ONDEWO_GRPC_CERT', '')
 
 # Keycloak headless offline-token auth (D18). The public SDK client carries no secret.
 # Leave the three fields empty to attach no auth token.
-KEYCLOAK_URL: str = 'https://my-host/auth'
-REALM: str = 'ondewo-ccai-platform'
-CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
+KEYCLOAK_URL: str = os.getenv('KEYCLOAK_URL', '')
+REALM: str = os.getenv('KEYCLOAK_REALM', '')
+CLIENT_ID: str = os.getenv('KEYCLOAK_CLIENT_ID', '')
 
 # SIP account to register and the address to place a call to.
-ACCOUNT_NAME: str = 'name@domain.com'
-ACCOUNT_PASSWORD: str = 'password'
-CALLEE_ADDRESS: str = 'callee'
+ACCOUNT_NAME: str = os.environ['ONDEWO_SIP_ACCOUNT_NAME']
+ACCOUNT_PASSWORD: str = os.environ['ONDEWO_SIP_ACCOUNT_PASSWORD']
+CALLEE_ADDRESS: str = os.environ['ONDEWO_SIP_CALLEE_ADDRESS']
 
 
 def build_channel_options() -> Set[Tuple[str, Any]]:
@@ -123,6 +154,7 @@ def build_config() -> ClientConfig:
     return ClientConfig(
         host=HOST,
         port=PORT,
+        grpc_cert=GRPC_CERT or None,
         user_name=USER_NAME,
         password=PASSWORD,
         keycloak_url=KEYCLOAK_URL,
@@ -164,32 +196,53 @@ def run_sip_flow(client: Client) -> sip.SipStatus:
         SipStatus:
             The status returned by `get_sip_status`, after handling.
     """
-    client.services.sip.register_account(
-        request=sip.SipRegisterAccountRequest(account_name=ACCOUNT_NAME, password=ACCOUNT_PASSWORD),
-    )
-    client.services.sip.start_session(
-        request=sip.SipStartSessionRequest(account_name=ACCOUNT_NAME),
-    )
-    client.services.sip.start_call(
-        request=sip.SipStartCallRequest(callee_id=CALLEE_ADDRESS),
-    )
+    log.info('START: register_account_example: run_sip_flow')
+    try:
+        log.info(f'Registering SIP account account_name={ACCOUNT_NAME!r}')
+        client.services.sip.register_account(
+            request=sip.SipRegisterAccountRequest(account_name=ACCOUNT_NAME, password=ACCOUNT_PASSWORD),
+        )
+        log.info(f'Starting SIP session account_name={ACCOUNT_NAME!r}')
+        client.services.sip.start_session(
+            request=sip.SipStartSessionRequest(account_name=ACCOUNT_NAME),
+        )
+        log.info(f'Placing SIP call callee_id={CALLEE_ADDRESS!r}')
+        client.services.sip.start_call(
+            request=sip.SipStartCallRequest(callee_id=CALLEE_ADDRESS),
+        )
 
-    status: sip.SipStatus = client.services.sip.get_sip_status()
+        status: sip.SipStatus = client.services.sip.get_sip_status()
+    except grpc.RpcError as rpc_error:
+        log.error(f'gRPC call failed: code={rpc_error.code()} details={rpc_error.details()!r}')
+        raise
+
     status_name: str = sip.SipStatus.StatusType.Name(status.status_type)
-    print(f'SIP status: {status_name} (account={status.account_name!r}) — {status.description}')
+    log.info(f'SIP status: {status_name} (account={status.account_name!r}) — {status.description}')
+    log.info('DONE: register_account_example: run_sip_flow')
     return status
 
 
 def main() -> None:
     """Parse CLI args, build the client, and run the representative SIP flow."""
     parser = argparse.ArgumentParser(description='Sip client handling example.')
-    parser.add_argument('--secure', default=False, action='store_true')
+    parser.add_argument(
+        '--secure',
+        default=USE_SECURE_CHANNEL,
+        action='store_true',
+        help='Open a TLS gRPC channel (default from ONDEWO_USE_SECURE_CHANNEL).',
+    )
     args = parser.parse_args()
 
+    log.info(f'START: register_account_example: main. host={HOST!r} port={PORT!r} secure={args.secure}')
     config: ClientConfig = build_config()
     client: Client = build_client(config=config, use_secure_channel=args.secure)
     run_sip_flow(client=client)
+    log.info('DONE: register_account_example: main')
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        log.exception('register_account_example failed')
+        sys.exit(1)
