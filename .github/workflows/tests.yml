@@ -1,0 +1,38 @@
+name: tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install package + test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pytest pytest-cov pytest-asyncio python-dotenv loguru
+
+      # The repo is ~95% generated protobuf/gRPC stubs; coverage is gated on the HAND-WRITTEN surface
+      # (the Keycloak/D18 auth helper + client config) — the production-critical code this SDK owns.
+      - name: Unit tests + 100% coverage gate on hand-written code
+        run: |
+          pytest tests/unit -q \
+            --cov=ondewo.sip.utils.keycloak \
+            --cov=ondewo.sip.client.client_config \
+            --cov=ondewo.sip.client.services_interface \
+            --cov=ondewo.sip.client.async_services_interface \
+            --cov=ondewo.sip.client.services.sip \
+            --cov=ondewo.sip.client.services.async_sip \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=100

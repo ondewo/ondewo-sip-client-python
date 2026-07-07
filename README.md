@@ -54,11 +54,19 @@ make setup_developer_environment_locally
 │   │   ├── client
 │   │   │   ├── services
 │   │   │   │   ├── __init__.py
+│   │   │   │   ├── async_sip.py
 │   │   │   │   └── sip.py
-│   │   │   ├── client_config.py
-│   │   │   ├── client.py
 │   │   │   ├── __init__.py
-│   │   │   └── services_container.py
+│   │   │   ├── async_client.py
+│   │   │   ├── async_services_container.py
+│   │   │   ├── async_services_interface.py
+│   │   │   ├── client.py
+│   │   │   ├── client_config.py
+│   │   │   ├── services_container.py
+│   │   │   └── services_interface.py
+│   │   ├── utils
+│   │   │   ├── __init__.py
+│   │   │   └── keycloak.py           <----- D18 Keycloak headless offline-token provider
 │   │   ├── __init__.py
 │   │   ├── sip_pb2_grpc.py
 │   │   ├── sip_pb2.py
@@ -100,8 +108,19 @@ The `/examples` folder provides a possible implementation of this library. To ru
 - port `// Port of the Server - e.g. 6600`
 - user_name `// Username - same as you would use in AIM`
 - password `// Password of the user`
-- http_token `// Token to allow access through`
 - grpc_cert `// gRPC Certificate of the server`
+
+## Authentication
+
+The client authenticates via the Keycloak headless offline-token flow (D18). Set the Keycloak fields on the `ClientConfig` alongside `user_name`/`password`:
+
+- keycloak_url `// Base URL of the Keycloak server - e.g. https://my-host/auth`
+- realm `// Keycloak realm - e.g. ondewo-ccai-platform`
+- client_id `// Public SDK client id - e.g. ondewo-sip-cai-sdk-public (no client secret)`
+
+On first use the SDK performs a one-time ROPC `offline_access` login and then auto-refreshes the short-lived access token in the background. Every RPC carries the resulting `Authorization: Bearer <jwt>` header, injected via the service wrapper's `self.metadata`.
+
+Leaving the three Keycloak fields empty attaches no auth token (for use against a plaintext server or an Envoy ingress that injects auth).
 
 ## Automatic Release Process
 
