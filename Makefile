@@ -27,7 +27,7 @@ PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
 GITHUB_GH_TOKEN?=ENTER_YOUR_TOKEN_HERE
 
 CURRENT_RELEASE_NOTES=`cat RELEASE.md \
-	| sed -n '/Release ONDEWO SIP Python Client ${ONDEWO_SIP_VERSION}/,/\*\*/p'`
+	| perl -ne 'print if /Release ONDEWO SIP Python Client ${ONDEWO_SIP_VERSION}/../\*\*/'`
 
 GH_REPO="https://github.com/ondewo/ondewo-sip-client-python"
 DEVOPS_ACCOUNT_GIT="ondewo-devops-accounts"
@@ -108,8 +108,8 @@ check_build: ## Checks if all built proto-code is there
 #		Build
 
 update_setup: ## Update SIP Version in setup.py
-	@sed -i "s/version='[0-9]*.[0-9]*.[0-9]*'/version='${ONDEWO_SIP_VERSION}'/g" setup.py
-	@sed -i "s/version=\"[0-9]*.[0-9]*.[0-9]*\"/version='${ONDEWO_SIP_VERSION}'/g" setup.py
+	@perl -i -pe "s/version='[0-9]*.[0-9]*.[0-9]*'/version='${ONDEWO_SIP_VERSION}'/g" setup.py
+	@perl -i -pe "s/version=\"[0-9]*.[0-9]*.[0-9]*\"/version='${ONDEWO_SIP_VERSION}'/g" setup.py
 
 build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos create_async_services update_setup ## Build source code
 
@@ -155,12 +155,7 @@ create_async_services: ## Create async services for all synchronous services
 	        cp "$$file" "$$dir/async_$$filename"; \
 	    done; \
 	    for file in "$$dir"/async_*.py; do \
-	        sed -i -E \
-	            -e '/def stub/b' -e 's/^([[:space:]]*)def /\1async def /g' \
-	            -e 's/self\.stub/await self.stub/g' \
-	            -e 's/\(BaseServicesInterface\)/\(AsyncBaseServicesInterface\)/g' \
-	            -e 's/base_services_interface/async_base_services_interface/g' \
-	            -e 's/import BaseServicesInterface/import AsyncBaseServicesInterface/g' \
+	        perl -i -pe 'unless(/def stub/){ s/^([[:space:]]*)def /$$1async def /g; s/self\.stub/await self.stub/g; s/\(BaseServicesInterface\)/(AsyncBaseServicesInterface)/g; s/base_services_interface/async_base_services_interface/g; s/import BaseServicesInterface/import AsyncBaseServicesInterface/g; }' \
 	            "$$file"; \
 	    done; \
 	done
