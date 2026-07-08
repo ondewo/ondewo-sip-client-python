@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ondewo-sip-client"
+version = "5.3.0"
+description = "ONDEWO Session Initiation Protocol (SIP) Client library for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "ONDEWO GmbH", email = "office@ondewo.com" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "dataclasses-json",
+    "google-api-core",
+    "googleapis-common-protos",
+    "grpcio",
+    "grpcio-reflection",
+    "grpcio-tools",
+    "ondewo-client-utils>=3.2.0",
+    "polling",
+    "protobuf",
+    "regex",
+    "requests",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter",
+    "loguru",
+    "mypy",
+    "mypy-protobuf",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "python-dotenv",
+    "ruff",
+    "setuptools",
+    "typing_extensions",
+]
+
+[project.urls]
+Homepage = "https://github.com/ondewo/ondewo-sip-client-python"
+Repository = "https://github.com/ondewo/ondewo-sip-client-python"
+
+# ---------------------------------------------------------------------------
+# setuptools: package discovery + package data
+# Equivalent to the old setup.py:
+#   packages = [n for n in find_packages() if n == 'ondewo' or n.startswith('ondewo.')]
+#   include_package_data=True + package_data for py.typed / *.pyi
+# ---------------------------------------------------------------------------
+[tool.setuptools.packages.find]
+include = ["ondewo", "ondewo.*"]
+
+[tool.setuptools.package-data]
+"ondewo.sip" = ["py.typed", "*.pyi"]
+
+# ---------------------------------------------------------------------------
+# Ruff  (replaces flake8: ignore C901,W504; max-line-length 120; exclude *_pb2*)
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+# Never lint/format the generated protobuf/gRPC stubs (the old .flake8 excluded
+# ondewo/sip/sip_pb2.py / .pyi / _pb2_grpc.py individually).
+extend-exclude = [
+    "*_pb2.py",
+    "*_pb2.pyi",
+    "*_pb2_grpc.py",
+    "ondewo-sip-api",
+    "ondewo-proto-compiler",
+]
+
+[tool.ruff.lint]
+# pycodestyle (E/W) + pyflakes (F) == the flake8 default rule set.
+# C901 (mccabe complexity) is intentionally NOT enabled -> old "ignore = C901".
+# W504 (line break after binary operator) is not implemented by ruff,
+# so the old "ignore = W504" is a no-op here.
+select = ["E", "F", "W"]
+ignore = []
+
+[tool.ruff.format]
+# Supersedes the old black (async_ files) + autopep8 hooks.
+quote-style = "double"
+
+# ---------------------------------------------------------------------------
+# Mypy  (translated faithfully from mypy.ini)
+# ---------------------------------------------------------------------------
+[tool.mypy]
+# mypy.ini used python_version=3.9, but current mypy only supports >=3.10;
+# CI and Dockerfile.utils run 3.12, so 3.10 is the safe floor here.
+python_version = "3.10"
+ignore_errors = false
+ignore_missing_imports = false
+disallow_untyped_defs = true
+no_implicit_optional = true
+strict_optional = true
+show_traceback = true
+warn_no_return = true
+warn_return_any = true
+warn_unused_configs = true
+
+# Generated protobuf / gRPC stubs: never type-check them.
+[[tool.mypy.overrides]]
+module = [
+    "ondewo.sip.sip_pb2",
+    "ondewo.sip.sip_pb2_grpc",
+]
+ignore_errors = true
+ignore_missing_imports = true
+
+# Third-party packages without (complete) type stubs.
+[[tool.mypy.overrides]]
+module = [
+    "google.*",
+    "grpc.*",
+    "ondewo.utils.*",
+]
+ignore_missing_imports = true
