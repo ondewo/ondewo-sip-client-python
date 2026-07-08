@@ -12,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Unit tests for `ClientConfig` validation across the Keycloak and non-Keycloak paths (D5/D18)."""
+
 import pytest
 
 from ondewo.sip.client.client_config import ClientConfig
 
-HOST: str = 'localhost'
-PORT: str = '50055'
-USERNAME: str = 'tech-user@example.com'
-PASSWORD: str = 's3cr3t'
-KEYCLOAK_URL: str = 'https://kc.example.com/auth'
-REALM: str = 'ondewo-ccai-platform'
-CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
+HOST: str = "localhost"
+PORT: str = "50055"
+USERNAME: str = "tech-user@example.com"
+PASSWORD: str = "s3cr3t"
+KEYCLOAK_URL: str = "https://kc.example.com/auth"
+REALM: str = "ondewo-ccai-platform"
+CLIENT_ID: str = "ondewo-sip-cai-sdk-public"
 
 
 class TestNonKeycloakPath:
@@ -46,7 +47,7 @@ class TestNonKeycloakPath:
         """
         config = ClientConfig(host=HOST, port=PORT, user_name=USERNAME, password=PASSWORD)
 
-        assert not hasattr(config, 'http_token')
+        assert not hasattr(config, "http_token")
 
     def test_missing_user_name_raises(self) -> None:
         """A config without `user_name` is rejected by `__post_init__` validation.
@@ -143,4 +144,4 @@ class TestKeycloakPath:
             client_id=CLIENT_ID,
         )
 
-        assert not hasattr(config, 'client_secret')
+        assert not hasattr(config, "client_secret")

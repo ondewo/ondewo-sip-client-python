@@ -17,6 +17,7 @@ The gRPC `Client` (and therefore every network hop) is replaced by a `MagicMock`
 tests assert only that the example builds the correct protobuf requests and handles the
 `SipStatus` response — no live SIP/CAI backend is required.
 """
+
 import sys
 from typing import cast
 from unittest import mock
@@ -31,7 +32,7 @@ from examples import register_account_example as ex
 # Bound once so a refactor that changes only the example or only the expectation cannot make
 # these assertions silently tautological.
 EXPECTED_STATUS_TYPE: sip.SipStatus.StatusType.ValueType = sip.SipStatus.READY
-EXPECTED_DESCRIPTION: str = 'ready to call'
+EXPECTED_DESCRIPTION: str = "ready to call"
 
 
 def _mock_client_returning(status: sip.SipStatus) -> MagicMock:
@@ -63,7 +64,7 @@ def test_build_config_uses_keycloak_offline_token_path() -> None:
     assert config.user_name == ex.USER_NAME
     assert config.password == ex.PASSWORD
     assert config.client_id == ex.CLIENT_ID
-    assert not hasattr(config, 'client_secret')
+    assert not hasattr(config, "client_secret")
 
 
 def test_build_channel_options_declare_retry_policy() -> None:
@@ -74,10 +75,10 @@ def test_build_channel_options_declare_retry_policy() -> None:
     """
     options = dict(ex.build_channel_options())
 
-    assert options['grpc.enable_retries'] == 1
-    assert 'SipRegisterAccount' in options['grpc.service_config']
-    assert 'SipStartSession' in options['grpc.service_config']
-    assert 'SipStartCall' in options['grpc.service_config']
+    assert options["grpc.enable_retries"] == 1
+    assert "SipRegisterAccount" in options["grpc.service_config"]
+    assert "SipStartSession" in options["grpc.service_config"]
+    assert "SipStartCall" in options["grpc.service_config"]
 
 
 def test_run_sip_flow_builds_requests_and_handles_status() -> None:
@@ -96,16 +97,16 @@ def test_run_sip_flow_builds_requests_and_handles_status() -> None:
     result = ex.run_sip_flow(cast(Client, client_mock))
 
     sip_service = client_mock.services.sip
-    register_request = sip_service.register_account.call_args.kwargs['request']
+    register_request = sip_service.register_account.call_args.kwargs["request"]
     assert isinstance(register_request, sip.SipRegisterAccountRequest)
     assert register_request.account_name == ex.ACCOUNT_NAME
     assert register_request.password == ex.ACCOUNT_PASSWORD
 
-    session_request = sip_service.start_session.call_args.kwargs['request']
+    session_request = sip_service.start_session.call_args.kwargs["request"]
     assert isinstance(session_request, sip.SipStartSessionRequest)
     assert session_request.account_name == ex.ACCOUNT_NAME
 
-    call_request = sip_service.start_call.call_args.kwargs['request']
+    call_request = sip_service.start_call.call_args.kwargs["request"]
     assert isinstance(call_request, sip.SipStartCallRequest)
     assert call_request.callee_id == ex.CALLEE_ADDRESS
 
@@ -122,13 +123,13 @@ def test_main_runs_flow_with_mocked_client() -> None:
     """
     expected_status = sip.SipStatus(status_type=EXPECTED_STATUS_TYPE, account_name=ex.ACCOUNT_NAME)
 
-    with mock.patch.object(ex, 'Client') as client_cls, mock.patch.object(sys, 'argv', ['register_account_example']):
+    with mock.patch.object(ex, "Client") as client_cls, mock.patch.object(sys, "argv", ["register_account_example"]):
         client_cls.return_value = _mock_client_returning(expected_status)
         ex.main()
 
     client_cls.assert_called_once()
-    assert client_cls.call_args.kwargs['use_secure_channel'] is False
-    assert isinstance(client_cls.call_args.kwargs['config'], ClientConfig)
+    assert client_cls.call_args.kwargs["use_secure_channel"] is False
+    assert isinstance(client_cls.call_args.kwargs["config"], ClientConfig)
 
     sip_service = client_cls.return_value.services.sip
     sip_service.register_account.assert_called_once()
