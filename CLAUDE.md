@@ -185,3 +185,20 @@ The repo is now fully on **uv** (not just pyproject.toml):
 - **`[tool.mypy] python_version` must be `3.12`** wherever numpy 2.x is on the mypy path — its PEP-695 `type X = …` stubs fail to parse on < 3.12.
 - The release `git commit` uses **`--no-verify`** so pre-commit hooks never gate an automated release.
 - **Validated by a real PyPI publish** — `ondewo-t2s-client 6.5.0` was built with `uv build` and uploaded via twine end-to-end; the uv release pipeline works.
+## `ondewo/sip` is also vendored by `ondewo-vtsi-client` — regenerate with care
+
+This package ships `ondewo/sip` and nothing else (17 tracked files). But `ondewo-vtsi-client-python`
+**vendors its own copy** of `ondewo/sip/*` (4 files), so in any venv that installs both — ondewo-vtsi
+does — the two dists claim the same paths and **only one physical copy survives on disk**. Last
+writer wins at install time.
+
+There is no exception, no warning and no import error when the copies disagree: the loser's schema
+simply is not there, and the symptom is a field that silently reads as unset. Verified against the
+installed `.dist-info/RECORD` files: `ondewo_sip_client-5.3.0` and `ondewo_vtsi_client-8.2.0` both
+claim `ondewo/sip/sip_pb2.py`, and at those versions the bytes are identical.
+
+**So:** when you regenerate against a new `ondewo-sip-api`, tell whoever maintains
+`ondewo-vtsi-client-python` to regenerate too, on the same api rev. ondewo-vtsi pins
+`ondewo-sip-client>=5.3.0` (floating, unlike its exact `ondewo-s2t-client==7.3.1` /
+`ondewo-t2s-client==6.2.0` pins), so a release of this client can start shadowing the vtsi-client
+copy without anyone changing a pin. See ondewo-vtsi `CLAUDE.md` §3 for the full rule.
