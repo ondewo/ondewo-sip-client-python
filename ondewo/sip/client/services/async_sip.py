@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from google.protobuf.empty_pb2 import Empty
-from ondewo.utils.async_base_services_interface import AsyncBaseServicesInterface
 
+from ondewo.sip.client.async_services_interface import AsyncServicesInterface
 from ondewo.sip.sip_pb2 import (
     SipEndCallRequest,
     SipPlayWavFilesRequest,
@@ -27,7 +27,7 @@ from ondewo.sip.sip_pb2 import (
 from ondewo.sip.sip_pb2_grpc import SipStub
 
 
-class Sip(AsyncBaseServicesInterface):
+class Sip(AsyncServicesInterface):
     """
     Exposes the sip endpoints of ONDEWO sip in a user-friendly way.
 
@@ -40,45 +40,45 @@ class Sip(AsyncBaseServicesInterface):
         return stub
 
     async def start_session(self, request: SipStartSessionRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipStartSession(request)
+        response: SipStatus = await self.stub.SipStartSession(request, metadata=self.metadata)
         return response
 
     async def end_session(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipEndSession(Empty())
+        response: SipStatus = await self.stub.SipEndSession(Empty(), metadata=self.metadata)
         return response
 
     async def register_account(self, request: SipRegisterAccountRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipRegisterAccount(request)
+        response: SipStatus = await self.stub.SipRegisterAccount(request, metadata=self.metadata)
         return response
 
     async def start_call(self, request: SipStartCallRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipStartCall(request)
+        response: SipStatus = await self.stub.SipStartCall(request, metadata=self.metadata)
         return response
 
     async def end_call(self, request: SipEndCallRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipEndCall(request)
+        response: SipStatus = await self.stub.SipEndCall(request, metadata=self.metadata)
         return response
 
     async def transfer_call(self, request: SipTransferCallRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipTransferCall(request)
+        response: SipStatus = await self.stub.SipTransferCall(request, metadata=self.metadata)
         return response
 
     async def get_sip_status(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipGetSipStatus(Empty())
+        response: SipStatus = await self.stub.SipGetSipStatus(Empty(), metadata=self.metadata)
         return response
 
     async def get_sip_status_history(self) -> SipStatusHistoryResponse:
-        response: SipStatusHistoryResponse = await self.stub.SipGetSipStatusHistory(Empty())
+        response: SipStatusHistoryResponse = await self.stub.SipGetSipStatusHistory(Empty(), metadata=self.metadata)
         return response
 
     async def play_wav_files(self, request: SipPlayWavFilesRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipPlayWavFiles(request)
+        response: SipStatus = await self.stub.SipPlayWavFiles(request, metadata=self.metadata)
         return response
 
     async def mute(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipMute(Empty())
+        response: SipStatus = await self.stub.SipMute(Empty(), metadata=self.metadata)
         return response
 
     async def un_mute(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipUnMute(Empty())
+        response: SipStatus = await self.stub.SipUnMute(Empty(), metadata=self.metadata)
         return response
