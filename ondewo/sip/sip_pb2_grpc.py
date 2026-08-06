@@ -27,8 +27,8 @@ if _version_not_supported:
 
 
 class SipStub(object):
-    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
-    SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """<p>ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api">GitHub</a></p>
+    <p>SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a></p>
     """
 
     def __init__(self, channel):
@@ -95,83 +95,82 @@ class SipStub(object):
 
 
 class SipServicer(object):
-    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
-    SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """<p>ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api">GitHub</a></p>
+    <p>SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a></p>
     """
 
     def SipStartSession(self, request, context):
-        """Starts a new SIP session for an account registered at a SIP server. <code>RegisterAccount</code> need to be called before.
+        """<p>Starts a new SIP session for an account registered at a SIP server. <code>RegisterAccount</code> need to be called before.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipEndSession(self, request, context):
-        """Ends a SIP session for an account registered at a SIP server
+        """<p>Ends a SIP session for an account registered at a SIP server</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipStartCall(self, request, context):
-        """Starts a call in an active SIP session for an account registered at a SIP server
+        """<p>Starts a call in an active SIP session for an account registered at a SIP server</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipEndCall(self, request, context):
-        """Ends a call in an active SIP session for an account registered at a SIP server
+        """<p>Ends a call in an active SIP session for an account registered at a SIP server</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipTransferCall(self, request, context):
-        """Transfers a call in an active SIP session for an account registered at a SIP server to
-        another SIP account or phone number specified by <code>transfer_id</code>
+        """<p>Transfers a call in an active SIP session for an account registered at a SIP server to another SIP account or phone number specified by <code>transfer_id</code></p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipRegisterAccount(self, request, context):
-        """Registers s SIP account at a SIP server
+        """<p>Registers s SIP account at a SIP server</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipGetSipStatus(self, request, context):
-        """Gets the current SIP status
+        """<p>Gets the current SIP status</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipGetSipStatusHistory(self, request, context):
-        """Gets the history of SIP status
+        """<p>Gets the history of SIP status</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipPlayWavFiles(self, request, context):
-        """Plays wav files during an ongoing call of an active SIP session
+        """<p>Plays wav files during an ongoing call of an active SIP session</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipMute(self, request, context):
-        """Mutes the microphone in an ongoing call of an active SIP session
+        """<p>Mutes the microphone in an ongoing call of an active SIP session</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SipUnMute(self, request, context):
-        """Un-mutes the microphone in an ongoing call of an active SIP session
+        """<p>Un-mutes the microphone in an ongoing call of an active SIP session</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -244,8 +243,8 @@ def add_SipServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Sip(object):
-    """ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api>">GitHub</a>
-    SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a>
+    """<p>ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api">GitHub</a></p>
+    <p>SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a></p>
     """
 
     @staticmethod
