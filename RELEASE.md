@@ -2,6 +2,18 @@
 
 *****************
 
+## Release ONDEWO SIP Python Client 5.4.1
+
+### Bug Fixes
+
+* Keycloak token providers are now shared per credential set instead of per ClientConfig object identity. The registry was keyed by id(config), and because a client keeps only the grpc channel its ClientConfig was collected as soon as the client was built; CPython then reused that address, so a later client could be handed the previous user's provider and silently authenticate as the wrong user.
+
+### Improvements
+
+* Tracking API Version [5.4.0](https://github.com/ondewo/ondewo-sip-api/releases/tag/5.4.0) ( [Documentation](https://ondewo.github.io/ondewo-sip-api/) )
+
+*****************
+
 ## Release ONDEWO SIP Python Client 5.4.0
 
 ### Improvements

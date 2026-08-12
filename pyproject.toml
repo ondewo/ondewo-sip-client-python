@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ondewo-sip-client"
-version = "5.4.0"
+version = "5.4.1"
 description = "ONDEWO Session Initiation Protocol (SIP) Client library for Python"
 readme = "README.md"
 requires-python = ">=3.9"
