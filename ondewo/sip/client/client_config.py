@@ -18,6 +18,7 @@ authentication settings for the SIP services. Its auth path is the Keycloak head
 offline-token flow (D18); when the Keycloak fields are absent no auth token is attached.
 It validates that the Keycloak fields are supplied all-or-nothing.
 """
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -65,11 +66,12 @@ class ClientConfig(BaseClientConfig):
             call. Defaults to `True` (secure). Set `False` only for a self-signed/local
             Envoy at `https://localhost:12001/auth`.
     """
-    user_name: str = ''
-    password: str = ''
-    keycloak_url: str = ''
-    realm: str = ''
-    client_id: str = ''
+
+    user_name: str = ""
+    password: str = ""
+    keycloak_url: str = ""
+    realm: str = ""
+    client_id: str = ""
     token_expiration_in_s: Optional[int] = None
     keycloak_verify_ssl: bool = True
 
@@ -99,13 +101,13 @@ class ClientConfig(BaseClientConfig):
         super(ClientConfig, self).__post_init__()
 
         if not self.user_name:
-            raise ValueError(f'The field `user_name` is mandatory in {self.__class__.__name__}.')
+            raise ValueError(f"The field `user_name` is mandatory in {self.__class__.__name__}.")
         if not self.password:
-            raise ValueError(f'The field `password` is mandatory in {self.__class__.__name__}.')
+            raise ValueError(f"The field `password` is mandatory in {self.__class__.__name__}.")
 
         keycloak_fields: tuple[str, str, str] = (self.keycloak_url, self.realm, self.client_id)
         if any(keycloak_fields) and not all(keycloak_fields):
             raise ValueError(
-                'The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided '
-                f'together in {self.__class__.__name__}.'
+                "The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided "
+                f"together in {self.__class__.__name__}."
             )

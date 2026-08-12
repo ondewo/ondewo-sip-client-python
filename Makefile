@@ -16,7 +16,7 @@ export
 
 # MUST BE THE SAME AS API in Mayor and Minor Version Number
 # example: API 2.9.0 --> Client 2.9.X
-ONDEWO_SIP_VERSION = 5.3.0
+ONDEWO_SIP_VERSION=5.3.0
 
 ONDEWO_SIP_API_GIT_BRANCH=OND211-2418-add-keycloak-for-2-fa
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.10.0
@@ -43,37 +43,32 @@ IMAGE_UTILS_NAME=ondewo-sip-client-utils-python:${ONDEWO_SIP_VERSION}
 #       ONDEWO Standard Make Targets
 ########################################################
 
-setup_developer_environment_locally: install_precommit_hooks init_submodules install_dependencies_locally
+setup_developer_environment_locally: install_uv install_dependencies_locally install_precommit_hooks ## Ready a fresh laptop: install uv, sync runtime+dev deps into .venv, install pre-commit hooks
 
-install_precommit_hooks: ## Installs pre-commit hooks and sets them up for the ondewo-csi-client repo
-	-pip install pre-commit
-	-conda -y install pre-commit
-	pre-commit install
-	pre-commit install --hook-type commit-msg
+install_uv: ## Install the uv package manager if it is not already available
+	@command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
+
+install_precommit_hooks: ## Installs pre-commit hooks and sets them up for the ondewo-sip-client-python repo
+	uv run pre-commit install
+	uv run pre-commit install --hook-type commit-msg
 
 precommit_hooks_run_all_files: ## Runs all pre-commit hooks on all files and not just the changed ones
-	pre-commit run --all-file
+	uv run pre-commit run --all-files
 
-install_dependencies_locally: ## Install dependencies locally
-	pip install -r requirements-dev.txt
-	pip install -r requirements.txt
+install_dependencies_locally: ## Install runtime + dev dependencies locally into the uv-managed .venv
+	uv sync --extra dev
 
-install:  ## Install requirements
-	pip install -r requirements.txt
+ruff: ## Lint with ruff (replaces flake8)
+	uv run ruff check .
 
-flake8: ## Runs flake8
-	flake8 --config .flake8 .
+ruff_fix: ## Lint with ruff and auto-fix fixable issues
+	uv run ruff check --fix .
+
+ruff_format: ## Format the codebase with ruff (replaces black + autopep8)
+	uv run ruff format .
 
 mypy: ## Run mypy static code checking
-	@echo "---------------------------------------------"
-	@echo "START: Run mypy in pre-commit hook ..."
-	pre-commit run mypy --all-files
-	@echo "DONE: Run mypy in pre-commit hook."
-	@echo "---------------------------------------------"
-	@echo "START: Run mypy directly ..."
-	mypy --config-file=mypy.ini .
-	@echo "DONE: Run mypy directly"
-	@echo "---------------------------------------------"
+	uv run mypy ondewo/ tests/
 
 help: ## Print usage info about help targets
 	# (first comment after target starting with double hashes ##)
@@ -107,9 +102,8 @@ check_build: ## Checks if all built proto-code is there
 ########################################################
 #		Build
 
-update_setup: ## Update SIP Version in setup.py
-	@perl -i -pe "s/version='[0-9]*.[0-9]*.[0-9]*'/version='${ONDEWO_SIP_VERSION}'/g" setup.py
-	@perl -i -pe "s/version=\"[0-9]*.[0-9]*.[0-9]*\"/version='${ONDEWO_SIP_VERSION}'/g" setup.py
+update_setup: ## Update SIP Version in pyproject.toml
+	@perl -i -pe 's/^version = "[0-9]+\.[0-9]+\.[0-9]+"/version = "${ONDEWO_SIP_VERSION}"/' pyproject.toml
 
 build: clear_package_data init_submodules checkout_defined_submodule_versions build_compiler generate_ondewo_protos create_async_services update_setup ## Build source code
 
@@ -136,15 +130,6 @@ generate_ondewo_protos:  ## Generate python code from proto files
 	-make precommit_hooks_run_all_files
 	make precommit_hooks_run_all_files
 
-setup_conda_env: ## Checks for CONDA Environment
-	@echo "\n START SETTING UP CONDA ENV \n"
-	@conda env list | grep -q ondewo-sip-client-python || ( echo "\n CONDA ENV FOR REPO DOESNT EXIST \n" \
-	&& make create_conda_env)
-
-create_conda_env: ##Creates CONDA Environment
-	conda create -y --name ondewo-sip-client-python python=3.8
-	/bin/bash -c 'source `conda info --base`/bin/activate ondewo-sip-client-python; make setup_developer_environment_locally && echo "\n PRECOMMIT INSTALLED \n"'
-
 create_async_services: ## Create async services for all synchronous services
 	@find ondewo -type d -name "services" ! -path "*/.*/*" | while read -r dir; do \
 	    for file in "$$dir"/*.py; do \
@@ -168,17 +153,17 @@ create_async_services: ## Create async services for all synchronous services
 release: ## Automate the entire release process
 	@echo "Start Release"
 	make build
-	/bin/bash -c 'source `conda info --base`/bin/activate ondewo-sip-client-python; make precommit_hooks_run_all_files || echo "PRECOMMIT FOUND SOMETHING "'
+	-make precommit_hooks_run_all_files
 	git status
 	make check_build
 	git add ondewo
 	git add Makefile
 	git add RELEASE.md
-	git add setup.py
+	git add pyproject.toml uv.lock
 	git add ${ONDEWO_PROTO_COMPILER_DIR}
 	git add ${ONDEWO_SIP_API_DIR}
 	git status
-	-git commit -m "PREPARING FOR RELEASE ${ONDEWO_SIP_VERSION}"
+	-git commit --no-verify -m "PREPARING FOR RELEASE ${ONDEWO_SIP_VERSION}"
 	git push
 	make create_release_branch
 	make create_release_tag
@@ -197,7 +182,7 @@ create_release_tag: ## Create Release Tag and push it to origin
 	git push origin ${ONDEWO_SIP_VERSION}
 
 login_to_gh: ## Login to Github CLI with Access Token
-	echo $(GITHUB_GH_TOKEN) | gh auth login -p ssh --with-token
+	@echo $(GITHUB_GH_TOKEN) | gh auth login -p ssh --with-token
 
 build_gh_release: ## Generate Github Release with CLI
 	gh release create --repo $(GH_REPO) "$(ONDEWO_SIP_VERSION)" -n "$(CURRENT_RELEASE_NOTES)" -t "Release ${ONDEWO_SIP_VERSION}"
@@ -222,11 +207,11 @@ checkout_defined_submodule_versions:  ## Update submodule versions
 #		PYPI
 
 build_package: ## Builds PYPI Package
-	python setup.py sdist bdist_wheel
-	chmod a+rw dist -R
+	uv build
+	chmod -R a+rw dist
 
 upload_package: ## Uploads PYPI Package
-	twine upload --verbose -r pypi dist/* -u${PYPI_USERNAME} -p${PYPI_PASSWORD}
+	@twine upload --verbose -r pypi dist/* -u${PYPI_USERNAME} -p${PYPI_PASSWORD}
 
 clear_package_data: ## Clears PYPI Package
 	echo "Waiting 5s so directory for removal is not busy anymore"
@@ -235,7 +220,7 @@ clear_package_data: ## Clears PYPI Package
 
 push_to_pypi_via_docker_image:  ## Push source code to pypi via docker
 	[ -d $(OUTPUT_DIR) ] || mkdir -p $(OUTPUT_DIR)
-	docker run --rm \
+	@docker run --rm \
 		-v ${shell pwd}/dist:/home/ondewo/dist \
 		-e PYPI_USERNAME=${PYPI_USERNAME} \
 		-e PYPI_PASSWORD=${PYPI_PASSWORD} \
@@ -246,13 +231,13 @@ push_to_pypi: build_package upload_package clear_package_data ## Builds -> Uploa
 	@echo 'YAY - Pushed to pypi : )'
 
 show_pypi: build_package ## ## Shows PYPI Package in Dockerimage
-	tar xvfz dist/ondewo-sip-client-${ONDEWO_SIP_VERSION}.tar.gz
-	tree ondewo-sip-client-${ONDEWO_SIP_VERSION}
-	cat ondewo-sip-client-${ONDEWO_SIP_VERSION}/ondewo_sip_client.egg-info/requires.txt
+	tar xvfz dist/ondewo_sip_client-${ONDEWO_SIP_VERSION}.tar.gz
+	tree ondewo_sip_client-${ONDEWO_SIP_VERSION}
+	cat ondewo_sip_client-${ONDEWO_SIP_VERSION}/ondewo_sip_client.egg-info/requires.txt
 
 show_pypi_via_docker_image: build_utils_docker_image ## Push source code to pypi via docker
 	[ -d $(OUTPUT_DIR) ] || mkdir -p $(OUTPUT_DIR)
-	docker run --rm \
+	@docker run --rm \
 		-v ${shell pwd}/dist:/home/ondewo/dist \
 		-e PYPI_USERNAME=${PYPI_USERNAME} \
 		-e PYPI_PASSWORD=${PYPI_PASSWORD} \
@@ -266,7 +251,7 @@ push_to_gh: login_to_gh build_gh_release ## Logs into GitHub CLI and Releases
 	@echo 'Released to Github'
 
 release_to_github_via_docker_image:  ## Release to Github via docker
-	docker run --rm \
+	@docker run --rm \
 		-e GITHUB_GH_TOKEN=${GITHUB_GH_TOKEN} \
 		${IMAGE_UTILS_NAME} make push_to_gh
 
@@ -282,12 +267,12 @@ clone_devops_accounts: ## Clones devops-accounts repo
 
 run_release_with_devops: ## Gets Credentials from devops-repo and run release command with them
 	$(eval info:= $(shell cat ${DEVOPS_ACCOUNT_DIR}/account_github.env | grep GITHUB_GH & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_USERNAME & cat ${DEVOPS_ACCOUNT_DIR}/account_pypi.env | grep PYPI_PASSWORD))
-	@(echo ${CONDA_PREFIX} | grep -q sip-client-python || make setup_conda_env $(info)) && make release $(info)
+	make release $(info)
 
 spc: ## Checks if the Release Branch, Tag and Pypi version already exist
 	$(eval filtered_branches:= $(shell git branch --all | grep "release/${ONDEWO_SIP_VERSION}"))
 	$(eval filtered_tags:= $(shell git tag --list | grep "${ONDEWO_SIP_VERSION}"))
-	$(eval setuppy_version:= $(shell cat setup.py | grep "version"))
+	$(eval pyproject_version:= $(shell grep '^version = ' pyproject.toml))
 	@if test "$(filtered_branches)" != ""; then echo "-- Test 1: Branch exists!!" & exit 1; else echo "-- Test 1: Branch is fine";fi
 	@if test "$(filtered_tags)" != ""; then echo "-- Test 2: Tag exists!!" & exit 1; else echo "-- Test 2: Tag is fine";fi
-#	@if test "$(setuppy_version)" != "version='${ONDEWO_SIP_VERSION}',"; then echo "-- Test 3: Setup.py not updated!!" & exit 1; else echo "-- Test 3: Setup.py is fine";fi
+#	@if test "$(pyproject_version)" != "version = \"${ONDEWO_SIP_VERSION}\""; then echo "-- Test 3: pyproject.toml not updated!!" & exit 1; else echo "-- Test 3: pyproject.toml is fine";fi

@@ -22,6 +22,7 @@ sync :class:`ServicesInterface` and the async :class:`AsyncServicesInterface`:
   metadata from :meth:`KeycloakTokenProvider.bearer_metadata`;
 * no provider (no Keycloak auth) -> an empty list.
 """
+
 from typing import (
     Any,
     List,
@@ -40,24 +41,24 @@ from ondewo.sip.client.services_interface import ServicesInterface
 
 # Bound exactly once so a refactor that changes only an input or only an expectation cannot
 # silently make a test tautological.
-HOST: str = 'localhost'
-PORT: str = '50051'
-USERNAME: str = 'tech-user@example.com'
-PASSWORD: str = 's3cr3t'
-KEYCLOAK_URL: str = 'https://kc.example.com/auth'
-REALM: str = 'ondewo-ccai-platform'
-CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
+HOST: str = "localhost"
+PORT: str = "50051"
+USERNAME: str = "tech-user@example.com"
+PASSWORD: str = "s3cr3t"
+KEYCLOAK_URL: str = "https://kc.example.com/auth"
+REALM: str = "ondewo-ccai-platform"
+CLIENT_ID: str = "ondewo-sip-cai-sdk-public"
 
 # The canonical `Authorization: Bearer` metadata the provider would return.
-EXPECTED_BEARER_METADATA: List[Tuple[str, str]] = [('authorization', 'Bearer test-access-token')]
+EXPECTED_BEARER_METADATA: List[Tuple[str, str]] = [("authorization", "Bearer test-access-token")]
 
 # Patch targets for the shared-provider factory, resolved in each interface module's namespace.
-_SYNC_FACTORY: str = 'ondewo.sip.client.services_interface.get_keycloak_token_provider'
-_ASYNC_FACTORY: str = 'ondewo.sip.client.async_services_interface.get_keycloak_token_provider'
+_SYNC_FACTORY: str = "ondewo.sip.client.services_interface.get_keycloak_token_provider"
+_ASYNC_FACTORY: str = "ondewo.sip.client.async_services_interface.get_keycloak_token_provider"
 
 # Patch targets for the gRPC channel factories so construction opens no real channel.
-_GRPC_INSECURE: str = 'grpc.insecure_channel'
-_GRPC_AIO_INSECURE: str = 'grpc.aio.insecure_channel'
+_GRPC_INSECURE: str = "grpc.insecure_channel"
+_GRPC_AIO_INSECURE: str = "grpc.aio.insecure_channel"
 
 
 class _ConcreteSyncInterface(ServicesInterface):
