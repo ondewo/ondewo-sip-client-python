@@ -26,7 +26,7 @@ PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
 GITHUB_GH_TOKEN?=ENTER_YOUR_TOKEN_HERE
 
 CURRENT_RELEASE_NOTES=`cat RELEASE.md \
-	| perl -ne 'print if /Release ONDEWO SIP Python Client ${ONDEWO_SIP_VERSION}/../\*\*/'`
+	| perl -ne 'print if /Release ONDEWO SIP Python Client ${ONDEWO_SIP_VERSION}/../^\*{5}/'`
 
 GH_REPO="https://github.com/ondewo/ondewo-sip-client-python"
 DEVOPS_ACCOUNT_GIT="ondewo-devops-accounts"
