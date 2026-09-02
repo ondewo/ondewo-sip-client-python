@@ -128,6 +128,61 @@ Raises:
 """
 ```
 
+## GitHub Actions — the `tests` workflow is a REQUIRED gate
+
+`.github/workflows/tests.yml` runs on **every push to every branch** (`branches: ["**"]`) and on every pull request.
+It is a required gate, not advisory: a red run is a broken commit, not a note for later.
+
+The job has exactly three commands (plus checkout and `setup-python` at **3.12**). Reproduce it locally with the
+workflow's own commands — copied, not approximated:
+
+```bash
+python3.12 -m venv /tmp/sip-ci && . /tmp/sip-ci/bin/activate
+python -m pip install --upgrade pip
+pip install -e .
+pip install pytest pytest-cov pytest-asyncio python-dotenv loguru
+pytest tests/unit -q \
+  --cov=ondewo.sip.utils.keycloak \
+  --cov=ondewo.sip.client.client_config \
+  --cov=ondewo.sip.client.services_interface \
+  --cov=ondewo.sip.client.async_services_interface \
+  --cov=ondewo.sip.client.services.sip \
+  --cov=ondewo.sip.client.services.async_sip \
+  --cov-report=term-missing \
+  --cov-report=xml \
+  --cov-fail-under=100
+```
+
+To read the real verdict for a commit instead of guessing (no `gh` CLI needed):
+
+```bash
+curl -s "https://api.github.com/repos/ondewo/ondewo-sip-client-python/actions/runs?head_sha=$(git rev-parse HEAD)"
+```
+
+Things that are true of **this** repository and will mislead you otherwise — each one measured by running it:
+
+- **There is no `uv` here.** No `pyproject.toml`, no `uv.lock`; packaging is `setup.py` + `requirements.txt`. There is
+  no frozen lock to pin, so do not "modernize" the reproduction above into `uv run --frozen …` — there is nothing for
+  it to resolve against, and the pinning argument that motivates `--frozen` elsewhere does not apply.
+- **`requirements-dev.txt` is NOT the CI dependency set.** It lists neither `pytest-cov` nor `pytest-asyncio`, so an
+  environment built from it rejects `--cov` as an unrecognised argument and fails all 22 async parametrisations. Install
+  the workflow's explicit `pip install pytest pytest-cov pytest-asyncio python-dotenv loguru` line verbatim.
+- **The `--cov=` targets are dotted MODULE names, and that form FAILS OPEN.** A module named in `--cov=` that the suite
+  never imports is dropped from the report entirely: coverage emits only
+  `CoverageWarning: Module … was never imported (module-not-imported)`, `TOTAL` stays `100.00%`, and the gate passes.
+  The same file measured through a path-form source (`--cov=ondewo/sip/utils`) reports `0%` and fails. So a new
+  hand-written module is invisible to this gate **twice**: once by not being in the list, and again even after somebody
+  remembers to add it. **The line that buys coverage is a test that IMPORTS the module** — adding the `--cov=` flag
+  alone buys nothing.
+- **The six-module list is deliberate scoping, not an oversight — do not widen it into a directory scan.**
+  `client.py` (88%), `async_client.py` (0%) and `async_services_container.py` (0%) are hand-written and sit outside the
+  gate on purpose; `--cov=ondewo/sip/client` measures 91% and turns the build red. Widening the gate is legitimate, but
+  it means writing the missing tests **first**, in the same change.
+- **The workflow runs no linter and no type check.** `flake8` and `mypy` live only in the `Makefile` and
+  `.pre-commit-config.yaml`, and the `Makefile` has no pytest target at all — so `make` cannot reproduce this gate and a
+  green Actions run says nothing about lint or types. Run those separately before committing.
+- `.coverage` and `coverage.xml` are written into the working tree by the run and are already in `.gitignore`.
+
 ## Git Commits
 
 - **Never include Claude as author or co-author** in commit messages, PR descriptions, or any other text. Do not add
