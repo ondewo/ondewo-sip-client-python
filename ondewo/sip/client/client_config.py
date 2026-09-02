@@ -18,8 +18,9 @@ authentication settings for the SIP services. Its auth path is the Keycloak head
 offline-token flow (D18); when the Keycloak fields are absent no auth token is attached.
 It validates that the Keycloak fields are supplied all-or-nothing.
 """
-from dataclasses import dataclass
-from typing import Optional
+
+from dataclasses import dataclass, fields
+from typing import Any, ClassVar, FrozenSet, List, Optional
 
 from dataclasses_json import dataclass_json
 from ondewo.utils.base_client_config import BaseClientConfig
@@ -65,13 +66,44 @@ class ClientConfig(BaseClientConfig):
             call. Defaults to `True` (secure). Set `False` only for a self-signed/local
             Envoy at `https://localhost:12001/auth`.
     """
-    user_name: str = ''
-    password: str = ''
-    keycloak_url: str = ''
-    realm: str = ''
-    client_id: str = ''
+
+    user_name: str = ""
+    password: str = ""
+    keycloak_url: str = ""
+    realm: str = ""
+    client_id: str = ""
     token_expiration_in_s: Optional[int] = None
     keycloak_verify_ssl: bool = True
+
+    #: Fields whose value must never be rendered. ``grpc_cert`` is PEM material and ``password`` is
+    #: the ROPC login secret; both are printed verbatim by the ``__repr__`` ``@dataclass`` generates.
+    SECRET_FIELD_NAMES: ClassVar[FrozenSet[str]] = frozenset({"password", "grpc_cert"})
+
+    def __repr__(self) -> str:
+        """
+        Render the config without its credential material.
+
+        ``@dataclass`` generates a ``__repr__`` that prints every field, so any caller doing
+        ``log.debug(f"...{config}")`` -- or a bare traceback carrying locals -- writes the ROPC
+        password and the gRPC certificate to its logs in clear text. Downstream services do exactly
+        that: a repository-wide sweep in ondewo-vtsi found this class among its leaking dataclasses.
+
+        An EMPTY secret still renders as ``''`` rather than as ``***REDACTED***``. The distinction is
+        deliberate: the marker reads as "this is set and sensitive", which is actively misleading
+        when the real problem is that nobody set it -- usually the very thing being debugged.
+
+        Returns:
+            str:
+                ``ClientConfig(host=..., password=***REDACTED***, ...)``.
+        """
+        rendered: List[str] = []
+        for field in fields(self):
+            value: Any = getattr(self, field.name, None)
+            if field.name in self.SECRET_FIELD_NAMES and value:
+                rendered.append(f"{field.name}='***REDACTED***'")
+            else:
+                rendered.append(f"{field.name}={value!r}")
+        return f"{type(self).__name__}({', '.join(rendered)})"
 
     @property
     def use_keycloak(self) -> bool:
@@ -99,13 +131,13 @@ class ClientConfig(BaseClientConfig):
         super(ClientConfig, self).__post_init__()
 
         if not self.user_name:
-            raise ValueError(f'The field `user_name` is mandatory in {self.__class__.__name__}.')
+            raise ValueError(f"The field `user_name` is mandatory in {self.__class__.__name__}.")
         if not self.password:
-            raise ValueError(f'The field `password` is mandatory in {self.__class__.__name__}.')
+            raise ValueError(f"The field `password` is mandatory in {self.__class__.__name__}.")
 
         keycloak_fields: tuple[str, str, str] = (self.keycloak_url, self.realm, self.client_id)
         if any(keycloak_fields) and not all(keycloak_fields):
             raise ValueError(
-                'The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided '
-                f'together in {self.__class__.__name__}.'
+                "The Keycloak fields `keycloak_url`, `realm`, and `client_id` must be provided "
+                f"together in {self.__class__.__name__}."
             )

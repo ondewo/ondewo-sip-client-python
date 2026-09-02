@@ -20,6 +20,7 @@ is replaced by a recording fake. Every one of the 11 RPC wrappers is asserted to
 bearer metadata under the Keycloak path and an empty metadata list under the non-Keycloak
 path — the two branches of the `metadata` property.
 """
+
 from typing import (
     Any,
     Dict,
@@ -43,41 +44,41 @@ from ondewo.sip.utils.keycloak import KeycloakTokenProvider
 
 # Bound exactly once so a refactor that changes only an input or only an expectation cannot
 # silently make an assertion tautological.
-HOST: str = 'localhost'
-PORT: str = '50055'
-USERNAME: str = 'tech-user@example.com'
-PASSWORD: str = 's3cr3t'
-KEYCLOAK_URL: str = 'https://kc.example.com/auth'
-REALM: str = 'ondewo-ccai-platform'
-CLIENT_ID: str = 'ondewo-sip-cai-sdk-public'
-ACCESS_TOKEN: str = 'acc-1'
-EXPECTED_KEYCLOAK_METADATA: List[Tuple[str, str]] = [('authorization', f'Bearer {ACCESS_TOKEN}')]
+HOST: str = "localhost"
+PORT: str = "50055"
+USERNAME: str = "tech-user@example.com"
+PASSWORD: str = "s3cr3t"
+KEYCLOAK_URL: str = "https://kc.example.com/auth"
+REALM: str = "ondewo-ccai-platform"
+CLIENT_ID: str = "ondewo-sip-cai-sdk-public"
+ACCESS_TOKEN: str = "acc-1"
+EXPECTED_KEYCLOAK_METADATA: List[Tuple[str, str]] = [("authorization", f"Bearer {ACCESS_TOKEN}")]
 EXPECTED_EMPTY_METADATA: List[Tuple[str, str]] = []
 
 # Service wrapper method -> the generated stub RPC it must call. Covers all 11 SIP RPCs.
 STUB_METHOD_NAMES: Dict[str, str] = {
-    'start_session': 'SipStartSession',
-    'end_session': 'SipEndSession',
-    'register_account': 'SipRegisterAccount',
-    'start_call': 'SipStartCall',
-    'end_call': 'SipEndCall',
-    'transfer_call': 'SipTransferCall',
-    'get_sip_status': 'SipGetSipStatus',
-    'get_sip_status_history': 'SipGetSipStatusHistory',
-    'play_wav_files': 'SipPlayWavFiles',
-    'mute': 'SipMute',
-    'un_mute': 'SipUnMute',
+    "start_session": "SipStartSession",
+    "end_session": "SipEndSession",
+    "register_account": "SipRegisterAccount",
+    "start_call": "SipStartCall",
+    "end_call": "SipEndCall",
+    "transfer_call": "SipTransferCall",
+    "get_sip_status": "SipGetSipStatus",
+    "get_sip_status_history": "SipGetSipStatusHistory",
+    "play_wav_files": "SipPlayWavFiles",
+    "mute": "SipMute",
+    "un_mute": "SipUnMute",
 }
 SERVICE_METHODS: List[str] = list(STUB_METHOD_NAMES)
 
 # Service methods that take a request message; the rest send an `Empty`.
 _REQUEST_FACTORIES: Dict[str, Any] = {
-    'start_session': sip.SipStartSessionRequest,
-    'register_account': sip.SipRegisterAccountRequest,
-    'start_call': sip.SipStartCallRequest,
-    'end_call': sip.SipEndCallRequest,
-    'transfer_call': sip.SipTransferCallRequest,
-    'play_wav_files': sip.SipPlayWavFilesRequest,
+    "start_session": sip.SipStartSessionRequest,
+    "register_account": sip.SipRegisterAccountRequest,
+    "start_call": sip.SipStartCallRequest,
+    "end_call": sip.SipEndCallRequest,
+    "transfer_call": sip.SipTransferCallRequest,
+    "play_wav_files": sip.SipPlayWavFilesRequest,
 }
 
 _SENTINEL_RESPONSE: sip.SipStatus = sip.SipStatus()
@@ -159,10 +160,10 @@ def _build_fake_provider() -> KeycloakTokenProvider:
         _FakeResponse(
             200,
             {
-                'access_token': ACCESS_TOKEN,
-                'refresh_token': 'off-1',
-                'expires_in': 300,
-                'token_type': 'Bearer',
+                "access_token": ACCESS_TOKEN,
+                "refresh_token": "off-1",
+                "expires_in": 300,
+                "token_type": "Bearer",
             },
         ),
     )
@@ -294,7 +295,7 @@ async def _invoke_async(service: AsyncSip, method_name: str) -> None:
         await method()
 
 
-@pytest.mark.parametrize('method_name', SERVICE_METHODS)
+@pytest.mark.parametrize("method_name", SERVICE_METHODS)
 def test_sync_keycloak_methods_attach_bearer_metadata(
     monkeypatch: pytest.MonkeyPatch,
     method_name: str,
@@ -308,9 +309,9 @@ def test_sync_keycloak_methods_attach_bearer_metadata(
             The service wrapper method under test.
     """
     provider: KeycloakTokenProvider = _build_fake_provider()
-    monkeypatch.setattr(sync_base_module, 'get_keycloak_token_provider', lambda config: provider)
+    monkeypatch.setattr(sync_base_module, "get_keycloak_token_provider", lambda config: provider)
     recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
-    monkeypatch.setattr(sync_sip_module, 'SipStub', _make_fake_stub_cls(recorder, is_async=False))
+    monkeypatch.setattr(sync_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=False))
 
     service: SyncSip = SyncSip(config=_keycloak_config(), use_secure_channel=False)
     _invoke_sync(service, method_name)
@@ -318,7 +319,7 @@ def test_sync_keycloak_methods_attach_bearer_metadata(
     assert recorder[STUB_METHOD_NAMES[method_name]] == EXPECTED_KEYCLOAK_METADATA
 
 
-@pytest.mark.parametrize('method_name', SERVICE_METHODS)
+@pytest.mark.parametrize("method_name", SERVICE_METHODS)
 def test_sync_non_keycloak_methods_attach_empty_metadata(
     monkeypatch: pytest.MonkeyPatch,
     method_name: str,
@@ -332,7 +333,7 @@ def test_sync_non_keycloak_methods_attach_empty_metadata(
             The service wrapper method under test.
     """
     recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
-    monkeypatch.setattr(sync_sip_module, 'SipStub', _make_fake_stub_cls(recorder, is_async=False))
+    monkeypatch.setattr(sync_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=False))
 
     service: SyncSip = SyncSip(config=_non_keycloak_config(), use_secure_channel=False)
     _invoke_sync(service, method_name)
@@ -341,7 +342,7 @@ def test_sync_non_keycloak_methods_attach_empty_metadata(
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize('method_name', SERVICE_METHODS)
+@pytest.mark.parametrize("method_name", SERVICE_METHODS)
 async def test_async_keycloak_methods_attach_bearer_metadata(
     monkeypatch: pytest.MonkeyPatch,
     method_name: str,
@@ -355,9 +356,9 @@ async def test_async_keycloak_methods_attach_bearer_metadata(
             The service wrapper method under test.
     """
     provider: KeycloakTokenProvider = _build_fake_provider()
-    monkeypatch.setattr(async_base_module, 'get_keycloak_token_provider', lambda config: provider)
+    monkeypatch.setattr(async_base_module, "get_keycloak_token_provider", lambda config: provider)
     recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
-    monkeypatch.setattr(async_sip_module, 'SipStub', _make_fake_stub_cls(recorder, is_async=True))
+    monkeypatch.setattr(async_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=True))
 
     service: AsyncSip = AsyncSip(config=_keycloak_config(), use_secure_channel=False)
     await _invoke_async(service, method_name)
@@ -366,7 +367,7 @@ async def test_async_keycloak_methods_attach_bearer_metadata(
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize('method_name', SERVICE_METHODS)
+@pytest.mark.parametrize("method_name", SERVICE_METHODS)
 async def test_async_non_keycloak_methods_attach_empty_metadata(
     monkeypatch: pytest.MonkeyPatch,
     method_name: str,
@@ -380,7 +381,7 @@ async def test_async_non_keycloak_methods_attach_empty_metadata(
             The service wrapper method under test.
     """
     recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
-    monkeypatch.setattr(async_sip_module, 'SipStub', _make_fake_stub_cls(recorder, is_async=True))
+    monkeypatch.setattr(async_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=True))
 
     service: AsyncSip = AsyncSip(config=_non_keycloak_config(), use_secure_channel=False)
     await _invoke_async(service, method_name)
