@@ -39,17 +39,229 @@ class SipEndCallRequest(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    class _EndCallReason:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _EndCallReasonEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipEndCallRequest._EndCallReason.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        END_CALL_REASON_UNSPECIFIED: SipEndCallRequest._EndCallReason.ValueType  # 0
+        """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
+        ANSWERING_MACHINE: SipEndCallRequest._EndCallReason.ValueType  # 1
+        """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
+        network announcement, ...) and ends the call. The terminal status of the call is then
+        <code>OUTGOING_CALL_ANSWERING_MACHINE</code> instead of <code>OUTGOING_CALL_FINISHED</code>
+        """
+
+    class EndCallReason(_EndCallReason, metaclass=_EndCallReasonEnumTypeWrapper):
+        """<p>Why the call is being ended</p>"""
+
+    END_CALL_REASON_UNSPECIFIED: SipEndCallRequest.EndCallReason.ValueType  # 0
+    """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
+    ANSWERING_MACHINE: SipEndCallRequest.EndCallReason.ValueType  # 1
+    """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
+    network announcement, ...) and ends the call. The terminal status of the call is then
+    <code>OUTGOING_CALL_ANSWERING_MACHINE</code> instead of <code>OUTGOING_CALL_FINISHED</code>
+    """
+
     HARD_HANGUP_FIELD_NUMBER: builtins.int
+    END_REASON_FIELD_NUMBER: builtins.int
+    AMD_RESULT_FIELD_NUMBER: builtins.int
     hard_hangup: builtins.bool
     """Set to <code>True</code> to forcefully hang up the call"""
+    end_reason: global___SipEndCallRequest.EndCallReason.ValueType
+    """Optional: reason for ending the call. Leave unset for an ordinary hangup"""
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Optional: result of the answering machine detection that decided to end the call. Only meaningful together with
+        <code>end_reason = ANSWERING_MACHINE</code>; it is carried into <code>SipStatus.amd_result</code> of the
+        terminal status of the call
+        """
+
     def __init__(
         self,
         *,
         hard_hangup: builtins.bool = ...,
+        end_reason: global___SipEndCallRequest.EndCallReason.ValueType = ...,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["hard_hangup", b"hard_hangup"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result", "end_reason", b"end_reason", "hard_hangup", b"hard_hangup"]) -> None: ...
 
 global___SipEndCallRequest = SipEndCallRequest
+
+@typing.final
+class AnsweringMachineDetectionResult(google.protobuf.message.Message):
+    """<p>Result of the answering machine detection (AMD) of an outbound call</p>
+    <p>Carries identifiers from closed vocabularies only: never audio, transcript text or a phone number</p>
+    """
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _Verdict:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _VerdictEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Verdict.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        VERDICT_UNSPECIFIED: AnsweringMachineDetectionResult._Verdict.ValueType  # 0
+        """No verdict available"""
+        HUMAN: AnsweringMachineDetectionResult._Verdict.ValueType  # 1
+        """A person answered the call"""
+        MACHINE: AnsweringMachineDetectionResult._Verdict.ValueType  # 2
+        """An answering machine or voicemail answered the call"""
+        IVR: AnsweringMachineDetectionResult._Verdict.ValueType  # 3
+        """An interactive voice response system (IVR) answered the call"""
+        FAX: AnsweringMachineDetectionResult._Verdict.ValueType  # 4
+        """A fax machine answered the call"""
+        NETWORK_ANNOUNCEMENT: AnsweringMachineDetectionResult._Verdict.ValueType  # 5
+        """A network announcement answered the call, e.g. "the number you have dialed is not available" """
+        CALL_SCREENING: AnsweringMachineDetectionResult._Verdict.ValueType  # 6
+        """A call screening service answered the call, e.g. asking the caller to state their name"""
+        NO_SPEECH: AnsweringMachineDetectionResult._Verdict.ValueType  # 7
+        """Nothing was said within the detection window"""
+        UNKNOWN: AnsweringMachineDetectionResult._Verdict.ValueType  # 8
+        """The detection could not decide"""
+
+    class Verdict(_Verdict, metaclass=_VerdictEnumTypeWrapper):
+        """<p>Who or what answered the call</p>"""
+
+    VERDICT_UNSPECIFIED: AnsweringMachineDetectionResult.Verdict.ValueType  # 0
+    """No verdict available"""
+    HUMAN: AnsweringMachineDetectionResult.Verdict.ValueType  # 1
+    """A person answered the call"""
+    MACHINE: AnsweringMachineDetectionResult.Verdict.ValueType  # 2
+    """An answering machine or voicemail answered the call"""
+    IVR: AnsweringMachineDetectionResult.Verdict.ValueType  # 3
+    """An interactive voice response system (IVR) answered the call"""
+    FAX: AnsweringMachineDetectionResult.Verdict.ValueType  # 4
+    """A fax machine answered the call"""
+    NETWORK_ANNOUNCEMENT: AnsweringMachineDetectionResult.Verdict.ValueType  # 5
+    """A network announcement answered the call, e.g. "the number you have dialed is not available" """
+    CALL_SCREENING: AnsweringMachineDetectionResult.Verdict.ValueType  # 6
+    """A call screening service answered the call, e.g. asking the caller to state their name"""
+    NO_SPEECH: AnsweringMachineDetectionResult.Verdict.ValueType  # 7
+    """Nothing was said within the detection window"""
+    UNKNOWN: AnsweringMachineDetectionResult.Verdict.ValueType  # 8
+    """The detection could not decide"""
+
+    class _Cause:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _CauseEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Cause.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        CAUSE_UNSPECIFIED: AnsweringMachineDetectionResult._Cause.ValueType  # 0
+        """No cause available"""
+        CADENCE: AnsweringMachineDetectionResult._Cause.ValueType  # 1
+        """The speech cadence, e.g. a long uninterrupted greeting"""
+        KEYWORD: AnsweringMachineDetectionResult._Cause.ValueType  # 2
+        """A keyword or phrase typical of the verdict"""
+        BEEP: AnsweringMachineDetectionResult._Cause.ValueType  # 3
+        """A voicemail beep"""
+        TONE: AnsweringMachineDetectionResult._Cause.ValueType  # 4
+        """A tone, e.g. a fax or special information tone"""
+        CADENCE_AND_KEYWORD: AnsweringMachineDetectionResult._Cause.ValueType  # 5
+        """Both the speech cadence and a keyword"""
+        CADENCE_AND_BEEP: AnsweringMachineDetectionResult._Cause.ValueType  # 6
+        """Both the speech cadence and a voicemail beep"""
+        TIMEOUT: AnsweringMachineDetectionResult._Cause.ValueType  # 7
+        """The detection window ended before any other evidence decided"""
+        SILENCE: AnsweringMachineDetectionResult._Cause.ValueType  # 8
+        """Silence throughout the detection window"""
+
+    class Cause(_Cause, metaclass=_CauseEnumTypeWrapper):
+        """<p>Evidence that led to the verdict</p>"""
+
+    CAUSE_UNSPECIFIED: AnsweringMachineDetectionResult.Cause.ValueType  # 0
+    """No cause available"""
+    CADENCE: AnsweringMachineDetectionResult.Cause.ValueType  # 1
+    """The speech cadence, e.g. a long uninterrupted greeting"""
+    KEYWORD: AnsweringMachineDetectionResult.Cause.ValueType  # 2
+    """A keyword or phrase typical of the verdict"""
+    BEEP: AnsweringMachineDetectionResult.Cause.ValueType  # 3
+    """A voicemail beep"""
+    TONE: AnsweringMachineDetectionResult.Cause.ValueType  # 4
+    """A tone, e.g. a fax or special information tone"""
+    CADENCE_AND_KEYWORD: AnsweringMachineDetectionResult.Cause.ValueType  # 5
+    """Both the speech cadence and a keyword"""
+    CADENCE_AND_BEEP: AnsweringMachineDetectionResult.Cause.ValueType  # 6
+    """Both the speech cadence and a voicemail beep"""
+    TIMEOUT: AnsweringMachineDetectionResult.Cause.ValueType  # 7
+    """The detection window ended before any other evidence decided"""
+    SILENCE: AnsweringMachineDetectionResult.Cause.ValueType  # 8
+    """Silence throughout the detection window"""
+
+    class _ActionTaken:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _ActionTakenEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._ActionTaken.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        ACTION_TAKEN_UNSPECIFIED: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 0
+        """No action recorded"""
+        HUNG_UP: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 1
+        """The call was hung up"""
+        CONTINUED: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 2
+        """The call continued as normal"""
+        DETECT_ONLY: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 3
+        """Detection only: the verdict was recorded, but the call was not influenced by it"""
+
+    class ActionTaken(_ActionTaken, metaclass=_ActionTakenEnumTypeWrapper):
+        """<p>What was done because of the verdict</p>"""
+
+    ACTION_TAKEN_UNSPECIFIED: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 0
+    """No action recorded"""
+    HUNG_UP: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 1
+    """The call was hung up"""
+    CONTINUED: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 2
+    """The call continued as normal"""
+    DETECT_ONLY: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 3
+    """Detection only: the verdict was recorded, but the call was not influenced by it"""
+
+    VERDICT_FIELD_NUMBER: builtins.int
+    CAUSE_FIELD_NUMBER: builtins.int
+    CONFIDENCE_FIELD_NUMBER: builtins.int
+    DECISION_MS_FIELD_NUMBER: builtins.int
+    RULE_ID_FIELD_NUMBER: builtins.int
+    MATCHED_CUE_IDS_FIELD_NUMBER: builtins.int
+    ACTION_TAKEN_FIELD_NUMBER: builtins.int
+    CALL_ID_FIELD_NUMBER: builtins.int
+    verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType
+    """Who or what answered the call"""
+    cause: global___AnsweringMachineDetectionResult.Cause.ValueType
+    """Evidence that led to the verdict"""
+    confidence: builtins.float
+    """Confidence of the verdict, between <code>0.0</code> and <code>1.0</code>"""
+    decision_ms: builtins.int
+    """Time in milliseconds from the call being connected until the verdict was reached"""
+    rule_id: builtins.str
+    """Identifier of the detection rule that produced the verdict"""
+    action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType
+    """What was done because of the verdict"""
+    call_id: builtins.str
+    """Identifier of the call the result belongs to, i.e. the value of the <code>X-ondewo-vtsi-caller-call-id</code>
+    header of the call. Used to match a result to its call by identity rather than by recency
+    """
+    @property
+    def matched_cue_ids(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """Identifiers of the cues that matched, e.g. keyword or tone identifiers. Identifiers only, never transcript text"""
+
+    def __init__(
+        self,
+        *,
+        verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType = ...,
+        cause: global___AnsweringMachineDetectionResult.Cause.ValueType = ...,
+        confidence: builtins.float = ...,
+        decision_ms: builtins.int = ...,
+        rule_id: builtins.str = ...,
+        matched_cue_ids: collections.abc.Iterable[builtins.str] | None = ...,
+        action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType = ...,
+        call_id: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["action_taken", b"action_taken", "call_id", b"call_id", "cause", b"cause", "confidence", b"confidence", "decision_ms", b"decision_ms", "matched_cue_ids", b"matched_cue_ids", "rule_id", b"rule_id", "verdict", b"verdict"]) -> None: ...
+
+global___AnsweringMachineDetectionResult = AnsweringMachineDetectionResult
 
 @typing.final
 class SipStartCallRequest(google.protobuf.message.Message):
@@ -243,6 +455,11 @@ class SipStatus(google.protobuf.message.Message):
         """Microphone has played wav files"""
         NO_ONGOING_CALL: SipStatus._StatusType.ValueType  # 21
         """No ongoing call"""
+        OUTGOING_CALL_ANSWERING_MACHINE: SipStatus._StatusType.ValueType  # 22
+        """SIP account ended the ongoing outgoing call because answering machine detection decided the callee is not
+        a person to talk to. Terminal, like <code>OUTGOING_CALL_FINISHED</code>; <code>amd_result.verdict</code>
+        tells an answering machine, a fax, a network announcement, ... apart
+        """
 
     class StatusType(_StatusType, metaclass=_StatusTypeEnumTypeWrapper):
         """Types of status"""
@@ -291,6 +508,11 @@ class SipStatus(google.protobuf.message.Message):
     """Microphone has played wav files"""
     NO_ONGOING_CALL: SipStatus.StatusType.ValueType  # 21
     """No ongoing call"""
+    OUTGOING_CALL_ANSWERING_MACHINE: SipStatus.StatusType.ValueType  # 22
+    """SIP account ended the ongoing outgoing call because answering machine detection decided the callee is not
+    a person to talk to. Terminal, like <code>OUTGOING_CALL_FINISHED</code>; <code>amd_result.verdict</code>
+    tells an answering machine, a fax, a network announcement, ... apart
+    """
 
     @typing.final
     class HeadersEntry(google.protobuf.message.Message):
@@ -318,6 +540,7 @@ class SipStatus(google.protobuf.message.Message):
     EXCEPTION_NAME_FIELD_NUMBER: builtins.int
     EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
     NLU_SESSION_NAME_FIELD_NUMBER: builtins.int
+    AMD_RESULT_FIELD_NUMBER: builtins.int
     account_name: builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
@@ -344,6 +567,12 @@ class SipStatus(google.protobuf.message.Message):
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Headers to include when calling outbound or transfer"""
 
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Result of the answering machine detection of the call. Set on the terminal status of every call on which
+        answering machine detection ran, including a <code>HUMAN</code> verdict; unset otherwise
+        """
+
     def __init__(
         self,
         *,
@@ -357,9 +586,10 @@ class SipStatus(google.protobuf.message.Message):
         exception_name: builtins.str = ...,
         exception_traceback: builtins.str = ...,
         nlu_session_name: builtins.str = ...,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "nlu_session_name", b"nlu_session_name", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result", "timestamp", b"timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "nlu_session_name", b"nlu_session_name", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
 
 global___SipStatus = SipStatus
 
