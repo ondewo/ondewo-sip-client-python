@@ -49,8 +49,15 @@ class SipEndCallRequest(google.protobuf.message.Message):
         """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
         ANSWERING_MACHINE: SipEndCallRequest._EndCallReason.ValueType  # 1
         """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
-        network announcement, ...) and ends the call. The terminal status of the call is then
-        <code>OUTGOING_CALL_ANSWERING_MACHINE</code> instead of <code>OUTGOING_CALL_FINISHED</code>
+        network announcement, ...) and the call is hung up WITHOUT leaving a voice message. The terminal status
+        of the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+        <code>Answering machine detected with hang up</code>
+        """
+        ANSWERING_MACHINE_VOICE_MESSAGE_LEFT: SipEndCallRequest._EndCallReason.ValueType  # 2
+        """Answering machine detection decided the callee is an answering machine, a voice message was left on it,
+        and the call is hung up afterwards (or when the voice message timeout expired). The terminal status of
+        the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+        <code>Answering machine detected with left voice message and hang up</code>
         """
 
     class EndCallReason(_EndCallReason, metaclass=_EndCallReasonEnumTypeWrapper):
@@ -60,8 +67,15 @@ class SipEndCallRequest(google.protobuf.message.Message):
     """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
     ANSWERING_MACHINE: SipEndCallRequest.EndCallReason.ValueType  # 1
     """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
-    network announcement, ...) and ends the call. The terminal status of the call is then
-    <code>OUTGOING_CALL_ANSWERING_MACHINE</code> instead of <code>OUTGOING_CALL_FINISHED</code>
+    network announcement, ...) and the call is hung up WITHOUT leaving a voice message. The terminal status
+    of the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+    <code>Answering machine detected with hang up</code>
+    """
+    ANSWERING_MACHINE_VOICE_MESSAGE_LEFT: SipEndCallRequest.EndCallReason.ValueType  # 2
+    """Answering machine detection decided the callee is an answering machine, a voice message was left on it,
+    and the call is hung up afterwards (or when the voice message timeout expired). The terminal status of
+    the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+    <code>Answering machine detected with left voice message and hang up</code>
     """
 
     HARD_HANGUP_FIELD_NUMBER: builtins.int
@@ -74,8 +88,8 @@ class SipEndCallRequest(google.protobuf.message.Message):
     @property
     def amd_result(self) -> global___AnsweringMachineDetectionResult:
         """Optional: result of the answering machine detection that decided to end the call. Only meaningful together with
-        <code>end_reason = ANSWERING_MACHINE</code>; it is carried into <code>SipStatus.amd_result</code> of the
-        terminal status of the call
+        <code>end_reason = ANSWERING_MACHINE</code> or <code>end_reason = ANSWERING_MACHINE_VOICE_MESSAGE_LEFT</code>;
+        it is carried into <code>SipStatus.amd_result</code> of the terminal status of the call
         """
 
     def __init__(
@@ -89,6 +103,29 @@ class SipEndCallRequest(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result", "end_reason", b"end_reason", "hard_hangup", b"hard_hangup"]) -> None: ...
 
 global___SipEndCallRequest = SipEndCallRequest
+
+@typing.final
+class SipReportAnsweringMachineDetectedRequest(google.protobuf.message.Message):
+    """<p>Reports the verdict of the answering machine detection of the ongoing outgoing call</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    AMD_RESULT_FIELD_NUMBER: builtins.int
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Result of the answering machine detection. Written to <code>SipStatus.amd_result</code> of the
+        <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> status of the call
+        """
+
+    def __init__(
+        self,
+        *,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> None: ...
+
+global___SipReportAnsweringMachineDetectedRequest = SipReportAnsweringMachineDetectedRequest
 
 @typing.final
 class AnsweringMachineDetectionResult(google.protobuf.message.Message):
@@ -206,6 +243,8 @@ class AnsweringMachineDetectionResult(google.protobuf.message.Message):
         """The call continued as normal"""
         DETECT_ONLY: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 3
         """Detection only: the verdict was recorded, but the call was not influenced by it"""
+        LEFT_VOICE_MESSAGE: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 4
+        """A voice message was left on the answering machine, and the call was hung up afterwards"""
 
     class ActionTaken(_ActionTaken, metaclass=_ActionTakenEnumTypeWrapper):
         """<p>What was done because of the verdict</p>"""
@@ -218,6 +257,8 @@ class AnsweringMachineDetectionResult(google.protobuf.message.Message):
     """The call continued as normal"""
     DETECT_ONLY: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 3
     """Detection only: the verdict was recorded, but the call was not influenced by it"""
+    LEFT_VOICE_MESSAGE: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 4
+    """A voice message was left on the answering machine, and the call was hung up afterwards"""
 
     VERDICT_FIELD_NUMBER: builtins.int
     CAUSE_FIELD_NUMBER: builtins.int
@@ -455,10 +496,15 @@ class SipStatus(google.protobuf.message.Message):
         """Microphone has played wav files"""
         NO_ONGOING_CALL: SipStatus._StatusType.ValueType  # 21
         """No ongoing call"""
-        OUTGOING_CALL_ANSWERING_MACHINE: SipStatus._StatusType.ValueType  # 22
-        """SIP account ended the ongoing outgoing call because answering machine detection decided the callee is not
-        a person to talk to. Terminal, like <code>OUTGOING_CALL_FINISHED</code>; <code>amd_result.verdict</code>
-        tells an answering machine, a fax, a network announcement, ... apart
+        OUTGOING_CALL_ANSWERING_MACHINE_DETECTED: SipStatus._StatusType.ValueType  # 22
+        """Answering machine detection decided the callee of the ongoing outgoing call is not a person to talk to.
+        NOT terminal: the call is still up when this status is set. <code>amd_result.verdict</code> tells an
+        answering machine, a fax, a network announcement, ... apart. The call then ends as
+        <code>OUTGOING_CALL_FINISHED</code> carrying <code>amd_result</code> and exactly one of the descriptions
+        <code>Answering machine detected with hang up</code>,
+        <code>Answering machine detected with left voice message and hang up</code>,
+        <code>Answering machine detected, call ended by the answering machine</code> or
+        <code>Answering machine detected, call ended by the answering machine after leaving a voice message</code>
         """
 
     class StatusType(_StatusType, metaclass=_StatusTypeEnumTypeWrapper):
@@ -508,10 +554,15 @@ class SipStatus(google.protobuf.message.Message):
     """Microphone has played wav files"""
     NO_ONGOING_CALL: SipStatus.StatusType.ValueType  # 21
     """No ongoing call"""
-    OUTGOING_CALL_ANSWERING_MACHINE: SipStatus.StatusType.ValueType  # 22
-    """SIP account ended the ongoing outgoing call because answering machine detection decided the callee is not
-    a person to talk to. Terminal, like <code>OUTGOING_CALL_FINISHED</code>; <code>amd_result.verdict</code>
-    tells an answering machine, a fax, a network announcement, ... apart
+    OUTGOING_CALL_ANSWERING_MACHINE_DETECTED: SipStatus.StatusType.ValueType  # 22
+    """Answering machine detection decided the callee of the ongoing outgoing call is not a person to talk to.
+    NOT terminal: the call is still up when this status is set. <code>amd_result.verdict</code> tells an
+    answering machine, a fax, a network announcement, ... apart. The call then ends as
+    <code>OUTGOING_CALL_FINISHED</code> carrying <code>amd_result</code> and exactly one of the descriptions
+    <code>Answering machine detected with hang up</code>,
+    <code>Answering machine detected with left voice message and hang up</code>,
+    <code>Answering machine detected, call ended by the answering machine</code> or
+    <code>Answering machine detected, call ended by the answering machine after leaving a voice message</code>
     """
 
     @typing.final
@@ -569,8 +620,9 @@ class SipStatus(google.protobuf.message.Message):
 
     @property
     def amd_result(self) -> global___AnsweringMachineDetectionResult:
-        """Result of the answering machine detection of the call. Set on the terminal status of every call on which
-        answering machine detection ran, including a <code>HUMAN</code> verdict; unset otherwise
+        """Result of the answering machine detection of the call. Set on
+        <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> and on the terminal status of every call on which answering machine detection ran, including a
+        <code>HUMAN</code> verdict; unset otherwise
         """
 
     def __init__(

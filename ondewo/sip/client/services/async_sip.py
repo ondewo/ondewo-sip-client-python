@@ -18,6 +18,7 @@ from ondewo.sip.sip_pb2 import (
     SipEndCallRequest,
     SipPlayWavFilesRequest,
     SipRegisterAccountRequest,
+    SipReportAnsweringMachineDetectedRequest,
     SipStartCallRequest,
     SipStartSessionRequest,
     SipStatus,
@@ -81,4 +82,8 @@ class Sip(AsyncServicesInterface):
 
     async def un_mute(self) -> SipStatus:
         response: SipStatus = await self.stub.SipUnMute(Empty(), metadata=self.metadata)
+        return response
+
+    async def report_answering_machine_detected(self, request: SipReportAnsweringMachineDetectedRequest) -> SipStatus:
+        response: SipStatus = await self.stub.SipReportAnsweringMachineDetected(request, metadata=self.metadata)
         return response

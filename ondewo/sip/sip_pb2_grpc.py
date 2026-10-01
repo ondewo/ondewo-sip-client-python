@@ -92,6 +92,11 @@ class SipStub(object):
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                 _registered_method=True)
+        self.SipReportAnsweringMachineDetected = channel.unary_unary(
+                '/ondewo.sip.Sip/SipReportAnsweringMachineDetected',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                _registered_method=True)
 
 
 class SipServicer(object):
@@ -176,6 +181,17 @@ class SipServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SipReportAnsweringMachineDetected(self, request, context):
+        """<p>Reports that answering machine detection reached a verdict on the ongoing outgoing call. Sets the status
+        <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> carrying <code>amd_result</code>; the call stays up.</p>
+        <p>Called by the speech-to-speech pipeline (ONDEWO-CSI) inside the same container, i.e. over loopback only.
+        Refused, and the current status left untouched, when no outgoing call is connected: the returned
+        <code>SipStatus</code> then carries the refusal in <code>exception_name</code> and <code>description</code></p>
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -232,6 +248,11 @@ def add_SipServicer_to_server(servicer, server):
             'SipUnMute': grpc.unary_unary_rpc_method_handler(
                     servicer.SipUnMute,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'SipReportAnsweringMachineDetected': grpc.unary_unary_rpc_method_handler(
+                    servicer.SipReportAnsweringMachineDetected,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.FromString,
                     response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
             ),
     }
@@ -533,6 +554,33 @@ class Sip(object):
             target,
             '/ondewo.sip.Sip/SipUnMute',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SipReportAnsweringMachineDetected(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ondewo.sip.Sip/SipReportAnsweringMachineDetected',
+            ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.SerializeToString,
             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
             options,
             channel_credentials,
