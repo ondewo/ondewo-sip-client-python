@@ -16,14 +16,16 @@
 Both the sync (`ondewo.sip.client.services.sip.Sip`) and async
 (`ondewo.sip.client.services.async_sip.Sip`) wrappers are exercised without any network:
 the Keycloak token provider is built with a fake HTTP transport and the generated `SipStub`
-is replaced by a recording fake. Every one of the 11 RPC wrappers is asserted to forward the
+is replaced by a recording fake. Every one of the 13 unary RPC wrappers is asserted to forward the
 bearer metadata under the Keycloak path and an empty metadata list under the non-Keycloak
-path — the two branches of the `metadata` property.
+path — the two branches of the `metadata` property. The bidirectional `stream_call_audio` wrapper
+is asserted to hand the request iterator over unconsumed and to return the stub's stream as is.
 """
 
 from typing import (
     Any,
     Dict,
+    Iterator,
     List,
     Optional,
     Tuple,
@@ -55,7 +57,7 @@ ACCESS_TOKEN: str = "acc-1"
 EXPECTED_KEYCLOAK_METADATA: List[Tuple[str, str]] = [("authorization", f"Bearer {ACCESS_TOKEN}")]
 EXPECTED_EMPTY_METADATA: List[Tuple[str, str]] = []
 
-# Service wrapper method -> the generated stub RPC it must call. Covers all 11 SIP RPCs.
+# Service wrapper method -> the generated stub RPC it must call. Covers all 13 unary SIP RPCs.
 STUB_METHOD_NAMES: Dict[str, str] = {
     "start_session": "SipStartSession",
     "end_session": "SipEndSession",
@@ -68,6 +70,8 @@ STUB_METHOD_NAMES: Dict[str, str] = {
     "play_wav_files": "SipPlayWavFiles",
     "mute": "SipMute",
     "un_mute": "SipUnMute",
+    "report_answering_machine_detected": "SipReportAnsweringMachineDetected",
+    "set_call_media_control": "SipSetCallMediaControl",
 }
 SERVICE_METHODS: List[str] = list(STUB_METHOD_NAMES)
 
@@ -79,6 +83,8 @@ _REQUEST_FACTORIES: Dict[str, Any] = {
     "end_call": sip.SipEndCallRequest,
     "transfer_call": sip.SipTransferCallRequest,
     "play_wav_files": sip.SipPlayWavFilesRequest,
+    "report_answering_machine_detected": sip.SipReportAnsweringMachineDetectedRequest,
+    "set_call_media_control": sip.SipSetCallMediaControlRequest,
 }
 
 _SENTINEL_RESPONSE: sip.SipStatus = sip.SipStatus()
@@ -387,3 +393,90 @@ async def test_async_non_keycloak_methods_attach_empty_metadata(
     await _invoke_async(service, method_name)
 
     assert recorder[STUB_METHOD_NAMES[method_name]] == EXPECTED_EMPTY_METADATA
+
+
+class _RecordingStreamStub:
+    """Fake `SipStub` whose `SipStreamCallAudio` records its arguments and returns a canned stream."""
+
+    #: The (request iterator, metadata) pair of the last call, shared across the transient instances.
+    calls: List[Tuple[Any, Optional[List[Tuple[str, str]]]]] = []
+
+    #: The object the stream call returns; the wrappers must hand back this very object.
+    stream: Any = object()
+
+    def __init__(self, channel: Any) -> None:
+        """Accept the channel handed in by the `stub` property.
+
+        Args:
+            channel (Any):
+                The gRPC channel (unused).
+        """
+        self._channel: Any = channel
+
+    def SipStreamCallAudio(  # noqa: N802 - mirrors the generated stub method name
+        self,
+        request_iterator: Any,
+        metadata: Optional[List[Tuple[str, str]]] = None,
+    ) -> Any:
+        """Record the call and return the canned stream without touching the request iterator.
+
+        Args:
+            request_iterator (Any):
+                The request iterator handed in by the wrapper.
+            metadata (Optional[List[Tuple[str, str]]]):
+                The gRPC metadata handed in by the wrapper.
+
+        Returns:
+            Any:
+                The canned stream object.
+        """
+        _RecordingStreamStub.calls.append((request_iterator, metadata))
+        return _RecordingStreamStub.stream
+
+
+def _audio_requests(consumed: List[int]) -> Iterator[sip.SipCallAudioRequest]:
+    """Yield one config request, recording that the generator was advanced.
+
+    Args:
+        consumed (List[int]):
+            Sink that receives one entry when the generator is advanced.
+
+    Yields:
+        sip.SipCallAudioRequest:
+            A single config request.
+    """
+    consumed.append(1)
+    yield sip.SipCallAudioRequest(config=sip.SipCallAudioConfig(mode=sip.SIP_CALL_AUDIO_MODE_LISTEN))
+
+
+@pytest.mark.parametrize("module, service_cls", [(sync_sip_module, SyncSip), (async_sip_module, AsyncSip)])
+def test_stream_call_audio_returns_the_stub_stream_without_consuming_the_requests(
+    monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    service_cls: Any,
+) -> None:
+    """`stream_call_audio` (sync and async) forwards the request iterator lazily and returns the stream.
+
+    The async wrapper must NOT be a coroutine: grpc.aio returns an async iterator for a bidirectional
+    stream, and awaiting it fails. Pulling from the request iterator inside the wrapper would block on
+    the live agent audio.
+
+    Args:
+        monkeypatch (pytest.MonkeyPatch):
+            Fixture used to inject the recording stub.
+        module (Any):
+            The service module whose `SipStub` is replaced.
+        service_cls (Any):
+            The sync or async `Sip` service class under test.
+    """
+    _RecordingStreamStub.calls = []
+    monkeypatch.setattr(module, "SipStub", _RecordingStreamStub)
+    service: Any = service_cls(config=_non_keycloak_config(), use_secure_channel=False)
+    consumed: List[int] = []
+    request_iterator: Iterator[sip.SipCallAudioRequest] = _audio_requests(consumed)
+
+    result: Any = service.stream_call_audio(request_iterator)
+
+    assert result is _RecordingStreamStub.stream
+    assert _RecordingStreamStub.calls == [(request_iterator, EXPECTED_EMPTY_METADATA)]
+    assert consumed == []

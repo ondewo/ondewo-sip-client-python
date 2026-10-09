@@ -97,6 +97,16 @@ class SipStub(object):
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.SerializeToString,
                 response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
                 _registered_method=True)
+        self.SipSetCallMediaControl = channel.unary_unary(
+                '/ondewo.sip.Sip/SipSetCallMediaControl',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.SipSetCallMediaControlRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                _registered_method=True)
+        self.SipStreamCallAudio = channel.stream_stream(
+                '/ondewo.sip.Sip/SipStreamCallAudio',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.FromString,
+                _registered_method=True)
 
 
 class SipServicer(object):
@@ -134,6 +144,17 @@ class SipServicer(object):
 
     def SipTransferCall(self, request, context):
         """<p>Transfers a call in an active SIP session for an account registered at a SIP server to another SIP account or phone number specified by <code>transfer_id</code></p>
+        <p>Call scoping: when the gRPC metadatum <code>x-ondewo-expected-call-id</code> is present it must equal
+        <code>SipStatus.call_id</code> of the ongoing call, otherwise the request is refused with
+        <code>exception_name=CallScopeMismatch</code> and nothing is assigned to the status. When it is absent the request is
+        accepted for backward compatibility (unless the server requires call scoping).</p>
+        <p>With <code>outcome_timeout_ms = 0</code> the call is transferred as before (REFER, then an immediate hangup).
+        With <code>outcome_timeout_ms &gt; 0</code> see <code>SipTransferCallRequest.outcome_timeout_ms</code>.</p>
+        <p>Refused while invited participants are present (see
+        <code>SipSetCallMediaControlRequest.participants_present</code>): a REFER into a conference bridge transfers every
+        party in it, the invited participant included. The refusal is RETURNED as <code>TRANSFER_CALL_FAILED</code> with
+        <code>exception_name=ParticipantsPresent</code> and <code>description = reason=participants-present</code>; nothing
+        is sent and the call is kept.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -162,6 +183,8 @@ class SipServicer(object):
 
     def SipPlayWavFiles(self, request, context):
         """<p>Plays wav files during an ongoing call of an active SIP session</p>
+        <p>Call scoping as for <code>SipTransferCall</code>: a present <code>x-ondewo-expected-call-id</code> metadatum must
+        match <code>SipStatus.call_id</code>.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -169,6 +192,9 @@ class SipServicer(object):
 
     def SipMute(self, request, context):
         """<p>Mutes the microphone in an ongoing call of an active SIP session</p>
+        <p>Call scoping as for <code>SipTransferCall</code>. Sent by the in-container speech-to-speech pipeline it mutes only
+        the bot's own mixer slot; sent by a remote client it sets the operator mute of
+        <code>SipSetCallMediaControl</code>, which the pipeline cannot undo.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -176,6 +202,7 @@ class SipServicer(object):
 
     def SipUnMute(self, request, context):
         """<p>Un-mutes the microphone in an ongoing call of an active SIP session</p>
+        <p>Call scoping and the split between the pipeline's own mute and the operator mute as for <code>SipMute</code>.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -187,6 +214,40 @@ class SipServicer(object):
         <p>Called by the speech-to-speech pipeline (ONDEWO-CSI) inside the same container, i.e. over loopback only.
         Refused, and the current status left untouched, when no outgoing call is connected: the returned
         <code>SipStatus</code> then carries the refusal in <code>exception_name</code> and <code>description</code></p>
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SipSetCallMediaControl(self, request, context):
+        """<p>Call-scoped operator media control of the ongoing call: mute the bot and/or pause its listening.</p>
+        <p>Metadata REQUIRED: <code>x-ondewo-expected-call-id</code> (must equal <code>SipStatus.call_id</code> of the ongoing
+        call) and <code>x-ondewo-sip-call-control-token</code> (the per-container call-control token).</p>
+        <p>Every request sets a desired level per owner and never toggles; a repeat leaves the level unchanged. The bot is
+        muted while ANY owner holds a mute, and its listening is paused while ANY owner holds a pause.</p>
+        <p>Returns the live status with <code>call_id</code>, <code>bot_muted</code>, <code>listening_paused</code> and
+        <code>call_audio_streams</code> filled. Refusals are RETURNED in <code>exception_name</code> /
+        <code>description</code> (<code>CallScopeMismatch</code>, <code>CallControlUnauthenticated</code>,
+        <code>NoOngoingCall</code>, <code>AmdInProgress</code>, <code>CsiMediaControlFailed</code>) and never assigned to
+        the shared status. When the pipeline refuses or fails, a requested pause is rolled back and a requested mute is
+        kept (the safe direction); the returned fields carry the actual level.</p>
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SipStreamCallAudio(self, request_iterator, context):
+        """<p>Bidirectional live audio of the ongoing call.</p>
+        <p>The first request MUST be <code>config</code> and must arrive within 2 seconds. Metadata as for
+        <code>SipSetCallMediaControl</code>.</p>
+        <p>LISTEN receives the caller (plus any conference participants) mixed with the bot. TALK sends the agent's audio to
+        the caller; it REQUIRES <code>take_over</code>, i.e. the bot is muted and does not listen while the stream is
+        connected, and in TALK the agent hears the caller only. Audio is LINEAR16 little-endian mono in 20 ms frames.</p>
+        <p>gRPC status codes: <code>UNAUTHENTICATED</code> (token), <code>FAILED_PRECONDITION</code> (call id mismatch, no
+        connected call, answering machine detection in progress, bot still speaking at TALK start),
+        <code>INVALID_ARGUMENT</code> (missing or invalid <code>config</code>, wrong frame size),
+        <code>RESOURCE_EXHAUSTED</code> (stream cap reached, a second TALK). A normal end sends one <code>ended</code>
+        message and then OK.</p>
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -254,6 +315,16 @@ def add_SipServicer_to_server(servicer, server):
                     servicer.SipReportAnsweringMachineDetected,
                     request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.FromString,
                     response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'SipSetCallMediaControl': grpc.unary_unary_rpc_method_handler(
+                    servicer.SipSetCallMediaControl,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipSetCallMediaControlRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
+            ),
+            'SipStreamCallAudio': grpc.stream_stream_rpc_method_handler(
+                    servicer.SipStreamCallAudio,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -582,6 +653,60 @@ class Sip(object):
             '/ondewo.sip.Sip/SipReportAnsweringMachineDetected',
             ondewo_dot_sip_dot_sip__pb2.SipReportAnsweringMachineDetectedRequest.SerializeToString,
             ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SipSetCallMediaControl(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ondewo.sip.Sip/SipSetCallMediaControl',
+            ondewo_dot_sip_dot_sip__pb2.SipSetCallMediaControlRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SipStreamCallAudio(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(
+            request_iterator,
+            target,
+            '/ondewo.sip.Sip/SipStreamCallAudio',
+            ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.FromString,
             options,
             channel_credentials,
             insecure,

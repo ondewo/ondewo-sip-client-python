@@ -11,14 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from typing import Iterator
+
 from google.protobuf.empty_pb2 import Empty
 
 from ondewo.sip.client.services_interface import ServicesInterface
 from ondewo.sip.sip_pb2 import (
+    SipCallAudioRequest,
+    SipCallAudioResponse,
     SipEndCallRequest,
     SipPlayWavFilesRequest,
     SipRegisterAccountRequest,
     SipReportAnsweringMachineDetectedRequest,
+    SipSetCallMediaControlRequest,
     SipStartCallRequest,
     SipStartSessionRequest,
     SipStatus,
@@ -87,3 +92,14 @@ class Sip(ServicesInterface):
     def report_answering_machine_detected(self, request: SipReportAnsweringMachineDetectedRequest) -> SipStatus:
         response: SipStatus = self.stub.SipReportAnsweringMachineDetected(request, metadata=self.metadata)
         return response
+
+    def set_call_media_control(self, request: SipSetCallMediaControlRequest) -> SipStatus:
+        response: SipStatus = self.stub.SipSetCallMediaControl(request, metadata=self.metadata)
+        return response
+
+    def stream_call_audio(self, request_iterator: Iterator[SipCallAudioRequest]) -> Iterator[SipCallAudioResponse]:
+        response_iterator: Iterator[SipCallAudioResponse] = self.stub.SipStreamCallAudio(
+            request_iterator,
+            metadata=self.metadata,
+        )
+        return response_iterator
