@@ -157,7 +157,7 @@ These bit us during the 6.14.0 release. Keep them in mind when releasing.
 - **`npm install failed after 5 attempts` in a release log is usually a red herring** — that text is the echo _inside_ the docker `RUN for i in 1..5; do npm install …` retry loop, not a real failure (`npm install` succeeds → `#10 DONE`). Look further down for the real error (a TTY error, an eslint failure, a `setup.py` error).
 - **Codegen must run TTY-free.** The `docker run` that invokes the proto-compiler must not pass `-it` — non-interactively it fails with `cannot attach stdin to a TTY-enabled container because stdin is not a terminal`. Fix the script (drop `-it`), or run the whole release under a pseudo-TTY: `script -qc 'make …' /dev/null`.
 - **Release Makefiles print secrets.** Some `docker run … -e <TOKEN>=…` recipe lines lack a leading `@`, so `make` echoes the expanded token. Rotate any token printed during a release; fix by prefixing the recipe line with `@`.
-- The release auto-pulls the **latest** `ondewo-proto-compiler` tag.
+- The release checks out the pinned `ONDEWO_PROTO_COMPILER_GIT_BRANCH` tag (`checkout_defined_submodule_versions`), not the latest one; move the Makefile variable **and** the `ondewo-proto-compiler` submodule pointer together.
 - **npm package names are inconsistent** — e.g. the JS client publishes as `@ondewo/ondewo-nlu-client-js` (double `ondewo`), not `@ondewo/nlu-client-js`. Check `src/package.json`'s `name` before querying npm.
 - **PyPI build needs setuptools.** The release image (`Dockerfile.utils`) is `python:3.12-slim`, which bundles no `setuptools`, so `python setup.py sdist bdist_wheel` dies with `ModuleNotFoundError: No module named 'setuptools'`. `Dockerfile.utils` must `pip install … setuptools wheel`.
 
@@ -199,10 +199,10 @@ installed `.dist-info/RECORD` files: `ondewo_sip_client-5.3.0` and `ondewo_vtsi_
 claim `ondewo/sip/sip_pb2.py`, and at those versions the bytes are identical.
 
 **So:** when you regenerate against a new `ondewo-sip-api`, tell whoever maintains
-`ondewo-vtsi-client-python` to regenerate too, on the same api rev. ondewo-vtsi pins
-`ondewo-sip-client>=5.3.0` (floating, unlike its exact `ondewo-s2t-client==7.3.1` /
-`ondewo-t2s-client==6.2.0` pins), so a release of this client can start shadowing the vtsi-client
-copy without anyone changing a pin. See ondewo-vtsi `CLAUDE.md` §3 for the full rule.
+`ondewo-vtsi-client-python` to regenerate too, on the same api rev. How ondewo-vtsi pins this client
+differs by branch (a floor on some, an exact version or a git SHA on others), so read its `pyproject.toml`
+before assuming which copy wins; a floating pin lets a release of this client start shadowing the
+vtsi-client copy without anyone changing a pin. See ondewo-vtsi `CLAUDE.md` §3 for the full rule.
 
 ## `ClientConfig` must not print its secrets
 
@@ -215,16 +215,20 @@ defect and all five now carry the same fix.
 `ondewo/sip/client/client_config.py` names the secrets once and renders around them:
 
 ```python
-SECRET_FIELD_NAMES: ClassVar[FrozenSet[str]] = frozenset({"password", "grpc_cert"})
+SECRET_FIELD_NAMES: ClassVar[FrozenSet[str]] = frozenset({"password", "grpc_cert", "grpc_client_key"})
 ```
+
+`__repr__` also redacts every field declared `repr=False`: overriding `__repr__` discards the
+`repr=False` that `ondewo-client-utils` 4.1.0 puts on `grpc_client_key` (the mutual-TLS private key), so
+before 5.4.3 that key was printed in clear text.
 
 Four properties are load-bearing:
 
 - **An empty secret renders as `''`, never as `***REDACTED***`.** The marker reads as "this is set and
   sensitive", which is actively misleading when the real fault is that nobody set it — usually the very
   thing being debugged. The `__repr__` therefore redacts only a _truthy_ value.
-- **A new secret field must join `SECRET_FIELD_NAMES` in the same commit.** That frozenset is the entire
-  policy; nothing infers sensitivity from a field name.
+- **A new secret field must join `SECRET_FIELD_NAMES` in the same commit** (or be declared `repr=False`).
+  Nothing infers sensitivity from a field name.
 - **Redaction covers `repr()` / `str()` only.** Measured on the real class: `to_json()`, `to_dict()` and
   `dataclasses.asdict()` still return the plaintext password, and `to_json()` renders the certificate as a
   byte array. That is deliberate, because `@dataclass_json` has to round-trip through `from_json` — so
@@ -237,13 +241,13 @@ Four properties are load-bearing:
   against `GRPC_CERT.encode()`, since `BaseClientConfig.__post_init__` encodes it to `bytes`; comparing to
   the `str` would fail while the redaction it guards worked perfectly.
 
-Run it with `uv run pytest tests/unit/utils/test_client_config_redacts_secrets.py -q` — 5 tests.
+Run it with `uv run pytest tests/unit/utils/test_client_config_redacts_secrets.py -q` — 7 tests.
 
-**The fix is unreleased, and the version string cannot tell you that.** `git tag --contains HEAD` is empty
-here; the redaction commit sits _after_ `PREPARING FOR RELEASE 5.4.1` and did not bump the version, so this
-tree still says `5.4.1` while the published `5.4.1` has the leak. ondewo-vtsi pins
-`ondewo-sip-client==5.4.1`, so it keeps resolving to the artifact without the fix until a new version is
-cut. A release, not a rebuild, is what closes this.
+**Which release carries what.** The `password` / `grpc_cert` redaction shipped in **5.4.2**; the
+`grpc_client_key` / `repr=False` redaction, the `ondewo-client-utils>=4.1.1` floor (Python >= 3.12) and the
+`isinstance` guard in `_initialize_services` shipped in **5.4.3**. `5.4.1` and earlier print every
+credential. A consumer pinned below 5.4.3 keeps resolving to an artifact without the fix; a release, not a
+rebuild, is what moves it.
 
 ## The two commit-msg hooks must run in this order
 
@@ -255,7 +259,7 @@ all** — one hook failing on the other hook's output. The only escapes were `--
 ruff, ruff-format, mypy and uv-lock) or renaming the branch away from its ticket, and this repo's history
 shows the result: subjects that are not Conventional Commits at all.
 
-This repo had the wrong order until the redaction commit fixed it. So: type the plain subject
+This repo had the wrong order until 5.4.2 fixed it. So: type the plain subject
 (`fix(client-config): …`), let the validator see exactly that, and let `giticket` decorate it afterwards.
 Never write the `[TICKET]` prefix yourself — that yields `[OND211-2418] [OND211-2418] …`.
 
