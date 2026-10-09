@@ -21,6 +21,7 @@ from typing import (
 from ondewo.utils.base_client import BaseClient
 from ondewo.utils.base_client_config import BaseClientConfig
 
+from ondewo.sip.client.client_config import ClientConfig
 from ondewo.sip.client.services.sip import Sip
 from ondewo.sip.client.services_container import ServicesContainer
 
@@ -48,6 +49,9 @@ class Client(BaseClient):
             options (Optional[Set[Tuple[str, Any]]]):
                 Additional options for the gRPC channel.
         """
+        if not isinstance(config, ClientConfig):
+            raise ValueError("The provided config must be of type `ondewo.sip.client.client_config.ClientConfig`")
+
         self.services: ServicesContainer = ServicesContainer(
             sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),
         )

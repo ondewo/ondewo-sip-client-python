@@ -16,6 +16,15 @@
 * The unit coverage gate covers `report_answering_machine_detected` again; it had dropped to 98.67%.
 * `ondewo/sip` is also vendored by ondewo-vtsi-client-python: install both from the same sip-api commit.
 
+## Release ONDEWO SIP Python Client 5.4.3
+
+### Bug Fixes
+
+* [[OND211-2443]](https://ondewo.atlassian.net/browse/OND211-2443) `ClientConfig` no longer prints the mutual-TLS private key `grpc_client_key` (added by `ondewo-client-utils` 4.1.0). `BaseClientConfig` declares it `repr=False`, but this class overrides `__repr__` and ignored that flag, so `repr()` / `str()` rendered the PEM in clear text. It is now redacted as `***REDACTED***`, as is every other field declared `repr=False`.
+* [[OND211-2443]](https://ondewo.atlassian.net/browse/OND211-2443) Dependency: `ondewo-client-utils>=4.1.1` on Python >= 3.12 (`>=3.2.0` below).
+* [[OND211-2443]](https://ondewo.atlassian.net/browse/OND211-2443) `Client._initialize_services` and `AsyncClient._initialize_services` take a `BaseClientConfig` and raise `ValueError` for a config that is not a sip `ClientConfig`, instead of silencing the type check.
+* Regenerated with [ondewo-proto-compiler 5.15.2](https://github.com/ondewo/ondewo-proto-compiler/releases/tag/5.15.2).
+
 *****************
 
 ## Release ONDEWO SIP Python Client 5.4.2
@@ -24,13 +33,6 @@
 
 * [[OND221-2830]](https://ondewo.atlassian.net/browse/OND221-2830) Regenerated with [ondewo-proto-compiler 5.13.0](https://github.com/ondewo/ondewo-proto-compiler/releases/tag/5.13.0).
 * [[OND221-2830]](https://ondewo.atlassian.net/browse/OND221-2830) Tooling: `conventional-pre-commit` now runs before `giticket` at the commit-msg stage - with giticket first, its `[OND221-2830] fix: ...` rewrite was no longer valid Conventional Commits and every commit on a ticket branch failed. `README.md` is prettier-ignored where `.prettierrc` sets `useTabs` and markdownlint's MD010 de-tabs the same blocks, and the codegen `docker run` invocations no longer pass `-it`, which fails outside a TTY.
-
-*****************
-
-## Unreleased
-
-### Bug Fixes
-
 * `ClientConfig` no longer prints its credentials. `@dataclass` generates a `__repr__` that renders every field, so `log.debug(f"...{config}")` — or any traceback carrying locals — wrote the Keycloak password and the gRPC certificate to the logs in clear text. `repr()` and `str()` now render `password` and `grpc_cert` as `***REDACTED***`. An unset or empty value still renders as `None` / `''`: the marker reads as "set and sensitive", which misleads when the real fault is that nobody set it.
 * **Behaviour change** for anyone who parsed the repr: read the attribute (`config.password`, `config.grpc_cert`) instead. Only the rendered text changed — the fields themselves, equality and `dataclasses.asdict()` are untouched.
 
