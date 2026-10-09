@@ -167,14 +167,6 @@
 
 * Regenerated the client from the updated ONDEWO-SIP API protos
 * Upgraded grpcio to 1.42.0, protobuf to 3.19.1 and mypy-protobuf to 3.0.0
-
-*****************
-
-## Release ONDEWO SIP Python Client 3.0.0
-
-### New Features
-
-* Supports adding extra headers in calls and transfers when needed
 * Supports headers in get status when incoming call is connected
 
 *****************
