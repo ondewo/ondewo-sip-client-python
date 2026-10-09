@@ -22,6 +22,7 @@ path — the two branches of the `metadata` property. The bidirectional `stream_
 is asserted to hand the request iterator over unconsumed and to return the stub's stream as is.
 """
 
+import asyncio
 from typing import (
     Any,
     Dict,
@@ -471,11 +472,20 @@ def test_stream_call_audio_returns_the_stub_stream_without_consuming_the_request
     """
     _RecordingStreamStub.calls = []
     monkeypatch.setattr(module, "SipStub", _RecordingStreamStub)
-    service: Any = service_cls(config=_non_keycloak_config(), use_secure_channel=False)
     consumed: List[int] = []
     request_iterator: Iterator[sip.SipCallAudioRequest] = _audio_requests(consumed)
 
-    result: Any = service.stream_call_audio(request_iterator)
+    def _open_the_stream() -> Any:
+        service: Any = service_cls(config=_non_keycloak_config(), use_secure_channel=False)
+        return service.stream_call_audio(request_iterator)
+
+    async def _open_the_stream_inside_a_loop() -> Any:
+        return _open_the_stream()
+
+    # An async client is built inside a running event loop, as every real caller does: its grpc.aio channel
+    # asks for the current loop, and on Python 3.12 there is none in the main thread once an earlier
+    # `@pytest.mark.asyncio` test has closed its own.
+    result: Any = asyncio.run(_open_the_stream_inside_a_loop()) if service_cls is AsyncSip else _open_the_stream()
 
     assert result is _RecordingStreamStub.stream
     assert _RecordingStreamStub.calls == [(request_iterator, EXPECTED_EMPTY_METADATA)]
