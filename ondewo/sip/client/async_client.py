@@ -19,9 +19,10 @@ from typing import (
 )
 
 from ondewo.utils.async_base_client import AsyncBaseClient
+from ondewo.utils.base_client_config import BaseClientConfig
 
 from ondewo.sip.client.async_services_container import AsyncServicesContainer
-from ondewo.sip.client.client_config import BaseClientConfig
+from ondewo.sip.client.client_config import ClientConfig
 from ondewo.sip.client.services.async_sip import Sip
 
 
@@ -41,12 +42,13 @@ class AsyncClient(AsyncBaseClient):
         and set up the services in self.services.
 
         Args:
-            config (ClientConfig): Configuration for the client.
+            config (BaseClientConfig): Configuration for the client.
             use_secure_channel (bool): Whether to use a secure gRPC channel.
             options (Optional[Set[Tuple[str, Any]]]): Additional options for the gRPC channel.
         """
+        if not isinstance(config, ClientConfig):
+            raise ValueError("The provided config must be of type `ondewo.sip.client.client_config.ClientConfig`")
+
         self.services: AsyncServicesContainer = AsyncServicesContainer(
-            # The SDK is constructed with its ClientConfig; the base signature (typed since ondewo-client-utils 4)
-            # names BaseClientConfig.
-            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),  # type: ignore[arg-type]
+            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),
         )
