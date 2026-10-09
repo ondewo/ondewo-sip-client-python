@@ -46,5 +46,7 @@ class AsyncClient(AsyncBaseClient):
             options (Optional[Set[Tuple[str, Any]]]): Additional options for the gRPC channel.
         """
         self.services: AsyncServicesContainer = AsyncServicesContainer(
-            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),
+            # The SDK is constructed with its ClientConfig; the base signature (typed since ondewo-client-utils 4)
+            # names BaseClientConfig.
+            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),  # type: ignore[arg-type]
         )

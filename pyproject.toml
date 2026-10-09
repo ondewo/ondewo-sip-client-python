@@ -29,7 +29,10 @@ dependencies = [
     "grpcio",
     "grpcio-reflection",
     "grpcio-tools",
-    "ondewo-client-utils>=3.2.0",
+    # 4.1.1 is the first release whose BaseClientConfig carries the mutual-TLS key this SDK must redact; it requires
+    # Python >=3.12, so older interpreters keep the 3.x line (which has no client key to leak).
+    "ondewo-client-utils>=4.1.1; python_version >= '3.12'",
+    "ondewo-client-utils>=3.2.0; python_version < '3.12'",
     "polling",
     "protobuf",
     "regex",

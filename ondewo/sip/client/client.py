@@ -49,5 +49,7 @@ class Client(BaseClient):
                 Additional options for the gRPC channel.
         """
         self.services: ServicesContainer = ServicesContainer(
-            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),
+            # The SDK is constructed with its ClientConfig; the base signature (typed since ondewo-client-utils 4)
+            # names BaseClientConfig.
+            sip=Sip(config=config, use_secure_channel=use_secure_channel, options=options),  # type: ignore[arg-type]
         )

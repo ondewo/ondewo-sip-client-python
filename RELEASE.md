@@ -17,6 +17,7 @@
 
 * `ClientConfig` no longer prints its credentials. `@dataclass` generates a `__repr__` that renders every field, so `log.debug(f"...{config}")` — or any traceback carrying locals — wrote the Keycloak password and the gRPC certificate to the logs in clear text. `repr()` and `str()` now render `password` and `grpc_cert` as `***REDACTED***`. An unset or empty value still renders as `None` / `''`: the marker reads as "set and sensitive", which misleads when the real fault is that nobody set it.
 * **Behaviour change** for anyone who parsed the repr: read the attribute (`config.password`, `config.grpc_cert`) instead. Only the rendered text changed — the fields themselves, equality and `dataclasses.asdict()` are untouched.
+* `ClientConfig` no longer prints the mutual-TLS private key `grpc_client_key` (added by `ondewo-client-utils` 4.1.0). `BaseClientConfig` declares it `repr=False`, but this class overrides `__repr__` and ignored that flag, so `repr()` / `str()` rendered the PEM in clear text. It is now redacted as `***REDACTED***`, as is every other field declared `repr=False`. The `ondewo-client-utils` floor is raised to `>=4.1.1`.
 
 *****************
 
