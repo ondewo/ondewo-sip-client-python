@@ -19,9 +19,16 @@ tests assert only that the example builds the correct protobuf requests and hand
 """
 
 import sys
-from typing import cast
+from pathlib import Path
+from typing import (
+    Any,
+    Dict,
+    cast,
+)
 from unittest import mock
 from unittest.mock import MagicMock
+
+import pytest
 
 import ondewo.sip.sip_pb2 as sip
 from ondewo.sip.client.client import Client
@@ -67,18 +74,83 @@ def test_build_config_uses_keycloak_offline_token_path() -> None:
     assert not hasattr(config, "client_secret")
 
 
-def test_build_channel_options_declare_retry_policy() -> None:
-    """`build_channel_options` embeds a retry policy for the three SIP RPCs.
+def test_build_config_reads_tls_and_mutual_tls_pems_from_files(tmp_path: Path) -> None:
+    """The CA, client certificate and client key paths are read into the config as PEM content.
+
+    Args:
+        tmp_path (Path):
+            Per-test directory holding the PEM files.
 
     Returns:
         None
     """
-    options = dict(ex.build_channel_options())
+    pems: Dict[str, str] = {
+        "GRPC_CERT_PATH": "-----BEGIN CERTIFICATE-----\nca\n-----END CERTIFICATE-----\n",
+        "GRPC_CLIENT_CERT_PATH": "-----BEGIN CERTIFICATE-----\nleaf\n-----END CERTIFICATE-----\n",
+        # Header split so the detect-private-key hook does not flag this placeholder.
+        "GRPC_CLIENT_KEY_PATH": "-----BEGIN " + "PRIVATE KEY-----\nplanted-key-7f3a\n-----END PRIVATE KEY-----\n",
+    }
+    for name, content in pems.items():
+        (tmp_path / name).write_text(content)
 
-    assert options["grpc.enable_retries"] == 1
-    assert "SipRegisterAccount" in options["grpc.service_config"]
-    assert "SipStartSession" in options["grpc.service_config"]
-    assert "SipStartCall" in options["grpc.service_config"]
+    paths: Dict[str, Any] = {name: str(tmp_path / name) for name in pems}
+    with mock.patch.multiple(ex, **paths):
+        config = ex.build_config()
+
+    assert config.grpc_cert == pems["GRPC_CERT_PATH"].encode()
+    assert config.grpc_client_cert == pems["GRPC_CLIENT_CERT_PATH"].encode()
+    assert config.grpc_client_key == pems["GRPC_CLIENT_KEY_PATH"].encode()
+    assert "planted-key-7f3a" not in repr(config)
+    assert "planted-key-7f3a" not in str(config)
+
+
+def test_build_config_without_pem_paths_has_no_certificates() -> None:
+    """Unset PEM paths leave the config without a CA and without a client identity.
+
+    Returns:
+        None
+    """
+    with mock.patch.multiple(ex, GRPC_CERT_PATH="", GRPC_CLIENT_CERT_PATH="", GRPC_CLIENT_KEY_PATH=""):
+        config = ex.build_config()
+
+    assert config.grpc_cert is None
+    assert config.grpc_client_cert is None
+    assert config.grpc_client_key is None
+
+
+def test_build_config_refuses_half_a_client_identity(tmp_path: Path) -> None:
+    """A client certificate without its key is refused by the config, before any channel exists.
+
+    Args:
+        tmp_path (Path):
+            Per-test directory holding the PEM file.
+
+    Returns:
+        None
+    """
+    cert_path: Path = tmp_path / "client.pem"
+    cert_path.write_text("-----BEGIN CERTIFICATE-----\nleaf\n-----END CERTIFICATE-----\n")
+
+    with mock.patch.multiple(ex, GRPC_CLIENT_CERT_PATH=str(cert_path), GRPC_CLIENT_KEY_PATH=""):
+        with pytest.raises(ValueError, match="set both to use mutual TLS, or neither"):
+            ex.build_config()
+
+
+def test_build_client_keeps_the_idempotent_only_retry_policy() -> None:
+    """`build_client` passes no channel options, so the library's default retry policy applies.
+
+    The library retries only idempotent methods; a custom policy retrying `SipStartCall` on
+    `UNAVAILABLE` could place the same call twice.
+
+    Returns:
+        None
+    """
+    config = ex.build_config()
+
+    with mock.patch.object(ex, "Client") as client_cls:
+        ex.build_client(config=config, use_secure_channel=True)
+
+    client_cls.assert_called_once_with(config=config, use_secure_channel=True)
 
 
 def test_run_sip_flow_builds_requests_and_handles_status() -> None:

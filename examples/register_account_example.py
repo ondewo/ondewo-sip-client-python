@@ -31,15 +31,10 @@ Run it directly against a deployment::
 """
 
 import argparse
-import json
 import os
 import sys
 from pathlib import Path
-from typing import (
-    Any,
-    Set,
-    Tuple,
-)
+from typing import Optional
 
 import grpc
 from dotenv import load_dotenv
@@ -76,7 +71,11 @@ PORT: str = os.environ["ONDEWO_PORT"]
 USER_NAME: str = os.environ["ONDEWO_USER_NAME"]
 PASSWORD: str = os.environ["ONDEWO_PASSWORD"]
 USE_SECURE_CHANNEL: bool = _env_flag("ONDEWO_USE_SECURE_CHANNEL")
-GRPC_CERT: str = os.getenv("ONDEWO_GRPC_CERT", "")
+# Paths to PEM files (the config takes their CONTENT): the CA to trust and, for mutual TLS,
+# the client certificate and its private key (set both or neither).
+GRPC_CERT_PATH: str = os.getenv("ONDEWO_GRPC_CERT", "")
+GRPC_CLIENT_CERT_PATH: str = os.getenv("ONDEWO_GRPC_CLIENT_CERT", "")
+GRPC_CLIENT_KEY_PATH: str = os.getenv("ONDEWO_GRPC_CLIENT_KEY", "")
 
 # Keycloak headless offline-token auth (D18). The public SDK client carries no secret.
 # Leave the three fields empty to attach no auth token.
@@ -90,58 +89,19 @@ ACCOUNT_PASSWORD: str = os.environ["ONDEWO_SIP_ACCOUNT_PASSWORD"]
 CALLEE_ADDRESS: str = os.environ["ONDEWO_SIP_CALLEE_ADDRESS"]
 
 
-def build_channel_options() -> Set[Tuple[str, Any]]:
+def read_pem(path: str) -> Optional[str]:
     """
-    Build the gRPC channel options, including a per-method retry policy.
+    Read a PEM file's content, the form ``ClientConfig`` takes for certificates and keys.
+
+    Args:
+        path (str):
+            Path to the PEM file, or an empty string when it is not configured.
 
     Returns:
-        Set[Tuple[str, Any]]:
-            Channel options passed straight to the gRPC channel constructor.
+        Optional[str]:
+            The file content, or ``None`` when ``path`` is empty.
     """
-    # https://github.com/grpc/grpc-proto/blob/master/grpc/service_config/service_config.proto
-    service_config_json: str = json.dumps(
-        {
-            "methodConfig": [
-                {
-                    "name": [
-                        {"service": "ondewo.sip.Sip", "method": "SipRegisterAccount"},
-                        {"service": "ondewo.sip.Sip", "method": "SipStartSession"},
-                        {"service": "ondewo.sip.Sip", "method": "SipStartCall"},
-                    ],
-                    "retryPolicy": {
-                        "maxAttempts": 10,
-                        "initialBackoff": "1.1s",
-                        "maxBackoff": "3000s",
-                        "backoffMultiplier": 2,
-                        "retryableStatusCodes": [
-                            grpc.StatusCode.CANCELLED.name,
-                            grpc.StatusCode.UNKNOWN.name,
-                            grpc.StatusCode.DEADLINE_EXCEEDED.name,
-                            grpc.StatusCode.NOT_FOUND.name,
-                            grpc.StatusCode.RESOURCE_EXHAUSTED.name,
-                            grpc.StatusCode.ABORTED.name,
-                            grpc.StatusCode.INTERNAL.name,
-                            grpc.StatusCode.UNAVAILABLE.name,
-                            grpc.StatusCode.DATA_LOSS.name,
-                        ],
-                    },
-                }
-            ]
-        }
-    )
-
-    options: Set[Tuple[str, Any]] = {
-        ("grpc.max_send_message_length", 1024 * 1024),
-        ("grpc.max_receive_message_length", 1024 * 1024),
-        ("grpc.keepalive_time_ms", 2**31 - 1),
-        ("grpc.keepalive_timeout_ms", 20000),
-        ("grpc.keepalive_permit_without_calls", False),
-        ("grpc.http2.max_pings_without_data", 2),
-        ("grpc.dns_enable_srv_queries", 1),
-        ("grpc.enable_retries", 1),
-        ("grpc.service_config", service_config_json),
-    }
-    return options
+    return Path(path).read_text() if path else None
 
 
 def build_config() -> ClientConfig:
@@ -155,7 +115,9 @@ def build_config() -> ClientConfig:
     return ClientConfig(
         host=HOST,
         port=PORT,
-        grpc_cert=GRPC_CERT or None,
+        grpc_cert=read_pem(GRPC_CERT_PATH),
+        grpc_client_cert=read_pem(GRPC_CLIENT_CERT_PATH),
+        grpc_client_key=read_pem(GRPC_CLIENT_KEY_PATH),
         user_name=USER_NAME,
         password=PASSWORD,
         keycloak_url=KEYCLOAK_URL,
@@ -172,17 +134,16 @@ def build_client(config: ClientConfig, use_secure_channel: bool) -> Client:
         config (ClientConfig):
             The validated client configuration.
         use_secure_channel (bool):
-            Whether to open a TLS gRPC channel (requires `grpc_cert` on the config).
+            Whether to open a TLS gRPC channel (requires `grpc_cert` on the config; a client
+            certificate and key on the config make it mutual TLS).
 
     Returns:
         Client:
             A ready-to-use SIP client.
     """
-    return Client(
-        config=config,
-        use_secure_channel=use_secure_channel,
-        options=build_channel_options(),
-    )
+    # No custom channel options: the client's defaults retry only idempotent methods, so a
+    # SipRegisterAccount / SipStartSession / SipStartCall is never sent twice.
+    return Client(config=config, use_secure_channel=use_secure_channel)
 
 
 def run_sip_flow(client: Client) -> sip.SipStatus:

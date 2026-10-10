@@ -41,6 +41,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    # The mutual-TLS end-to-end tests mint their PKI with it (tests/unit/client/test_mutual_tls_end_to_end.py).
+    "cryptography",
     "jupyter",
     "loguru",
     "mypy",

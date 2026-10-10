@@ -14,7 +14,10 @@
 
 * `ondewo/sip/client/services/async_sip.py` is hand-written now (marker `ondewo:hand-written-async-service`), and `make create_async_services` leaves a marked file alone, as in ondewo-vtsi-client-python.
 * The unit coverage gate covers `report_answering_machine_detected` again; it had dropped to 98.67%.
-* `ondewo/sip` is also vendored by ondewo-vtsi-client-python: install both from the same sip-api commit.
+* `SipGetSipStatus` and `SipGetSipStatusHistory` carry `idempotency_level = NO_SIDE_EFFECTS` (sip-api 5.5.0), so `ondewo-client-utils` retries them on transient errors.
+* `ondewo/sip` is also vendored by ondewo-vtsi-client-python: install both from the same sip-api release (5.5.0).
+
+*****************
 
 ## Release ONDEWO SIP Python Client 5.4.3
 
@@ -175,12 +178,21 @@
 
 *****************
 
-## Release ONDEWO SIP Python Client 3.0.0
+## Release ONDEWO SIP Python Client 3.1.0
+
+### New Features
+
+* Regenerated the client from the updated ONDEWO-SIP API protos
+* Upgraded grpcio to 1.42.0, protobuf to 3.19.1 and mypy-protobuf to 3.0.0
+* Supports headers in get status when incoming call is connected
+
+*****************
+
+## Release ONDEWO SIP Python Client 2.3.0
 
 ### New Features
 
 * Supports adding extra headers in calls and transfers when needed
-* Supports headers in get status when incoming call is connected
 
 *****************
 
