@@ -33,23 +33,406 @@ else:
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
+class _MediaControlSetting:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _MediaControlSettingEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_MediaControlSetting.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    MEDIA_CONTROL_SETTING_UNCHANGED: _MediaControlSetting.ValueType  # 0
+    """Leave the flag as it is for this owner"""
+    MEDIA_CONTROL_SETTING_ON: _MediaControlSetting.ValueType  # 1
+    """The flag is on: the bot speaks (<code>bot_voice</code>) or the bot listens (<code>bot_listening</code>)"""
+    MEDIA_CONTROL_SETTING_OFF: _MediaControlSetting.ValueType  # 2
+    """The flag is off: the bot is muted (<code>bot_voice</code>) or the bot's listening is paused (<code>bot_listening</code>)"""
+
+class MediaControlSetting(_MediaControlSetting, metaclass=_MediaControlSettingEnumTypeWrapper):
+    """<p>Desired setting of one media control flag</p>"""
+
+MEDIA_CONTROL_SETTING_UNCHANGED: MediaControlSetting.ValueType  # 0
+"""Leave the flag as it is for this owner"""
+MEDIA_CONTROL_SETTING_ON: MediaControlSetting.ValueType  # 1
+"""The flag is on: the bot speaks (<code>bot_voice</code>) or the bot listens (<code>bot_listening</code>)"""
+MEDIA_CONTROL_SETTING_OFF: MediaControlSetting.ValueType  # 2
+"""The flag is off: the bot is muted (<code>bot_voice</code>) or the bot's listening is paused (<code>bot_listening</code>)"""
+global___MediaControlSetting = MediaControlSetting
+
+class _MediaControlOwner:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _MediaControlOwnerEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_MediaControlOwner.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    MEDIA_CONTROL_OWNER_UNSPECIFIED: _MediaControlOwner.ValueType  # 0
+    """Same as <code>MEDIA_CONTROL_OWNER_OPERATOR</code>"""
+    MEDIA_CONTROL_OWNER_OPERATOR: _MediaControlOwner.ValueType  # 1
+    """An operator, e.g. a supervisor muting the bot"""
+    MEDIA_CONTROL_OWNER_PARTICIPANT: _MediaControlOwner.ValueType  # 2
+    """The bot policy of invited conference participants, set while at least one participant is ringing or joined. Its
+    hold mutes or pauses the bot only when a participant's bot policy asks for it; it also carries
+    <code>SipSetCallMediaControlRequest.participants_present</code>
+    """
+
+class MediaControlOwner(_MediaControlOwner, metaclass=_MediaControlOwnerEnumTypeWrapper):
+    """<p>Owner of a media control hold. Each owner holds its own mute and pause; releasing one owner's hold never releases
+    another owner's</p>
+    """
+
+MEDIA_CONTROL_OWNER_UNSPECIFIED: MediaControlOwner.ValueType  # 0
+"""Same as <code>MEDIA_CONTROL_OWNER_OPERATOR</code>"""
+MEDIA_CONTROL_OWNER_OPERATOR: MediaControlOwner.ValueType  # 1
+"""An operator, e.g. a supervisor muting the bot"""
+MEDIA_CONTROL_OWNER_PARTICIPANT: MediaControlOwner.ValueType  # 2
+"""The bot policy of invited conference participants, set while at least one participant is ringing or joined. Its
+hold mutes or pauses the bot only when a participant's bot policy asks for it; it also carries
+<code>SipSetCallMediaControlRequest.participants_present</code>
+"""
+global___MediaControlOwner = MediaControlOwner
+
+class _SipCallAudioMode:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SipCallAudioModeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipCallAudioMode.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SIP_CALL_AUDIO_MODE_UNSPECIFIED: _SipCallAudioMode.ValueType  # 0
+    """Same as <code>SIP_CALL_AUDIO_MODE_LISTEN</code>"""
+    SIP_CALL_AUDIO_MODE_LISTEN: _SipCallAudioMode.ValueType  # 1
+    """Receive the call audio only"""
+    SIP_CALL_AUDIO_MODE_TALK: _SipCallAudioMode.ValueType  # 2
+    """Receive the caller's audio and send audio to the caller. Requires <code>take_over</code>"""
+
+class SipCallAudioMode(_SipCallAudioMode, metaclass=_SipCallAudioModeEnumTypeWrapper):
+    """<p>Mode of a <code>SipStreamCallAudio</code> stream</p>"""
+
+SIP_CALL_AUDIO_MODE_UNSPECIFIED: SipCallAudioMode.ValueType  # 0
+"""Same as <code>SIP_CALL_AUDIO_MODE_LISTEN</code>"""
+SIP_CALL_AUDIO_MODE_LISTEN: SipCallAudioMode.ValueType  # 1
+"""Receive the call audio only"""
+SIP_CALL_AUDIO_MODE_TALK: SipCallAudioMode.ValueType  # 2
+"""Receive the caller's audio and send audio to the caller. Requires <code>take_over</code>"""
+global___SipCallAudioMode = SipCallAudioMode
+
+class _SipCallAudioEndReason:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SipCallAudioEndReasonEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipCallAudioEndReason.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SIP_CALL_AUDIO_END_REASON_UNSPECIFIED: _SipCallAudioEndReason.ValueType  # 0
+    """No reason recorded"""
+    SIP_CALL_AUDIO_END_REASON_CLIENT_CLOSED: _SipCallAudioEndReason.ValueType  # 1
+    """The client cancelled or half-closed the stream"""
+    SIP_CALL_AUDIO_END_REASON_CALL_ENDED: _SipCallAudioEndReason.ValueType  # 2
+    """The call ended"""
+    SIP_CALL_AUDIO_END_REASON_CALL_TRANSFERRED: _SipCallAudioEndReason.ValueType  # 3
+    """The call was transferred"""
+    SIP_CALL_AUDIO_END_REASON_MAX_DURATION: _SipCallAudioEndReason.ValueType  # 4
+    """<code>max_duration_s</code> was reached"""
+    SIP_CALL_AUDIO_END_REASON_STALLED: _SipCallAudioEndReason.ValueType  # 5
+    """The client did not read the audio in time"""
+    SIP_CALL_AUDIO_END_REASON_INTERNAL: _SipCallAudioEndReason.ValueType  # 6
+    """An internal error ended the stream"""
+
+class SipCallAudioEndReason(_SipCallAudioEndReason, metaclass=_SipCallAudioEndReasonEnumTypeWrapper):
+    """<p>Why a <code>SipStreamCallAudio</code> stream ended</p>"""
+
+SIP_CALL_AUDIO_END_REASON_UNSPECIFIED: SipCallAudioEndReason.ValueType  # 0
+"""No reason recorded"""
+SIP_CALL_AUDIO_END_REASON_CLIENT_CLOSED: SipCallAudioEndReason.ValueType  # 1
+"""The client cancelled or half-closed the stream"""
+SIP_CALL_AUDIO_END_REASON_CALL_ENDED: SipCallAudioEndReason.ValueType  # 2
+"""The call ended"""
+SIP_CALL_AUDIO_END_REASON_CALL_TRANSFERRED: SipCallAudioEndReason.ValueType  # 3
+"""The call was transferred"""
+SIP_CALL_AUDIO_END_REASON_MAX_DURATION: SipCallAudioEndReason.ValueType  # 4
+"""<code>max_duration_s</code> was reached"""
+SIP_CALL_AUDIO_END_REASON_STALLED: SipCallAudioEndReason.ValueType  # 5
+"""The client did not read the audio in time"""
+SIP_CALL_AUDIO_END_REASON_INTERNAL: SipCallAudioEndReason.ValueType  # 6
+"""An internal error ended the stream"""
+global___SipCallAudioEndReason = SipCallAudioEndReason
+
 @typing.final
 class SipEndCallRequest(google.protobuf.message.Message):
     """<p>Ends an ongoing call of the active SIP session of the active SIP account</p>"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    class _EndCallReason:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _EndCallReasonEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipEndCallRequest._EndCallReason.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        END_CALL_REASON_UNSPECIFIED: SipEndCallRequest._EndCallReason.ValueType  # 0
+        """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
+        ANSWERING_MACHINE: SipEndCallRequest._EndCallReason.ValueType  # 1
+        """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
+        network announcement, ...) and the call is hung up WITHOUT leaving a voice message. The terminal status
+        of the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+        <code>Answering machine detected with hang up</code>
+        """
+        ANSWERING_MACHINE_VOICE_MESSAGE_LEFT: SipEndCallRequest._EndCallReason.ValueType  # 2
+        """Answering machine detection decided the callee is an answering machine, a voice message was left on it,
+        and the call is hung up afterwards (or when the voice message timeout expired). The terminal status of
+        the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+        <code>Answering machine detected with left voice message and hang up</code>
+        """
+        END_CALL_REASON_TRANSFERRED: SipEndCallRequest._EndCallReason.ValueType  # 3
+        """A WARM transfer completed: the transfer target joined the call and the bot leaves it. The terminal status of
+        the call is <code>*_CALL_FINISHED</code> with the description <code>Call transferred</code> and
+        <code>transfer_call_id</code> set to the transfer target
+        """
+
+    class EndCallReason(_EndCallReason, metaclass=_EndCallReasonEnumTypeWrapper):
+        """<p>Why the call is being ended</p>"""
+
+    END_CALL_REASON_UNSPECIFIED: SipEndCallRequest.EndCallReason.ValueType  # 0
+    """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
+    ANSWERING_MACHINE: SipEndCallRequest.EndCallReason.ValueType  # 1
+    """Answering machine detection decided the callee is not a person to talk to (answering machine, fax,
+    network announcement, ...) and the call is hung up WITHOUT leaving a voice message. The terminal status
+    of the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+    <code>Answering machine detected with hang up</code>
+    """
+    ANSWERING_MACHINE_VOICE_MESSAGE_LEFT: SipEndCallRequest.EndCallReason.ValueType  # 2
+    """Answering machine detection decided the callee is an answering machine, a voice message was left on it,
+    and the call is hung up afterwards (or when the voice message timeout expired). The terminal status of
+    the call is <code>OUTGOING_CALL_FINISHED</code> with the description
+    <code>Answering machine detected with left voice message and hang up</code>
+    """
+    END_CALL_REASON_TRANSFERRED: SipEndCallRequest.EndCallReason.ValueType  # 3
+    """A WARM transfer completed: the transfer target joined the call and the bot leaves it. The terminal status of
+    the call is <code>*_CALL_FINISHED</code> with the description <code>Call transferred</code> and
+    <code>transfer_call_id</code> set to the transfer target
+    """
+
     HARD_HANGUP_FIELD_NUMBER: builtins.int
+    END_REASON_FIELD_NUMBER: builtins.int
+    AMD_RESULT_FIELD_NUMBER: builtins.int
     hard_hangup: builtins.bool
     """Set to <code>True</code> to forcefully hang up the call"""
+    end_reason: global___SipEndCallRequest.EndCallReason.ValueType
+    """Optional: reason for ending the call. Leave unset for an ordinary hangup"""
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Optional: result of the answering machine detection that decided to end the call. Only meaningful together with
+        <code>end_reason = ANSWERING_MACHINE</code> or <code>end_reason = ANSWERING_MACHINE_VOICE_MESSAGE_LEFT</code>;
+        it is carried into <code>SipStatus.amd_result</code> of the terminal status of the call
+        """
+
     def __init__(
         self,
         *,
         hard_hangup: builtins.bool = ...,
+        end_reason: global___SipEndCallRequest.EndCallReason.ValueType = ...,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["hard_hangup", b"hard_hangup"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result", "end_reason", b"end_reason", "hard_hangup", b"hard_hangup"]) -> None: ...
 
 global___SipEndCallRequest = SipEndCallRequest
+
+@typing.final
+class SipReportAnsweringMachineDetectedRequest(google.protobuf.message.Message):
+    """<p>Reports the verdict of the answering machine detection of the ongoing outgoing call</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    AMD_RESULT_FIELD_NUMBER: builtins.int
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Result of the answering machine detection. Written to <code>SipStatus.amd_result</code> of the
+        <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> status of the call
+        """
+
+    def __init__(
+        self,
+        *,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> None: ...
+
+global___SipReportAnsweringMachineDetectedRequest = SipReportAnsweringMachineDetectedRequest
+
+@typing.final
+class AnsweringMachineDetectionResult(google.protobuf.message.Message):
+    """<p>Result of the answering machine detection (AMD) of an outbound call</p>
+    <p>Carries identifiers from closed vocabularies only: never audio, transcript text or a phone number</p>
+    """
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    class _Verdict:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _VerdictEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Verdict.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        VERDICT_UNSPECIFIED: AnsweringMachineDetectionResult._Verdict.ValueType  # 0
+        """No verdict available"""
+        HUMAN: AnsweringMachineDetectionResult._Verdict.ValueType  # 1
+        """A person answered the call"""
+        MACHINE: AnsweringMachineDetectionResult._Verdict.ValueType  # 2
+        """An answering machine or voicemail answered the call"""
+        IVR: AnsweringMachineDetectionResult._Verdict.ValueType  # 3
+        """An interactive voice response system (IVR) answered the call"""
+        FAX: AnsweringMachineDetectionResult._Verdict.ValueType  # 4
+        """A fax machine answered the call"""
+        NETWORK_ANNOUNCEMENT: AnsweringMachineDetectionResult._Verdict.ValueType  # 5
+        """A network announcement answered the call, e.g. "the number you have dialed is not available" """
+        CALL_SCREENING: AnsweringMachineDetectionResult._Verdict.ValueType  # 6
+        """A call screening service answered the call, e.g. asking the caller to state their name"""
+        NO_SPEECH: AnsweringMachineDetectionResult._Verdict.ValueType  # 7
+        """Nothing was said within the detection window"""
+        UNKNOWN: AnsweringMachineDetectionResult._Verdict.ValueType  # 8
+        """The detection could not decide"""
+
+    class Verdict(_Verdict, metaclass=_VerdictEnumTypeWrapper):
+        """<p>Who or what answered the call</p>"""
+
+    VERDICT_UNSPECIFIED: AnsweringMachineDetectionResult.Verdict.ValueType  # 0
+    """No verdict available"""
+    HUMAN: AnsweringMachineDetectionResult.Verdict.ValueType  # 1
+    """A person answered the call"""
+    MACHINE: AnsweringMachineDetectionResult.Verdict.ValueType  # 2
+    """An answering machine or voicemail answered the call"""
+    IVR: AnsweringMachineDetectionResult.Verdict.ValueType  # 3
+    """An interactive voice response system (IVR) answered the call"""
+    FAX: AnsweringMachineDetectionResult.Verdict.ValueType  # 4
+    """A fax machine answered the call"""
+    NETWORK_ANNOUNCEMENT: AnsweringMachineDetectionResult.Verdict.ValueType  # 5
+    """A network announcement answered the call, e.g. "the number you have dialed is not available" """
+    CALL_SCREENING: AnsweringMachineDetectionResult.Verdict.ValueType  # 6
+    """A call screening service answered the call, e.g. asking the caller to state their name"""
+    NO_SPEECH: AnsweringMachineDetectionResult.Verdict.ValueType  # 7
+    """Nothing was said within the detection window"""
+    UNKNOWN: AnsweringMachineDetectionResult.Verdict.ValueType  # 8
+    """The detection could not decide"""
+
+    class _Cause:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _CauseEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Cause.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        CAUSE_UNSPECIFIED: AnsweringMachineDetectionResult._Cause.ValueType  # 0
+        """No cause available"""
+        CADENCE: AnsweringMachineDetectionResult._Cause.ValueType  # 1
+        """The speech cadence, e.g. a long uninterrupted greeting"""
+        KEYWORD: AnsweringMachineDetectionResult._Cause.ValueType  # 2
+        """A keyword or phrase typical of the verdict"""
+        BEEP: AnsweringMachineDetectionResult._Cause.ValueType  # 3
+        """A voicemail beep"""
+        TONE: AnsweringMachineDetectionResult._Cause.ValueType  # 4
+        """A tone, e.g. a fax or special information tone"""
+        CADENCE_AND_KEYWORD: AnsweringMachineDetectionResult._Cause.ValueType  # 5
+        """Both the speech cadence and a keyword"""
+        CADENCE_AND_BEEP: AnsweringMachineDetectionResult._Cause.ValueType  # 6
+        """Both the speech cadence and a voicemail beep"""
+        TIMEOUT: AnsweringMachineDetectionResult._Cause.ValueType  # 7
+        """The detection window ended before any other evidence decided"""
+        SILENCE: AnsweringMachineDetectionResult._Cause.ValueType  # 8
+        """Silence throughout the detection window"""
+
+    class Cause(_Cause, metaclass=_CauseEnumTypeWrapper):
+        """<p>Evidence that led to the verdict</p>"""
+
+    CAUSE_UNSPECIFIED: AnsweringMachineDetectionResult.Cause.ValueType  # 0
+    """No cause available"""
+    CADENCE: AnsweringMachineDetectionResult.Cause.ValueType  # 1
+    """The speech cadence, e.g. a long uninterrupted greeting"""
+    KEYWORD: AnsweringMachineDetectionResult.Cause.ValueType  # 2
+    """A keyword or phrase typical of the verdict"""
+    BEEP: AnsweringMachineDetectionResult.Cause.ValueType  # 3
+    """A voicemail beep"""
+    TONE: AnsweringMachineDetectionResult.Cause.ValueType  # 4
+    """A tone, e.g. a fax or special information tone"""
+    CADENCE_AND_KEYWORD: AnsweringMachineDetectionResult.Cause.ValueType  # 5
+    """Both the speech cadence and a keyword"""
+    CADENCE_AND_BEEP: AnsweringMachineDetectionResult.Cause.ValueType  # 6
+    """Both the speech cadence and a voicemail beep"""
+    TIMEOUT: AnsweringMachineDetectionResult.Cause.ValueType  # 7
+    """The detection window ended before any other evidence decided"""
+    SILENCE: AnsweringMachineDetectionResult.Cause.ValueType  # 8
+    """Silence throughout the detection window"""
+
+    class _ActionTaken:
+        ValueType = typing.NewType("ValueType", builtins.int)
+        V: typing_extensions.TypeAlias = ValueType
+
+    class _ActionTakenEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._ActionTaken.ValueType], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+        ACTION_TAKEN_UNSPECIFIED: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 0
+        """No action recorded"""
+        HUNG_UP: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 1
+        """The call was hung up"""
+        CONTINUED: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 2
+        """The call continued as normal"""
+        DETECT_ONLY: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 3
+        """Detection only: the verdict was recorded, but the call was not influenced by it"""
+        LEFT_VOICE_MESSAGE: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 4
+        """A voice message was left on the answering machine, and the call was hung up afterwards"""
+
+    class ActionTaken(_ActionTaken, metaclass=_ActionTakenEnumTypeWrapper):
+        """<p>What was done because of the verdict</p>"""
+
+    ACTION_TAKEN_UNSPECIFIED: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 0
+    """No action recorded"""
+    HUNG_UP: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 1
+    """The call was hung up"""
+    CONTINUED: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 2
+    """The call continued as normal"""
+    DETECT_ONLY: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 3
+    """Detection only: the verdict was recorded, but the call was not influenced by it"""
+    LEFT_VOICE_MESSAGE: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 4
+    """A voice message was left on the answering machine, and the call was hung up afterwards"""
+
+    VERDICT_FIELD_NUMBER: builtins.int
+    CAUSE_FIELD_NUMBER: builtins.int
+    CONFIDENCE_FIELD_NUMBER: builtins.int
+    DECISION_MS_FIELD_NUMBER: builtins.int
+    RULE_ID_FIELD_NUMBER: builtins.int
+    MATCHED_CUE_IDS_FIELD_NUMBER: builtins.int
+    ACTION_TAKEN_FIELD_NUMBER: builtins.int
+    CALL_ID_FIELD_NUMBER: builtins.int
+    verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType
+    """Who or what answered the call"""
+    cause: global___AnsweringMachineDetectionResult.Cause.ValueType
+    """Evidence that led to the verdict"""
+    confidence: builtins.float
+    """Confidence of the verdict, between <code>0.0</code> and <code>1.0</code>"""
+    decision_ms: builtins.int
+    """Time in milliseconds from the call being connected until the verdict was reached"""
+    rule_id: builtins.str
+    """Identifier of the detection rule that produced the verdict"""
+    action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType
+    """What was done because of the verdict"""
+    call_id: builtins.str
+    """Identifier of the call the result belongs to, i.e. the value of the <code>X-ondewo-vtsi-caller-call-id</code>
+    header of the call. Used to match a result to its call by identity rather than by recency
+    """
+    @property
+    def matched_cue_ids(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """Identifiers of the cues that matched, e.g. keyword or tone identifiers. Identifiers only, never transcript text"""
+
+    def __init__(
+        self,
+        *,
+        verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType = ...,
+        cause: global___AnsweringMachineDetectionResult.Cause.ValueType = ...,
+        confidence: builtins.float = ...,
+        decision_ms: builtins.int = ...,
+        rule_id: builtins.str = ...,
+        matched_cue_ids: collections.abc.Iterable[builtins.str] | None = ...,
+        action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType = ...,
+        call_id: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["action_taken", b"action_taken", "call_id", b"call_id", "cause", b"cause", "confidence", b"confidence", "decision_ms", b"decision_ms", "matched_cue_ids", b"matched_cue_ids", "rule_id", b"rule_id", "verdict", b"verdict"]) -> None: ...
+
+global___AnsweringMachineDetectionResult = AnsweringMachineDetectionResult
 
 @typing.final
 class SipStartCallRequest(google.protobuf.message.Message):
@@ -171,19 +554,46 @@ class SipTransferCallRequest(google.protobuf.message.Message):
 
     TRANSFER_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
+    OUTCOME_TIMEOUT_MS_FIELD_NUMBER: builtins.int
     transfer_id: builtins.str
     """The account name or phone number to transfer the call to"""
+    outcome_timeout_ms: builtins.int
+    """<p>Optional. How long to wait, in milliseconds, for the SIP server's answer to the REFER before reporting the outcome.
+    Clamped to 10000.</p>
+    <p><code>0</code> (default): legacy behaviour, unchanged: REFER, then an immediate hangup.</p>
+    <p><code>&gt; 0</code>: the call is kept until the outcome is known:</p>
+    <ul>
+      <li>REFER accepted (<code>202</code>): the hangup is held for a short grace in which a terminal NOTIFY with a
+      <code>404</code> sipfrag (unknown target) still counts as a refusal; any other sipfrag, or none, means accepted.
+      The bot then hangs up and <code>TRANSFER_CALL_INITIATED</code> is returned with
+      <code>sip_response_code = 202</code>. The call ends as <code>*_CALL_FINISHED</code> with the description
+      <code>Call transferred</code>.</li>
+      <li>REFER refused (a final response <code>&gt;= 400</code>, or the <code>404</code> sipfrag above): the call is KEPT
+      with the bot, nothing is assigned to the shared status, and <code>TRANSFER_CALL_FAILED</code> is returned with
+      <code>description = reason=refer-rejected</code> and <code>sip_response_code</code> (<code>0</code> when the SIP
+      stack did not report the code, e.g. a declined REFER).</li>
+      <li>No answer within the timeout: the call is KEPT and <code>TRANSFER_CALL_FAILED</code> is returned with
+      <code>description = reason=refer-timeout</code>. A late acceptance still ends the bot's leg.</li>
+      <li>The call ended while waiting: <code>NO_ONGOING_CALL</code> is returned.</li>
+    </ul>
+    <p>A <code>202</code> does not mean the target answered: when the dialplan's dial to the target then fails (busy, no
+    answer, unreachable) the caller is lost. Validate targets up front, or use a WARM transfer.</p>
+    """
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
-        """The headers to include when transferring the call"""
+        """The headers to include when transferring the call. They are sent on the REFER. Note that Asterisk (res_pjsip,
+        measured on 18.6 and 22) does NOT forward headers of a REFER to the transfer target: the target receives the
+        headers of the transferred caller's original INVITE. Hand headers to the target through the dialplan instead
+        """
 
     def __init__(
         self,
         *,
         transfer_id: builtins.str = ...,
         headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        outcome_timeout_ms: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["headers", b"headers", "transfer_id", b"transfer_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["headers", b"headers", "outcome_timeout_ms", b"outcome_timeout_ms", "transfer_id", b"transfer_id"]) -> None: ...
 
 global___SipTransferCallRequest = SipTransferCallRequest
 
@@ -243,6 +653,16 @@ class SipStatus(google.protobuf.message.Message):
         """Microphone has played wav files"""
         NO_ONGOING_CALL: SipStatus._StatusType.ValueType  # 21
         """No ongoing call"""
+        OUTGOING_CALL_ANSWERING_MACHINE_DETECTED: SipStatus._StatusType.ValueType  # 22
+        """Answering machine detection decided the callee of the ongoing outgoing call is not a person to talk to.
+        NOT terminal: the call is still up when this status is set. <code>amd_result.verdict</code> tells an
+        answering machine, a fax, a network announcement, ... apart. The call then ends as
+        <code>OUTGOING_CALL_FINISHED</code> carrying <code>amd_result</code> and exactly one of the descriptions
+        <code>Answering machine detected with hang up</code>,
+        <code>Answering machine detected with left voice message and hang up</code>,
+        <code>Answering machine detected, call ended by the answering machine</code> or
+        <code>Answering machine detected, call ended by the answering machine after leaving a voice message</code>
+        """
 
     class StatusType(_StatusType, metaclass=_StatusTypeEnumTypeWrapper):
         """Types of status"""
@@ -291,6 +711,16 @@ class SipStatus(google.protobuf.message.Message):
     """Microphone has played wav files"""
     NO_ONGOING_CALL: SipStatus.StatusType.ValueType  # 21
     """No ongoing call"""
+    OUTGOING_CALL_ANSWERING_MACHINE_DETECTED: SipStatus.StatusType.ValueType  # 22
+    """Answering machine detection decided the callee of the ongoing outgoing call is not a person to talk to.
+    NOT terminal: the call is still up when this status is set. <code>amd_result.verdict</code> tells an
+    answering machine, a fax, a network announcement, ... apart. The call then ends as
+    <code>OUTGOING_CALL_FINISHED</code> carrying <code>amd_result</code> and exactly one of the descriptions
+    <code>Answering machine detected with hang up</code>,
+    <code>Answering machine detected with left voice message and hang up</code>,
+    <code>Answering machine detected, call ended by the answering machine</code> or
+    <code>Answering machine detected, call ended by the answering machine after leaving a voice message</code>
+    """
 
     @typing.final
     class HeadersEntry(google.protobuf.message.Message):
@@ -318,6 +748,12 @@ class SipStatus(google.protobuf.message.Message):
     EXCEPTION_NAME_FIELD_NUMBER: builtins.int
     EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
     NLU_SESSION_NAME_FIELD_NUMBER: builtins.int
+    AMD_RESULT_FIELD_NUMBER: builtins.int
+    CALL_ID_FIELD_NUMBER: builtins.int
+    BOT_MUTED_FIELD_NUMBER: builtins.int
+    LISTENING_PAUSED_FIELD_NUMBER: builtins.int
+    CALL_AUDIO_STREAMS_FIELD_NUMBER: builtins.int
+    SIP_RESPONSE_CODE_FIELD_NUMBER: builtins.int
     account_name: builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
@@ -336,6 +772,27 @@ class SipStatus(google.protobuf.message.Message):
     """Traceback of the exception"""
     nlu_session_name: builtins.str
     """session name of the NLU session"""
+    call_id: builtins.str
+    """Identifier of the ongoing call, minted per call: the value of the <code>X-ondewo-vtsi-caller-call-id</code> header of
+    an outgoing call when present, otherwise a random UUID. Empty when no call is ongoing. Set on every status of the
+    call, including the entries of <code>SipGetSipStatusHistory</code>. Clients send it back as the
+    <code>x-ondewo-expected-call-id</code> metadatum to scope a request to this call
+    """
+    bot_muted: builtins.bool
+    """<code>true</code> while the bot is muted by an operator, a conference participant policy or a TALK take-over of
+    <code>SipSetCallMediaControl</code> / <code>SipStreamCallAudio</code>. Not the bot's own pipeline mute
+    (<code>MICROPHONE_MUTED</code>). Cleared when the call ends
+    """
+    listening_paused: builtins.bool
+    """<code>true</code> while the bot does not listen to the caller (see <code>bot_muted</code> for who sets it). Cleared
+    when the call ends
+    """
+    call_audio_streams: builtins.int
+    """Number of connected <code>SipStreamCallAudio</code> streams of the ongoing call"""
+    sip_response_code: builtins.int
+    """SIP response code of the last transfer attempt of the ongoing call (<code>202</code> when accepted, the refusal code
+    otherwise, <code>0</code> when unknown). Call-scoped
+    """
     @property
     def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """Timestamp of the status"""
@@ -343,6 +800,13 @@ class SipStatus(google.protobuf.message.Message):
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Headers to include when calling outbound or transfer"""
+
+    @property
+    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+        """Result of the answering machine detection of the call. Set on
+        <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> and on the terminal status of every call on which answering machine detection ran, including a
+        <code>HUMAN</code> verdict; unset otherwise
+        """
 
     def __init__(
         self,
@@ -357,9 +821,15 @@ class SipStatus(google.protobuf.message.Message):
         exception_name: builtins.str = ...,
         exception_traceback: builtins.str = ...,
         nlu_session_name: builtins.str = ...,
+        amd_result: global___AnsweringMachineDetectionResult | None = ...,
+        call_id: builtins.str = ...,
+        bot_muted: builtins.bool = ...,
+        listening_paused: builtins.bool = ...,
+        call_audio_streams: builtins.int = ...,
+        sip_response_code: builtins.int = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "nlu_session_name", b"nlu_session_name", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result", "timestamp", b"timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "bot_muted", b"bot_muted", "call_audio_streams", b"call_audio_streams", "call_id", b"call_id", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "listening_paused", b"listening_paused", "nlu_session_name", b"nlu_session_name", "sip_response_code", b"sip_response_code", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
 
 global___SipStatus = SipStatus
 
@@ -382,6 +852,268 @@ class SipStatusHistoryResponse(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["status_history", b"status_history"]) -> None: ...
 
 global___SipStatusHistoryResponse = SipStatusHistoryResponse
+
+@typing.final
+class SipSetCallMediaControlRequest(google.protobuf.message.Message):
+    """<p>Request of <code>SipSetCallMediaControl</code></p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    BOT_VOICE_FIELD_NUMBER: builtins.int
+    BOT_LISTENING_FIELD_NUMBER: builtins.int
+    OWNER_FIELD_NUMBER: builtins.int
+    PARTICIPANTS_PRESENT_FIELD_NUMBER: builtins.int
+    bot_voice: global___MediaControlSetting.ValueType
+    """<code>MEDIA_CONTROL_SETTING_ON</code>: the bot speaks. <code>MEDIA_CONTROL_SETTING_OFF</code>: the bot is muted"""
+    bot_listening: global___MediaControlSetting.ValueType
+    """<code>MEDIA_CONTROL_SETTING_ON</code>: caller audio reaches speech-to-text. <code>MEDIA_CONTROL_SETTING_OFF</code>:
+    listening is paused
+    """
+    owner: global___MediaControlOwner.ValueType
+    """Owner whose hold is set"""
+    participants_present: builtins.bool
+    """<p>Only for <code>MEDIA_CONTROL_OWNER_PARTICIPANT</code>, ignored for every other owner: whether at least one
+    invited participant is ringing or joined. Every participant request carries the full value, so the request that
+    reports the last participant gone sends <code>false</code>.</p>
+    <p>While participants are present (this flag, or a mute or pause held by the participant owner)
+    <code>SipTransferCall</code> is refused with <code>exception_name=ParticipantsPresent</code>, because a REFER
+    into a conference bridge transfers every party in it. A request that would mark participants present while a
+    transfer of the call is in flight is refused with <code>exception_name=TransferInProgress</code> and changes
+    nothing. Cleared when the call ends</p>
+    """
+    def __init__(
+        self,
+        *,
+        bot_voice: global___MediaControlSetting.ValueType = ...,
+        bot_listening: global___MediaControlSetting.ValueType = ...,
+        owner: global___MediaControlOwner.ValueType = ...,
+        participants_present: builtins.bool = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["bot_listening", b"bot_listening", "bot_voice", b"bot_voice", "owner", b"owner", "participants_present", b"participants_present"]) -> None: ...
+
+global___SipSetCallMediaControlRequest = SipSetCallMediaControlRequest
+
+@typing.final
+class SipCallAudioConfig(google.protobuf.message.Message):
+    """<p>Configuration of a <code>SipStreamCallAudio</code> stream. Must be the first request of the stream</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    MODE_FIELD_NUMBER: builtins.int
+    SAMPLE_RATE_HZ_FIELD_NUMBER: builtins.int
+    FRAME_MS_FIELD_NUMBER: builtins.int
+    TAKE_OVER_FIELD_NUMBER: builtins.int
+    STREAM_ID_FIELD_NUMBER: builtins.int
+    MAX_DURATION_S_FIELD_NUMBER: builtins.int
+    mode: global___SipCallAudioMode.ValueType
+    """Mode of the stream. Unspecified means LISTEN"""
+    sample_rate_hz: builtins.int
+    """Sample rate in Hz of the audio in both directions: <code>8000</code> or <code>16000</code>. <code>0</code> means
+    <code>16000</code>
+    """
+    frame_ms: builtins.int
+    """Frame length in milliseconds. Only <code>20</code> is supported; <code>0</code> means <code>20</code>"""
+    take_over: builtins.bool
+    """REQUIRED for TALK: the bot is muted and does not listen while the stream is connected. Released when the stream
+    ends
+    """
+    stream_id: builtins.str
+    """Identifier of the stream for logs and audit correlation, minted by the client (a UUID)"""
+    max_duration_s: builtins.int
+    """Maximum duration of the stream in seconds. <code>0</code> means the server default (3600)"""
+    def __init__(
+        self,
+        *,
+        mode: global___SipCallAudioMode.ValueType = ...,
+        sample_rate_hz: builtins.int = ...,
+        frame_ms: builtins.int = ...,
+        take_over: builtins.bool = ...,
+        stream_id: builtins.str = ...,
+        max_duration_s: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["frame_ms", b"frame_ms", "max_duration_s", b"max_duration_s", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id", "take_over", b"take_over"]) -> None: ...
+
+global___SipCallAudioConfig = SipCallAudioConfig
+
+@typing.final
+class SipCallAudioFrame(google.protobuf.message.Message):
+    """<p>One frame of call audio</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    PCM_S16LE_FIELD_NUMBER: builtins.int
+    SEQUENCE_FIELD_NUMBER: builtins.int
+    pcm_s16le: builtins.bytes
+    """LINEAR16 little-endian mono samples of one frame, i.e. <code>sample_rate_hz * frame_ms / 1000 * 2</code> bytes"""
+    sequence: builtins.int
+    """Monotonic sequence number of the frame within its direction of the stream"""
+    def __init__(
+        self,
+        *,
+        pcm_s16le: builtins.bytes = ...,
+        sequence: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pcm_s16le", b"pcm_s16le", "sequence", b"sequence"]) -> None: ...
+
+global___SipCallAudioFrame = SipCallAudioFrame
+
+@typing.final
+class SipCallAudioRequest(google.protobuf.message.Message):
+    """<p>Request of <code>SipStreamCallAudio</code></p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    CONFIG_FIELD_NUMBER: builtins.int
+    AUDIO_FIELD_NUMBER: builtins.int
+    AGENT_MUTED_FIELD_NUMBER: builtins.int
+    agent_muted: builtins.bool
+    """<code>true</code>: the agent's audio is not sent to the caller (silence instead) until set to <code>false</code>"""
+    @property
+    def config(self) -> global___SipCallAudioConfig:
+        """Configuration; must be the first request and is accepted only once"""
+
+    @property
+    def audio(self) -> global___SipCallAudioFrame:
+        """Agent audio to send to the caller (TALK only)"""
+
+    def __init__(
+        self,
+        *,
+        config: global___SipCallAudioConfig | None = ...,
+        audio: global___SipCallAudioFrame | None = ...,
+        agent_muted: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["request", b"request"]) -> typing.Literal["config", "audio", "agent_muted"] | None: ...
+
+global___SipCallAudioRequest = SipCallAudioRequest
+
+@typing.final
+class SipCallAudioStarted(google.protobuf.message.Message):
+    """<p>Sent once when a <code>SipStreamCallAudio</code> stream is connected</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STREAM_ID_FIELD_NUMBER: builtins.int
+    SAMPLE_RATE_HZ_FIELD_NUMBER: builtins.int
+    FRAME_MS_FIELD_NUMBER: builtins.int
+    MODE_FIELD_NUMBER: builtins.int
+    stream_id: builtins.str
+    """Identifier of the stream"""
+    sample_rate_hz: builtins.int
+    """Sample rate in Hz of the audio in both directions"""
+    frame_ms: builtins.int
+    """Frame length in milliseconds"""
+    mode: global___SipCallAudioMode.ValueType
+    """Mode of the stream"""
+    def __init__(
+        self,
+        *,
+        stream_id: builtins.str = ...,
+        sample_rate_hz: builtins.int = ...,
+        frame_ms: builtins.int = ...,
+        mode: global___SipCallAudioMode.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["frame_ms", b"frame_ms", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id"]) -> None: ...
+
+global___SipCallAudioStarted = SipCallAudioStarted
+
+@typing.final
+class SipCallAudioStats(google.protobuf.message.Message):
+    """<p>Counters of a <code>SipStreamCallAudio</code> stream, sent periodically</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    FRAMES_SENT_FIELD_NUMBER: builtins.int
+    FRAMES_DROPPED_FIELD_NUMBER: builtins.int
+    FRAMES_RECEIVED_FIELD_NUMBER: builtins.int
+    UNDERRUNS_FIELD_NUMBER: builtins.int
+    FRAMES_DISCARDED_FIELD_NUMBER: builtins.int
+    frames_sent: builtins.int
+    """Frames sent to the client"""
+    frames_dropped: builtins.int
+    """Frames to the client dropped because the client read too slowly"""
+    frames_received: builtins.int
+    """Frames received from the client"""
+    underruns: builtins.int
+    """Playback underruns of the agent audio (silence was played)"""
+    frames_discarded: builtins.int
+    """Frames from the client discarded because the playback buffer was full"""
+    def __init__(
+        self,
+        *,
+        frames_sent: builtins.int = ...,
+        frames_dropped: builtins.int = ...,
+        frames_received: builtins.int = ...,
+        underruns: builtins.int = ...,
+        frames_discarded: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["frames_discarded", b"frames_discarded", "frames_dropped", b"frames_dropped", "frames_received", b"frames_received", "frames_sent", b"frames_sent", "underruns", b"underruns"]) -> None: ...
+
+global___SipCallAudioStats = SipCallAudioStats
+
+@typing.final
+class SipCallAudioEnded(google.protobuf.message.Message):
+    """<p>Sent once when a <code>SipStreamCallAudio</code> stream ends normally</p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    REASON_FIELD_NUMBER: builtins.int
+    DETAIL_FIELD_NUMBER: builtins.int
+    reason: global___SipCallAudioEndReason.ValueType
+    """Why the stream ended"""
+    detail: builtins.str
+    """Optional detail, a stable token"""
+    def __init__(
+        self,
+        *,
+        reason: global___SipCallAudioEndReason.ValueType = ...,
+        detail: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["detail", b"detail", "reason", b"reason"]) -> None: ...
+
+global___SipCallAudioEnded = SipCallAudioEnded
+
+@typing.final
+class SipCallAudioResponse(google.protobuf.message.Message):
+    """<p>Response of <code>SipStreamCallAudio</code></p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STARTED_FIELD_NUMBER: builtins.int
+    AUDIO_FIELD_NUMBER: builtins.int
+    STATS_FIELD_NUMBER: builtins.int
+    ENDED_FIELD_NUMBER: builtins.int
+    @property
+    def started(self) -> global___SipCallAudioStarted:
+        """The stream is connected"""
+
+    @property
+    def audio(self) -> global___SipCallAudioFrame:
+        """Call audio"""
+
+    @property
+    def stats(self) -> global___SipCallAudioStats:
+        """Stream counters"""
+
+    @property
+    def ended(self) -> global___SipCallAudioEnded:
+        """The stream ended"""
+
+    def __init__(
+        self,
+        *,
+        started: global___SipCallAudioStarted | None = ...,
+        audio: global___SipCallAudioFrame | None = ...,
+        stats: global___SipCallAudioStats | None = ...,
+        ended: global___SipCallAudioEnded | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["response", b"response"]) -> typing.Literal["started", "audio", "stats", "ended"] | None: ...
+
+global___SipCallAudioResponse = SipCallAudioResponse
 
 @typing.final
 class SipPlayWavFilesRequest(google.protobuf.message.Message):

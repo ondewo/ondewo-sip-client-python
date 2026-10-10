@@ -3062,7 +3062,7 @@ wheels = [
 
 [[package]]
 name = "ondewo-sip-client"
-version = "5.4.3"
+version = "5.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "dataclasses-json" },

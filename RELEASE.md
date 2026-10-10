@@ -2,6 +2,23 @@
 
 *****************
 
+## Release ONDEWO SIP Python Client 5.5.0
+
+### New Features
+
+* [[OND233-367]](https://ondewo.atlassian.net/browse/OND233-367) Built against ondewo-sip-api 5.5.0: answering machine detection (`SipReportAnsweringMachineDetected`, `AnsweringMachineDetectionResult`, status `OUTGOING_CALL_ANSWERING_MACHINE_DETECTED`) and call control (`SipSetCallMediaControl`, the bidirectional `SipStreamCallAudio`, `SipStatus.call_id` / `bot_muted` / `listening_paused` / `call_audio_streams` / `sip_response_code`, `SipTransferCallRequest.outcome_timeout_ms`, `SipSetCallMediaControlRequest.participants_present`, `END_CALL_REASON_TRANSFERRED`).
+* [[OND233-367]](https://ondewo.atlassian.net/browse/OND233-367) `Sip.set_call_media_control` and `Sip.stream_call_audio` on the sync and the async service. The async `stream_call_audio` is a plain method returning the grpc.aio async iterator (`async for response in sip.stream_call_audio(requests)`), never a coroutine.
+* Call-scoped RPCs expect the `x-ondewo-expected-call-id` and `x-ondewo-sip-call-control-token` gRPC metadata; pass them on the stub (`client.services.sip.stub.<Rpc>(request, metadata=...)`) when the wrapper's client-wide metadata is not enough.
+
+### Improvements
+
+* `ondewo/sip/client/services/async_sip.py` is hand-written now (marker `ondewo:hand-written-async-service`), and `make create_async_services` leaves a marked file alone, as in ondewo-vtsi-client-python.
+* The unit coverage gate covers `report_answering_machine_detected` again; it had dropped to 98.67%.
+* `SipGetSipStatus` and `SipGetSipStatusHistory` carry `idempotency_level = NO_SIDE_EFFECTS` (sip-api 5.5.0), so `ondewo-client-utils` retries them on transient errors.
+* `ondewo/sip` is also vendored by ondewo-vtsi-client-python: install both from the same sip-api release (5.5.0).
+
+*****************
+
 ## Release ONDEWO SIP Python Client 5.4.3
 
 ### Bug Fixes

@@ -16,8 +16,8 @@ export
 
 # MUST BE THE SAME AS API in Mayor and Minor Version Number
 # example: API 2.9.0 --> Client 2.9.X
-ONDEWO_SIP_VERSION=5.4.3
-ONDEWO_SIP_API_GIT_BRANCH=tags/5.4.0
+ONDEWO_SIP_VERSION=5.5.0
+ONDEWO_SIP_API_GIT_BRANCH=tags/5.5.0
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.15.3
 PYPI_USERNAME?=ENTER_HERE_YOUR_PYPI_USERNAME
 PYPI_PASSWORD?=ENTER_HERE_YOUR_PYPI_PASSWORD
@@ -129,16 +129,27 @@ generate_ondewo_protos:  ## Generate python code from proto files
 	-make precommit_hooks_run_all_files
 	make precommit_hooks_run_all_files
 
+HAND_WRITTEN_ASYNC_MARKER=ondewo:hand-written-async-service
+
 create_async_services: ## Create async services for all synchronous services
+	# The rewrite below turns every `self.stub.Rpc(...)` into `await self.stub.Rpc(...)`, which is
+	# correct for a unary RPC and WRONG for a streaming one (grpc.aio returns an async ITERATOR that
+	# must not be awaited). An async_*.py carrying ${HAND_WRITTEN_ASYNC_MARKER} is maintained by hand
+	# and is left alone.
 	@find ondewo -type d -name "services" ! -path "*/.*/*" | while read -r dir; do \
 	    for file in "$$dir"/*.py; do \
 	        filename=$$(basename -- "$$file"); \
 	        case "$$filename" in \
 	            "__init__.py"|async_*) continue ;; \
 	        esac; \
+	        if [ -f "$$dir/async_$$filename" ] && grep -q "${HAND_WRITTEN_ASYNC_MARKER}" "$$dir/async_$$filename"; then \
+	            echo "create_async_services: keeping hand-written $$dir/async_$$filename"; \
+	            continue; \
+	        fi; \
 	        cp "$$file" "$$dir/async_$$filename"; \
 	    done; \
 	    for file in "$$dir"/async_*.py; do \
+	        if grep -q "${HAND_WRITTEN_ASYNC_MARKER}" "$$file"; then continue; fi; \
 	        perl -i -pe 'unless(/def stub/){ s/^([[:space:]]*)def /$$1async def /g; s/self\.stub/await self.stub/g; s/\(BaseServicesInterface\)/(AsyncBaseServicesInterface)/g; s/base_services_interface/async_base_services_interface/g; s/import BaseServicesInterface/import AsyncBaseServicesInterface/g; s/\(ServicesInterface\)/(AsyncServicesInterface)/g; s/client\.services_interface/client.async_services_interface/g; s/import ServicesInterface/import AsyncServicesInterface/g; }' \
 	            "$$file"; \
 	    done; \
