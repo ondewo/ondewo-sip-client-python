@@ -16,7 +16,7 @@
 Both the sync (`ondewo.sip.client.services.sip.Sip`) and async
 (`ondewo.sip.client.services.async_sip.Sip`) wrappers are exercised without any network:
 the Keycloak token provider is built with a fake HTTP transport and the generated `SipStub`
-is replaced by a recording fake. Every one of the 13 unary RPC wrappers is asserted to forward the
+is replaced by a recording fake. Every unary RPC wrapper (derived from the descriptor) is asserted to forward the
 bearer metadata under the Keycloak path and an empty metadata list under the non-Keycloak
 path — the two branches of the `metadata` property. The bidirectional `stream_call_audio` wrapper
 is asserted to hand the request iterator over unconsumed and to return the stub's stream as is.
@@ -44,6 +44,7 @@ from ondewo.sip.client.client_config import ClientConfig
 from ondewo.sip.client.services.async_sip import Sip as AsyncSip
 from ondewo.sip.client.services.sip import Sip as SyncSip
 from ondewo.sip.utils.keycloak import KeycloakTokenProvider
+from tests.unit.client.test_every_rpc_has_a_wrapper import wrapper_name
 
 # Bound exactly once so a refactor that changes only an input or only an expectation cannot
 # silently make an assertion tautological.
@@ -58,35 +59,26 @@ ACCESS_TOKEN: str = "acc-1"
 EXPECTED_KEYCLOAK_METADATA: List[Tuple[str, str]] = [("authorization", f"Bearer {ACCESS_TOKEN}")]
 EXPECTED_EMPTY_METADATA: List[Tuple[str, str]] = []
 
-# Service wrapper method -> the generated stub RPC it must call. Covers all 13 unary SIP RPCs.
-STUB_METHOD_NAMES: Dict[str, str] = {
-    "start_session": "SipStartSession",
-    "end_session": "SipEndSession",
-    "register_account": "SipRegisterAccount",
-    "start_call": "SipStartCall",
-    "end_call": "SipEndCall",
-    "transfer_call": "SipTransferCall",
-    "get_sip_status": "SipGetSipStatus",
-    "get_sip_status_history": "SipGetSipStatusHistory",
-    "play_wav_files": "SipPlayWavFiles",
-    "mute": "SipMute",
-    "un_mute": "SipUnMute",
-    "report_answering_machine_detected": "SipReportAnsweringMachineDetected",
-    "set_call_media_control": "SipSetCallMediaControl",
-}
+# Service wrapper method -> the generated stub RPC it must call, DERIVED from the generated descriptor: every UNARY
+# RPC of the `Sip` service (the streaming one is covered separately below), so an RPC a new API release adds is
+# exercised here without anybody extending a list. `wrapper_name` strips the `Sip` prefix (`SipUnMute` -> `un_mute`).
+_UNARY_METHODS: List[Any] = [
+    method
+    for method in sip.DESCRIPTOR.services_by_name["Sip"].methods
+    if not (method.client_streaming or method.server_streaming)
+]
+STUB_METHOD_NAMES: Dict[str, str] = {wrapper_name(method.name): method.name for method in _UNARY_METHODS}
 SERVICE_METHODS: List[str] = list(STUB_METHOD_NAMES)
 
-# Service methods that take a request message; the rest send an `Empty`.
+# Service methods that take a request message; the rest send an `Empty` and take no argument.
 _REQUEST_FACTORIES: Dict[str, Any] = {
-    "start_session": sip.SipStartSessionRequest,
-    "register_account": sip.SipRegisterAccountRequest,
-    "start_call": sip.SipStartCallRequest,
-    "end_call": sip.SipEndCallRequest,
-    "transfer_call": sip.SipTransferCallRequest,
-    "play_wav_files": sip.SipPlayWavFilesRequest,
-    "report_answering_machine_detected": sip.SipReportAnsweringMachineDetectedRequest,
-    "set_call_media_control": sip.SipSetCallMediaControlRequest,
+    wrapper_name(method.name): getattr(sip, method.input_type.name)
+    for method in _UNARY_METHODS
+    if method.input_type.full_name != "google.protobuf.Empty"
 }
+
+# "must contain" pins, so the derivation above cannot pass vacuously.
+assert {"start_call", "end_call", "get_sip_status", "set_call_media_control"} <= set(SERVICE_METHODS)
 
 _SENTINEL_RESPONSE: sip.SipStatus = sip.SipStatus()
 
