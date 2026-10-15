@@ -21,6 +21,9 @@ jobs:
         uses: astral-sh/setup-uv@v10.3.0
         with:
           enable-cache: true
+          # One cache key per job: both jobs resolve the same uv.lock, and two jobs saving ONE key at the same time
+          # made the slower one print "Unable to reserve cache ... another job may be creating this cache".
+          cache-suffix: unit-tests
 
       - name: Set up Python 3.12
         run: uv python install 3.12
@@ -64,6 +67,7 @@ jobs:
         uses: astral-sh/setup-uv@v10.3.0
         with:
           enable-cache: true
+          cache-suffix: pre-commit
 
       - name: Set up Python 3.12
         run: uv python install 3.12
