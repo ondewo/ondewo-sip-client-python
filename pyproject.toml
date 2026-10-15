@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,13 +8,15 @@ version = "5.5.0"
 description = "ONDEWO Session Initiation Protocol (SIP) Client library for Python"
 readme = "README.md"
 requires-python = ">=3.9"
+# PEP 639: an SPDX expression plus the shipped license file; the License classifier is deprecated (setuptools >= 77).
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 authors = [
     { name = "ONDEWO GmbH", email = "office@ondewo.com" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
