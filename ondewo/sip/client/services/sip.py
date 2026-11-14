@@ -23,6 +23,7 @@ from ondewo.sip.sip_pb2 import (
     SipPlayWavFilesRequest,
     SipRegisterAccountRequest,
     SipReportAnsweringMachineDetectedRequest,
+    SipSendDtmfRequest,
     SipSetCallMediaControlRequest,
     SipStartCallRequest,
     SipStartSessionRequest,
@@ -95,6 +96,10 @@ class Sip(ServicesInterface):
 
     def set_call_media_control(self, request: SipSetCallMediaControlRequest) -> SipStatus:
         response: SipStatus = self.stub.SipSetCallMediaControl(request, metadata=self.metadata)
+        return response
+
+    def send_dtmf(self, request: SipSendDtmfRequest) -> SipStatus:
+        response: SipStatus = self.stub.SipSendDtmf(request, metadata=self.metadata)
         return response
 
     def stream_call_audio(self, request_iterator: Iterator[SipCallAudioRequest]) -> Iterator[SipCallAudioResponse]:

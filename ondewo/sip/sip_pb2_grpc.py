@@ -107,6 +107,11 @@ class SipStub(object):
                 request_serializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.SerializeToString,
                 response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.FromString,
                 _registered_method=True)
+        self.SipSendDtmf = channel.unary_unary(
+                '/ondewo.sip.Sip/SipSendDtmf',
+                request_serializer=ondewo_dot_sip_dot_sip__pb2.SipSendDtmfRequest.SerializeToString,
+                response_deserializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
+                _registered_method=True)
 
 
 class SipServicer(object):
@@ -267,6 +272,22 @@ class SipServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SipSendDtmf(self, request, context):
+        """<p>Send DTMF keys into the ongoing connected call, as RFC 4733 telephone-events (e.g. to navigate an IVR the bot
+        called, or for an operator).</p>
+        <p>Metadata as for <code>SipSetCallMediaControl</code>: <code>x-ondewo-expected-call-id</code> must equal
+        <code>SipStatus.call_id</code> of the ongoing call; a peer outside the container presents
+        <code>x-ondewo-sip-call-control-token</code> when the container has one.</p>
+        <p>Returns the live status. Refusals are RETURNED in <code>exception_name</code> / <code>description</code>
+        (<code>CallScopeMismatch</code>, <code>CallControlUnauthenticated</code>, <code>NoOngoingCall</code>,
+        <code>AmdInProgress</code>, <code>InvalidDtmf</code>) and never assigned to the shared status. The keys are never
+        logged in clear.</p>
+        Not idempotent (no idempotency_level): a retried attempt sends the keys again.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SipServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -339,6 +360,11 @@ def add_SipServicer_to_server(servicer, server):
                     servicer.SipStreamCallAudio,
                     request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.FromString,
                     response_serializer=ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.SerializeToString,
+            ),
+            'SipSendDtmf': grpc.unary_unary_rpc_method_handler(
+                    servicer.SipSendDtmf,
+                    request_deserializer=ondewo_dot_sip_dot_sip__pb2.SipSendDtmfRequest.FromString,
+                    response_serializer=ondewo_dot_sip_dot_sip__pb2.SipStatus.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -721,6 +747,33 @@ class Sip(object):
             '/ondewo.sip.Sip/SipStreamCallAudio',
             ondewo_dot_sip_dot_sip__pb2.SipCallAudioRequest.SerializeToString,
             ondewo_dot_sip_dot_sip__pb2.SipCallAudioResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SipSendDtmf(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ondewo.sip.Sip/SipSendDtmf',
+            ondewo_dot_sip_dot_sip__pb2.SipSendDtmfRequest.SerializeToString,
+            ondewo_dot_sip_dot_sip__pb2.SipStatus.FromString,
             options,
             channel_credentials,
             insecure,

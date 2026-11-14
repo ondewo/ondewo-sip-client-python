@@ -78,7 +78,7 @@ _REQUEST_FACTORIES: Dict[str, Any] = {
 }
 
 # "must contain" pins, so the derivation above cannot pass vacuously.
-assert {"start_call", "end_call", "get_sip_status", "set_call_media_control"} <= set(SERVICE_METHODS)
+assert {"start_call", "end_call", "get_sip_status", "set_call_media_control", "send_dtmf"} <= set(SERVICE_METHODS)
 
 _SENTINEL_RESPONSE: sip.SipStatus = sip.SipStatus()
 

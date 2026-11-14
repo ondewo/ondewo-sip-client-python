@@ -121,7 +121,7 @@ def test_service_config_retries_exactly_the_status_reads(service_class: type) ->
     retried: Set[str] = _retried_methods(service_class)
     assert retried == RETRIED_METHODS
     not_retried: Set[str] = {method.name for method in _methods()} - retried
-    assert {"SipEndCall", "SipStartCall", "SipTransferCall", "SipSetCallMediaControl"} <= not_retried
+    assert {"SipEndCall", "SipStartCall", "SipTransferCall", "SipSetCallMediaControl", "SipSendDtmf"} <= not_retried
 
 
 def test_sync_client_retries_a_status_read_but_not_end_call(server: Any) -> None:

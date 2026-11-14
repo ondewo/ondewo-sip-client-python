@@ -37,6 +37,7 @@ from ondewo.sip.sip_pb2 import (
     SipPlayWavFilesRequest,
     SipRegisterAccountRequest,
     SipReportAnsweringMachineDetectedRequest,
+    SipSendDtmfRequest,
     SipSetCallMediaControlRequest,
     SipStartCallRequest,
     SipStartSessionRequest,
@@ -109,6 +110,10 @@ class Sip(AsyncServicesInterface):
 
     async def set_call_media_control(self, request: SipSetCallMediaControlRequest) -> SipStatus:
         response: SipStatus = await self.stub.SipSetCallMediaControl(request, metadata=self.metadata)
+        return response
+
+    async def send_dtmf(self, request: SipSendDtmfRequest) -> SipStatus:
+        response: SipStatus = await self.stub.SipSendDtmf(request, metadata=self.metadata)
         return response
 
     def stream_call_audio(

@@ -894,6 +894,27 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
 global___SipSetCallMediaControlRequest = SipSetCallMediaControlRequest
 
 @typing.final
+class SipSendDtmfRequest(google.protobuf.message.Message):
+    """<p>Request of <code>SipSendDtmf</code></p>"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    DIGITS_FIELD_NUMBER: builtins.int
+    digits: builtins.str
+    """The keys to send, in order: <code>0</code>-<code>9</code>, <code>*</code>, <code>#</code>,
+    <code>A</code>-<code>D</code>; at most 64. Any other character refuses the request (<code>InvalidDtmf</code>)
+    and sends nothing
+    """
+    def __init__(
+        self,
+        *,
+        digits: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["digits", b"digits"]) -> None: ...
+
+global___SipSendDtmfRequest = SipSendDtmfRequest
+
+@typing.final
 class SipCallAudioConfig(google.protobuf.message.Message):
     """<p>Configuration of a <code>SipStreamCallAudio</code> stream. Must be the first request of the stream</p>"""
 

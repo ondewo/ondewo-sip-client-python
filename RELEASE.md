@@ -2,6 +2,14 @@
 
 *****************
 
+## Release ONDEWO SIP Python Client 5.6.0
+
+### New Features
+
+* [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Built against ondewo-sip-api 5.6.0: `SipSendDtmf` sends DTMF keys into the live call. `Sip.send_dtmf(SipSendDtmfRequest(digits=...))` on the sync and the async service; it is call-scoped like `SipTransferCall` (`x-ondewo-expected-call-id`, `x-ondewo-sip-call-control-token`).
+
+*****************
+
 ## Release ONDEWO SIP Python Client 5.5.2
 
 ### Improvements
