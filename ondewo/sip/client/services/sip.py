@@ -11,7 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Iterator
+from typing import (
+    Iterator,
+    Optional,
+    Sequence,
+    Tuple,
+)
 
 from google.protobuf.empty_pb2 import Empty
 
@@ -62,12 +67,14 @@ class Sip(ServicesInterface):
         response: SipStatus = self.stub.SipStartCall(request, metadata=self.metadata)
         return response
 
-    def end_call(self, request: SipEndCallRequest) -> SipStatus:
-        response: SipStatus = self.stub.SipEndCall(request, metadata=self.metadata)
+    def end_call(self, request: SipEndCallRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = self.stub.SipEndCall(request, metadata=self.call_metadata(metadata))
         return response
 
-    def transfer_call(self, request: SipTransferCallRequest) -> SipStatus:
-        response: SipStatus = self.stub.SipTransferCall(request, metadata=self.metadata)
+    def transfer_call(
+        self, request: SipTransferCallRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = self.stub.SipTransferCall(request, metadata=self.call_metadata(metadata))
         return response
 
     def get_sip_status(self) -> SipStatus:
@@ -78,33 +85,41 @@ class Sip(ServicesInterface):
         response: SipStatusHistoryResponse = self.stub.SipGetSipStatusHistory(Empty(), metadata=self.metadata)
         return response
 
-    def play_wav_files(self, request: SipPlayWavFilesRequest) -> SipStatus:
-        response: SipStatus = self.stub.SipPlayWavFiles(request, metadata=self.metadata)
+    def play_wav_files(
+        self, request: SipPlayWavFilesRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = self.stub.SipPlayWavFiles(request, metadata=self.call_metadata(metadata))
         return response
 
-    def mute(self) -> SipStatus:
-        response: SipStatus = self.stub.SipMute(Empty(), metadata=self.metadata)
+    def mute(self, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = self.stub.SipMute(Empty(), metadata=self.call_metadata(metadata))
         return response
 
-    def un_mute(self) -> SipStatus:
-        response: SipStatus = self.stub.SipUnMute(Empty(), metadata=self.metadata)
+    def un_mute(self, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = self.stub.SipUnMute(Empty(), metadata=self.call_metadata(metadata))
         return response
 
     def report_answering_machine_detected(self, request: SipReportAnsweringMachineDetectedRequest) -> SipStatus:
         response: SipStatus = self.stub.SipReportAnsweringMachineDetected(request, metadata=self.metadata)
         return response
 
-    def set_call_media_control(self, request: SipSetCallMediaControlRequest) -> SipStatus:
-        response: SipStatus = self.stub.SipSetCallMediaControl(request, metadata=self.metadata)
+    def set_call_media_control(
+        self, request: SipSetCallMediaControlRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = self.stub.SipSetCallMediaControl(request, metadata=self.call_metadata(metadata))
         return response
 
-    def send_dtmf(self, request: SipSendDtmfRequest) -> SipStatus:
-        response: SipStatus = self.stub.SipSendDtmf(request, metadata=self.metadata)
+    def send_dtmf(self, request: SipSendDtmfRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = self.stub.SipSendDtmf(request, metadata=self.call_metadata(metadata))
         return response
 
-    def stream_call_audio(self, request_iterator: Iterator[SipCallAudioRequest]) -> Iterator[SipCallAudioResponse]:
+    def stream_call_audio(
+        self,
+        request_iterator: Iterator[SipCallAudioRequest],
+        metadata: Optional[Sequence[Tuple[str, str]]] = None,
+    ) -> Iterator[SipCallAudioResponse]:
         response_iterator: Iterator[SipCallAudioResponse] = self.stub.SipStreamCallAudio(
             request_iterator,
-            metadata=self.metadata,
+            metadata=self.call_metadata(metadata),
         )
         return response_iterator

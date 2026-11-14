@@ -24,6 +24,9 @@
 from typing import (
     AsyncIterator,
     Iterator,
+    Optional,
+    Sequence,
+    Tuple,
     Union,
 )
 
@@ -76,12 +79,16 @@ class Sip(AsyncServicesInterface):
         response: SipStatus = await self.stub.SipStartCall(request, metadata=self.metadata)
         return response
 
-    async def end_call(self, request: SipEndCallRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipEndCall(request, metadata=self.metadata)
+    async def end_call(
+        self, request: SipEndCallRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = await self.stub.SipEndCall(request, metadata=self.call_metadata(metadata))
         return response
 
-    async def transfer_call(self, request: SipTransferCallRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipTransferCall(request, metadata=self.metadata)
+    async def transfer_call(
+        self, request: SipTransferCallRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = await self.stub.SipTransferCall(request, metadata=self.call_metadata(metadata))
         return response
 
     async def get_sip_status(self) -> SipStatus:
@@ -92,33 +99,40 @@ class Sip(AsyncServicesInterface):
         response: SipStatusHistoryResponse = await self.stub.SipGetSipStatusHistory(Empty(), metadata=self.metadata)
         return response
 
-    async def play_wav_files(self, request: SipPlayWavFilesRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipPlayWavFiles(request, metadata=self.metadata)
+    async def play_wav_files(
+        self, request: SipPlayWavFilesRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = await self.stub.SipPlayWavFiles(request, metadata=self.call_metadata(metadata))
         return response
 
-    async def mute(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipMute(Empty(), metadata=self.metadata)
+    async def mute(self, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = await self.stub.SipMute(Empty(), metadata=self.call_metadata(metadata))
         return response
 
-    async def un_mute(self) -> SipStatus:
-        response: SipStatus = await self.stub.SipUnMute(Empty(), metadata=self.metadata)
+    async def un_mute(self, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> SipStatus:
+        response: SipStatus = await self.stub.SipUnMute(Empty(), metadata=self.call_metadata(metadata))
         return response
 
     async def report_answering_machine_detected(self, request: SipReportAnsweringMachineDetectedRequest) -> SipStatus:
         response: SipStatus = await self.stub.SipReportAnsweringMachineDetected(request, metadata=self.metadata)
         return response
 
-    async def set_call_media_control(self, request: SipSetCallMediaControlRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipSetCallMediaControl(request, metadata=self.metadata)
+    async def set_call_media_control(
+        self, request: SipSetCallMediaControlRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = await self.stub.SipSetCallMediaControl(request, metadata=self.call_metadata(metadata))
         return response
 
-    async def send_dtmf(self, request: SipSendDtmfRequest) -> SipStatus:
-        response: SipStatus = await self.stub.SipSendDtmf(request, metadata=self.metadata)
+    async def send_dtmf(
+        self, request: SipSendDtmfRequest, metadata: Optional[Sequence[Tuple[str, str]]] = None
+    ) -> SipStatus:
+        response: SipStatus = await self.stub.SipSendDtmf(request, metadata=self.call_metadata(metadata))
         return response
 
     def stream_call_audio(
         self,
         request_iterator: Union[AsyncIterator[SipCallAudioRequest], Iterator[SipCallAudioRequest]],
+        metadata: Optional[Sequence[Tuple[str, str]]] = None,
     ) -> AsyncIterator[SipCallAudioResponse]:
         """
         Open the bidirectional live call audio stream.
@@ -130,6 +144,9 @@ class Sip(AsyncServicesInterface):
         Args:
             request_iterator (Union[AsyncIterator[SipCallAudioRequest], Iterator[SipCallAudioRequest]]):
                 The requests to send; the first one must carry ``config``.
+            metadata (Optional[Sequence[Tuple[str, str]]]):
+                The call's metadata (``x-ondewo-expected-call-id``, ``x-ondewo-sip-call-control-token``), see
+                ``call_metadata``.
 
         Returns:
             AsyncIterator[SipCallAudioResponse]:
@@ -137,6 +154,6 @@ class Sip(AsyncServicesInterface):
         """
         response_iterator: AsyncIterator[SipCallAudioResponse] = self.stub.SipStreamCallAudio(
             request_iterator,
-            metadata=self.metadata,
+            metadata=self.call_metadata(metadata),
         )
         return response_iterator

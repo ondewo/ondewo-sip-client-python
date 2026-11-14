@@ -482,3 +482,134 @@ def test_stream_call_audio_returns_the_stub_stream_without_consuming_the_request
     assert result is _RecordingStreamStub.stream
     assert _RecordingStreamStub.calls == [(request_iterator, EXPECTED_EMPTY_METADATA)]
     assert consumed == []
+
+
+# The call-scoped RPCs: ondewo-sip checks the call they are for (`x-ondewo-expected-call-id`) and, on a container
+# deployed with a call-control key, the `x-ondewo-sip-call-control-token`, so each wrapper takes per-call metadata.
+CALL_SCOPED_METHODS: List[str] = [
+    "end_call",
+    "transfer_call",
+    "play_wav_files",
+    "mute",
+    "un_mute",
+    "set_call_media_control",
+    "send_dtmf",
+]
+_PER_CALL_METADATA: List[Tuple[str, str]] = [
+    ("x-ondewo-expected-call-id", "call-7"),
+    ("x-ondewo-sip-call-control-token", "token-not-logged"),
+]
+
+
+def _call_scoped_kwargs(method_name: str) -> Dict[str, Any]:
+    """Build the keyword arguments of a call-scoped wrapper call that carries per-call metadata.
+
+    Args:
+        method_name (str):
+            The wrapper method to invoke.
+
+    Returns:
+        Dict[str, Any]:
+            ``metadata`` plus a fresh ``request`` when the RPC takes one.
+    """
+    kwargs: Dict[str, Any] = {"metadata": _PER_CALL_METADATA}
+    request_factory = _REQUEST_FACTORIES.get(method_name)
+    if request_factory is not None:
+        kwargs["request"] = request_factory()
+    return kwargs
+
+
+@pytest.mark.parametrize("method_name", CALL_SCOPED_METHODS)
+def test_sync_call_scoped_methods_append_the_per_call_metadata(
+    monkeypatch: pytest.MonkeyPatch,
+    method_name: str,
+) -> None:
+    """A sync call-scoped wrapper sends the client's bearer metadata followed by the caller's per-call metadata.
+
+    Args:
+        monkeypatch (pytest.MonkeyPatch):
+            Fixture used to inject the fake provider and the recording stub.
+        method_name (str):
+            The service wrapper method under test.
+    """
+    provider: KeycloakTokenProvider = _build_fake_provider()
+    monkeypatch.setattr(sync_base_module, "get_keycloak_token_provider", lambda config: provider)
+    recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
+    monkeypatch.setattr(sync_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=False))
+
+    service: SyncSip = SyncSip(config=_keycloak_config(), use_secure_channel=False)
+    getattr(service, method_name)(**_call_scoped_kwargs(method_name))
+
+    assert recorder[STUB_METHOD_NAMES[method_name]] == EXPECTED_KEYCLOAK_METADATA + _PER_CALL_METADATA
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("method_name", CALL_SCOPED_METHODS)
+async def test_async_call_scoped_methods_append_the_per_call_metadata(
+    monkeypatch: pytest.MonkeyPatch,
+    method_name: str,
+) -> None:
+    """An async call-scoped wrapper sends the client's metadata followed by the caller's per-call metadata.
+
+    Args:
+        monkeypatch (pytest.MonkeyPatch):
+            Fixture used to inject the recording stub.
+        method_name (str):
+            The service wrapper method under test.
+    """
+    recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
+    monkeypatch.setattr(async_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=True))
+
+    service: AsyncSip = AsyncSip(config=_non_keycloak_config(), use_secure_channel=False)
+    await getattr(service, method_name)(**_call_scoped_kwargs(method_name))
+
+    assert recorder[STUB_METHOD_NAMES[method_name]] == _PER_CALL_METADATA
+
+
+@pytest.mark.parametrize("module, service_cls", [(sync_sip_module, SyncSip), (async_sip_module, AsyncSip)])
+def test_stream_call_audio_appends_the_per_call_metadata(
+    monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    service_cls: Any,
+) -> None:
+    """`stream_call_audio` (sync and async) sends the caller's per-call metadata too.
+
+    Args:
+        monkeypatch (pytest.MonkeyPatch):
+            Fixture used to inject the recording stub.
+        module (Any):
+            The service module whose `SipStub` is replaced.
+        service_cls (Any):
+            The sync or async `Sip` service class under test.
+    """
+    _RecordingStreamStub.calls = []
+    monkeypatch.setattr(module, "SipStub", _RecordingStreamStub)
+    request_iterator: Iterator[sip.SipCallAudioRequest] = _audio_requests([])
+
+    def _open_the_stream() -> Any:
+        service: Any = service_cls(config=_non_keycloak_config(), use_secure_channel=False)
+        return service.stream_call_audio(request_iterator, metadata=_PER_CALL_METADATA)
+
+    async def _open_the_stream_inside_a_loop() -> Any:
+        return _open_the_stream()
+
+    asyncio.run(_open_the_stream_inside_a_loop()) if service_cls is AsyncSip else _open_the_stream()
+
+    assert _RecordingStreamStub.calls == [(request_iterator, _PER_CALL_METADATA)]
+
+
+def test_without_per_call_metadata_a_call_scoped_method_sends_only_the_client_metadata(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Omitting `metadata` keeps the old behaviour byte for byte.
+
+    Args:
+        monkeypatch (pytest.MonkeyPatch):
+            Fixture used to inject the recording stub.
+    """
+    recorder: Dict[str, Optional[List[Tuple[str, str]]]] = {}
+    monkeypatch.setattr(sync_sip_module, "SipStub", _make_fake_stub_cls(recorder, is_async=False))
+
+    SyncSip(config=_non_keycloak_config(), use_secure_channel=False).send_dtmf(sip.SipSendDtmfRequest(digits="1"))
+
+    assert recorder["SipSendDtmf"] == EXPECTED_EMPTY_METADATA

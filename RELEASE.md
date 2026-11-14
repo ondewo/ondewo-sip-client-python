@@ -7,6 +7,7 @@
 ### New Features
 
 * [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Built against ondewo-sip-api 5.6.0: `SipSendDtmf` sends DTMF keys into the live call. `Sip.send_dtmf(SipSendDtmfRequest(digits=...))` on the sync and the async service; it is call-scoped like `SipTransferCall` (`x-ondewo-expected-call-id`, `x-ondewo-sip-call-control-token`).
+* [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Every call-scoped wrapper (`end_call`, `transfer_call`, `play_wav_files`, `mute`, `un_mute`, `set_call_media_control`, `send_dtmf`, `stream_call_audio`) takes an optional `metadata=` that is sent after the client's own, e.g. `[("x-ondewo-expected-call-id", call_id), ("x-ondewo-sip-call-control-token", token)]`; omitted, the call is unchanged.
 
 *****************
 

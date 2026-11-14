@@ -26,6 +26,7 @@ from typing import (
     Any,
     List,
     Optional,
+    Sequence,
     Set,
     Tuple,
 )
@@ -93,3 +94,20 @@ class ServicesInterface(BaseServicesInterface, ABC):
         if self._keycloak_provider is not None:
             return self._keycloak_provider.bearer_metadata()
         return []
+
+    def call_metadata(self, metadata: Optional[Sequence[Tuple[str, str]]] = None) -> List[Tuple[str, str]]:
+        """The metadata of a call-scoped RPC: :attr:`metadata` plus the caller's per-call metadata.
+
+        A call-scoped RPC (end, transfer, mute, play, media control, DTMF, call audio) names the call it is for
+        and, on a container deployed with a call-control key, authenticates: ondewo-sip reads the
+        ``x-ondewo-expected-call-id`` and ``x-ondewo-sip-call-control-token`` metadata for that. Pass them here.
+
+        Args:
+            metadata (Optional[Sequence[Tuple[str, str]]]):
+                The per-call metadata, e.g. ``[("x-ondewo-expected-call-id", call_id)]``; ``None`` adds nothing.
+
+        Returns:
+            List[Tuple[str, str]]:
+                The client's metadata followed by ``metadata``.
+        """
+        return self.metadata + list(metadata or ())
