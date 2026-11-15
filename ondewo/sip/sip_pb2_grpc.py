@@ -165,6 +165,15 @@ class SipServicer(object):
         party in it, the invited participant included. The refusal is RETURNED as <code>TRANSFER_CALL_FAILED</code> with
         <code>exception_name=ParticipantsPresent</code> and <code>description = reason=participants-present</code>; nothing
         is sent and the call is kept.</p>
+        <p>Transfer delegation (see <code>SipTransferDelegation</code>): in a container started with
+        <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code> a transfer that the in-container speech-to-speech pipeline asks for
+        on a connected call is not sent. It is parked in <code>SipStatus.delegated_transfer</code> and RETURNED as
+        <code>TRANSFER_CALL_FAILED</code> with <code>exception_name=TransferDelegated</code> and
+        <code>description = reason=delegated-to-vtsi</code>; the call is kept. A client (ONDEWO VTSI) then claims it with
+        <code>delegation</code> and <code>delegated_request_id</code>. A second transfer of the pipeline while one is
+        parked is refused with <code>exception_name=TransferInProgress</code>. Without that environment variable, and
+        for every request with <code>delegation = SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> from any other peer, the
+        transfer is sent as before.</p>
         Not idempotent (no idempotency_level): a repeat sends another REFER.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -247,6 +256,10 @@ class SipServicer(object):
         <code>NoOngoingCall</code>, <code>AmdInProgress</code>, <code>CsiMediaControlFailed</code>) and never assigned to
         the shared status. When the pipeline refuses or fails, a requested pause is rolled back and a requested mute is
         kept (the safe direction); the returned fields carry the actual level.</p>
+        <p>A request may carry a <code>warm_transfer_outcome</code> notice (participant owner only, refused otherwise with
+        <code>exception_name=InvalidWarmTransferOutcomeNotice</code>). The notice is handed to the speech-to-speech
+        pipeline whether or not the level changed, and the answer of the pipeline is returned in
+        <code>SipStatus.warm_transfer_outcome_notice_status</code>.</p>
         Deliberately unmarked although a repeat leaves the level unchanged: a retried attempt can land after a newer
         request of the same owner and restore a stale mute or pause.
         """

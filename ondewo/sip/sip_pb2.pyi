@@ -33,6 +33,61 @@ else:
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
+class _SipTransferDelegation:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SipTransferDelegationEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipTransferDelegation.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SIP_TRANSFER_DELEGATION_UNSPECIFIED: _SipTransferDelegation.ValueType  # 0
+    """No delegated transfer is claimed: the request is an ordinary transfer, exactly as before this field existed"""
+    SIP_TRANSFER_DELEGATION_CLAIM: _SipTransferDelegation.ValueType  # 1
+    """Claim the parked transfer and send nothing. The response carries the full target and headers in
+    <code>SipStatus.delegated_transfer.transfer_id</code> / <code>headers</code>, and the parked transfer no longer
+    expires. It stays parked until <code>SIP_TRANSFER_DELEGATION_EXECUTE</code>, <code>SIP_TRANSFER_DELEGATION_DISCARD</code>
+    or the end of the call. A repeated claim answers the same
+    """
+    SIP_TRANSFER_DELEGATION_EXECUTE: _SipTransferDelegation.ValueType  # 2
+    """End the delegation and send the transfer of THIS request (<code>transfer_id</code>, <code>headers</code>,
+    <code>outcome_timeout_ms</code>) as an ordinary <code>SipTransferCall</code>, with the same outcomes and refusals
+    """
+    SIP_TRANSFER_DELEGATION_DISCARD: _SipTransferDelegation.ValueType  # 3
+    """End the delegation and send nothing; the call stays with the bot, e.g. because the client handles the transfer
+    itself (a warm transfer with an intro)
+    """
+
+class SipTransferDelegation(_SipTransferDelegation, metaclass=_SipTransferDelegationEnumTypeWrapper):
+    """<p>How a <code>SipTransferCall</code> handles a transfer that the container parked in
+    <code>SipStatus.delegated_transfer</code> instead of sending it.</p>
+    <p>Every value other than <code>SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> requires the
+    <code>x-ondewo-sip-call-control-token</code> metadatum (otherwise <code>CallControlUnauthenticated</code>) and the
+    <code>x-ondewo-expected-call-id</code> metadatum naming the ongoing call (missing or different:
+    <code>CallScopeMismatch</code>), plus <code>delegated_request_id</code> (otherwise
+    <code>DelegatedRequestMismatch</code>). Refusals are RETURNED in <code>exception_name</code> /
+    <code>description</code> and never assigned to the shared status.</p>
+    <p>A parked transfer that is neither claimed nor ended within <code>SIP_TRANSFER_DELEGATION_CLAIM_TIMEOUT_S</code> is
+    dropped WITHOUT a REFER, and the pipeline is told with <code>SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED</code>. A
+    claimed transfer never expires.</p>
+    """
+
+SIP_TRANSFER_DELEGATION_UNSPECIFIED: SipTransferDelegation.ValueType  # 0
+"""No delegated transfer is claimed: the request is an ordinary transfer, exactly as before this field existed"""
+SIP_TRANSFER_DELEGATION_CLAIM: SipTransferDelegation.ValueType  # 1
+"""Claim the parked transfer and send nothing. The response carries the full target and headers in
+<code>SipStatus.delegated_transfer.transfer_id</code> / <code>headers</code>, and the parked transfer no longer
+expires. It stays parked until <code>SIP_TRANSFER_DELEGATION_EXECUTE</code>, <code>SIP_TRANSFER_DELEGATION_DISCARD</code>
+or the end of the call. A repeated claim answers the same
+"""
+SIP_TRANSFER_DELEGATION_EXECUTE: SipTransferDelegation.ValueType  # 2
+"""End the delegation and send the transfer of THIS request (<code>transfer_id</code>, <code>headers</code>,
+<code>outcome_timeout_ms</code>) as an ordinary <code>SipTransferCall</code>, with the same outcomes and refusals
+"""
+SIP_TRANSFER_DELEGATION_DISCARD: SipTransferDelegation.ValueType  # 3
+"""End the delegation and send nothing; the call stays with the bot, e.g. because the client handles the transfer
+itself (a warm transfer with an intro)
+"""
+global___SipTransferDelegation = SipTransferDelegation
+
 class _MediaControlSetting:
     ValueType = typing.NewType("ValueType", builtins.int)
     V: typing_extensions.TypeAlias = ValueType
@@ -88,6 +143,82 @@ hold mutes or pauses the bot only when a participant's bot policy asks for it; i
 <code>SipSetCallMediaControlRequest.participants_present</code>
 """
 global___MediaControlOwner = MediaControlOwner
+
+class _SipWarmTransferOutcome:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SipWarmTransferOutcomeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcome.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SIP_WARM_TRANSFER_OUTCOME_UNSPECIFIED: _SipWarmTransferOutcome.ValueType  # 0
+    """No outcome"""
+    SIP_WARM_TRANSFER_OUTCOME_DECLINED: _SipWarmTransferOutcome.ValueType  # 1
+    """The transfer target declined the call; the caller stays with the bot"""
+    SIP_WARM_TRANSFER_OUTCOME_UNREACHABLE: _SipWarmTransferOutcome.ValueType  # 2
+    """The transfer target could not be reached: busy, no answer, no decision, or no intro possible; the caller stays
+    with the bot
+    """
+    SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED: _SipWarmTransferOutcome.ValueType  # 3
+    """A transfer parked in <code>SipStatus.delegated_transfer</code> was not claimed in time and was dropped without a
+    REFER. Set by ONDEWO SIP itself towards the pipeline, never accepted from a client
+    """
+
+class SipWarmTransferOutcome(_SipWarmTransferOutcome, metaclass=_SipWarmTransferOutcomeEnumTypeWrapper):
+    """<p>Outcome of a warm transfer that the bot tells the caller</p>"""
+
+SIP_WARM_TRANSFER_OUTCOME_UNSPECIFIED: SipWarmTransferOutcome.ValueType  # 0
+"""No outcome"""
+SIP_WARM_TRANSFER_OUTCOME_DECLINED: SipWarmTransferOutcome.ValueType  # 1
+"""The transfer target declined the call; the caller stays with the bot"""
+SIP_WARM_TRANSFER_OUTCOME_UNREACHABLE: SipWarmTransferOutcome.ValueType  # 2
+"""The transfer target could not be reached: busy, no answer, no decision, or no intro possible; the caller stays
+with the bot
+"""
+SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED: SipWarmTransferOutcome.ValueType  # 3
+"""A transfer parked in <code>SipStatus.delegated_transfer</code> was not claimed in time and was dropped without a
+REFER. Set by ONDEWO SIP itself towards the pipeline, never accepted from a client
+"""
+global___SipWarmTransferOutcome = SipWarmTransferOutcome
+
+class _SipWarmTransferOutcomeNoticeStatus:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SipWarmTransferOutcomeNoticeStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcomeNoticeStatus.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 0
+    """No notice was carried"""
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_QUEUED: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 1
+    """The pipeline accepted the notice and will tell the caller, unless the call ends first"""
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DUPLICATE: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 2
+    """The pipeline already has a notice with this <code>request_id</code> on this call; nothing new is told"""
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DISABLED: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 3
+    """The pipeline does not tell the caller about warm-transfer outcomes (switched off); the notice is dropped"""
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_INVALID: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 4
+    """The pipeline refused the notice as malformed; the notice is dropped"""
+    SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_PENDING: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 5
+    """The pipeline did not answer (unreachable, or an older pipeline without the notice). The notice is kept and handed
+    over again until it answers or the call ends
+    """
+
+class SipWarmTransferOutcomeNoticeStatus(_SipWarmTransferOutcomeNoticeStatus, metaclass=_SipWarmTransferOutcomeNoticeStatusEnumTypeWrapper):
+    """<p>Answer of the speech-to-speech pipeline to a <code>SipWarmTransferOutcomeNotice</code></p>"""
+
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED: SipWarmTransferOutcomeNoticeStatus.ValueType  # 0
+"""No notice was carried"""
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_QUEUED: SipWarmTransferOutcomeNoticeStatus.ValueType  # 1
+"""The pipeline accepted the notice and will tell the caller, unless the call ends first"""
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DUPLICATE: SipWarmTransferOutcomeNoticeStatus.ValueType  # 2
+"""The pipeline already has a notice with this <code>request_id</code> on this call; nothing new is told"""
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DISABLED: SipWarmTransferOutcomeNoticeStatus.ValueType  # 3
+"""The pipeline does not tell the caller about warm-transfer outcomes (switched off); the notice is dropped"""
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_INVALID: SipWarmTransferOutcomeNoticeStatus.ValueType  # 4
+"""The pipeline refused the notice as malformed; the notice is dropped"""
+SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_PENDING: SipWarmTransferOutcomeNoticeStatus.ValueType  # 5
+"""The pipeline did not answer (unreachable, or an older pipeline without the notice). The notice is kept and handed
+over again until it answers or the call ends
+"""
+global___SipWarmTransferOutcomeNoticeStatus = SipWarmTransferOutcomeNoticeStatus
 
 class _SipCallAudioMode:
     ValueType = typing.NewType("ValueType", builtins.int)
@@ -555,6 +686,8 @@ class SipTransferCallRequest(google.protobuf.message.Message):
     TRANSFER_ID_FIELD_NUMBER: builtins.int
     HEADERS_FIELD_NUMBER: builtins.int
     OUTCOME_TIMEOUT_MS_FIELD_NUMBER: builtins.int
+    DELEGATION_FIELD_NUMBER: builtins.int
+    DELEGATED_REQUEST_ID_FIELD_NUMBER: builtins.int
     transfer_id: builtins.str
     """The account name or phone number to transfer the call to"""
     outcome_timeout_ms: builtins.int
@@ -579,6 +712,17 @@ class SipTransferCallRequest(google.protobuf.message.Message):
     <p>A <code>202</code> does not mean the target answered: when the dialplan's dial to the target then fails (busy, no
     answer, unreachable) the caller is lost. Validate targets up front, or use a WARM transfer.</p>
     """
+    delegation: global___SipTransferDelegation.ValueType
+    """<p>Optional. Claims the transfer parked in <code>SipStatus.delegated_transfer</code> (see
+    <code>SipTransferDelegation</code>). <code>SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> (default): an ordinary
+    transfer, exactly as before this field existed.</p>
+    """
+    delegated_request_id: builtins.str
+    """<p>Required with every <code>delegation</code> other than <code>SIP_TRANSFER_DELEGATION_UNSPECIFIED</code>, ignored
+    otherwise: must equal <code>SipStatus.delegated_transfer.request_id</code> of the parked transfer, otherwise the
+    request is refused with <code>exception_name=DelegatedRequestMismatch</code> and nothing is sent. Empty (default):
+    no delegated transfer is claimed.</p>
+    """
     @property
     def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """The headers to include when transferring the call. They are sent on the REFER. Note that Asterisk (res_pjsip,
@@ -592,10 +736,82 @@ class SipTransferCallRequest(google.protobuf.message.Message):
         transfer_id: builtins.str = ...,
         headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         outcome_timeout_ms: builtins.int = ...,
+        delegation: global___SipTransferDelegation.ValueType = ...,
+        delegated_request_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["headers", b"headers", "outcome_timeout_ms", b"outcome_timeout_ms", "transfer_id", b"transfer_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["delegated_request_id", b"delegated_request_id", "delegation", b"delegation", "headers", b"headers", "outcome_timeout_ms", b"outcome_timeout_ms", "transfer_id", b"transfer_id"]) -> None: ...
 
 global___SipTransferCallRequest = SipTransferCallRequest
+
+@typing.final
+class SipDelegatedTransfer(google.protobuf.message.Message):
+    """<p>A transfer that the in-container speech-to-speech pipeline asked for and the container handed to a client instead
+    of sending it (see <code>SipTransferDelegation</code>). Call-scoped: empty when no transfer is parked, when no call
+    is ongoing, and after the call ended.</p>
+    <p><code>SipGetSipStatus</code>, <code>SipGetSipStatusHistory</code> and every other response report only
+    <code>request_id</code>, <code>requested_at</code> and <code>target_is_phone_number</code>. The target and the headers
+    are filled ONLY in the response of a <code>SIP_TRANSFER_DELEGATION_CLAIM</code>.</p>
+    """
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    @typing.final
+    class HeadersEntry(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        KEY_FIELD_NUMBER: builtins.int
+        VALUE_FIELD_NUMBER: builtins.int
+        key: builtins.str
+        value: builtins.str
+        def __init__(
+            self,
+            *,
+            key: builtins.str = ...,
+            value: builtins.str = ...,
+        ) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+
+    REQUEST_ID_FIELD_NUMBER: builtins.int
+    REQUESTED_AT_FIELD_NUMBER: builtins.int
+    TARGET_IS_PHONE_NUMBER_FIELD_NUMBER: builtins.int
+    TRANSFER_ID_FIELD_NUMBER: builtins.int
+    HEADERS_FIELD_NUMBER: builtins.int
+    request_id: builtins.str
+    """Identifier of the parked transfer, a UUID minted by ONDEWO SIP. Sent back as
+    <code>SipTransferCallRequest.delegated_request_id</code>. Empty when no transfer is parked
+    """
+    target_is_phone_number: builtins.bool
+    """<code>true</code> when the target is a phone number by the transfer target policy of ONDEWO SIP (a leading
+    <code>+</code> followed by digits, or a trunk-routed number), <code>false</code> for an account name such as a
+    softphone
+    """
+    transfer_id: builtins.str
+    """The target the pipeline asked for, already checked by the transfer target policy. Only in the response of a
+    <code>SIP_TRANSFER_DELEGATION_CLAIM</code>, empty everywhere else
+    """
+    @property
+    def requested_at(self) -> google.protobuf.timestamp_pb2.Timestamp:
+        """When the pipeline asked for the transfer"""
+
+    @property
+    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+        """The headers the pipeline sent with the transfer. Only in the response of a
+        <code>SIP_TRANSFER_DELEGATION_CLAIM</code>, empty everywhere else
+        """
+
+    def __init__(
+        self,
+        *,
+        request_id: builtins.str = ...,
+        requested_at: google.protobuf.timestamp_pb2.Timestamp | None = ...,
+        target_is_phone_number: builtins.bool = ...,
+        transfer_id: builtins.str = ...,
+        headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["requested_at", b"requested_at"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["headers", b"headers", "request_id", b"request_id", "requested_at", b"requested_at", "target_is_phone_number", b"target_is_phone_number", "transfer_id", b"transfer_id"]) -> None: ...
+
+global___SipDelegatedTransfer = SipDelegatedTransfer
 
 @typing.final
 class SipStatus(google.protobuf.message.Message):
@@ -754,6 +970,9 @@ class SipStatus(google.protobuf.message.Message):
     LISTENING_PAUSED_FIELD_NUMBER: builtins.int
     CALL_AUDIO_STREAMS_FIELD_NUMBER: builtins.int
     SIP_RESPONSE_CODE_FIELD_NUMBER: builtins.int
+    DELEGATED_TRANSFER_FIELD_NUMBER: builtins.int
+    CAPABILITIES_FIELD_NUMBER: builtins.int
+    WARM_TRANSFER_OUTCOME_NOTICE_STATUS_FIELD_NUMBER: builtins.int
     account_name: builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
@@ -793,6 +1012,12 @@ class SipStatus(google.protobuf.message.Message):
     """SIP response code of the last transfer attempt of the ongoing call (<code>202</code> when accepted, the refusal code
     otherwise, <code>0</code> when unknown). Call-scoped
     """
+    warm_transfer_outcome_notice_status: global___SipWarmTransferOutcomeNoticeStatus.ValueType
+    """Answer of the speech-to-speech pipeline to the <code>warm_transfer_outcome</code> notice of a
+    <code>SipSetCallMediaControl</code> request. Only in the response of that request;
+    <code>SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED</code> everywhere else and when the request carried no
+    notice
+    """
     @property
     def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """Timestamp of the status"""
@@ -806,6 +1031,24 @@ class SipStatus(google.protobuf.message.Message):
         """Result of the answering machine detection of the call. Set on
         <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> and on the terminal status of every call on which answering machine detection ran, including a
         <code>HUMAN</code> verdict; unset otherwise
+        """
+
+    @property
+    def delegated_transfer(self) -> global___SipDelegatedTransfer:
+        """The transfer parked for a client to claim (see <code>SipTransferDelegation</code>). Unset (empty) when no transfer
+        is parked, which is always the case in a container started without <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code>.
+        Call-scoped
+        """
+
+    @property
+    def capabilities(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """<p>Optional features this container supports, as stable tokens. Fixed for the life of the container, so it is the
+        same on every status. Empty (default): none of them, as for a container built before this field existed. Clients
+        ignore tokens they do not know.</p>
+        <ul>
+          <li><code>warm-transfer-outcome-notice</code>: <code>SipSetCallMediaControlRequest.warm_transfer_outcome</code>
+          is handed to the speech-to-speech pipeline, and the pipeline tells the caller.</li>
+        </ul>
         """
 
     def __init__(
@@ -827,9 +1070,12 @@ class SipStatus(google.protobuf.message.Message):
         listening_paused: builtins.bool = ...,
         call_audio_streams: builtins.int = ...,
         sip_response_code: builtins.int = ...,
+        delegated_transfer: global___SipDelegatedTransfer | None = ...,
+        capabilities: collections.abc.Iterable[builtins.str] | None = ...,
+        warm_transfer_outcome_notice_status: global___SipWarmTransferOutcomeNoticeStatus.ValueType = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result", "timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "bot_muted", b"bot_muted", "call_audio_streams", b"call_audio_streams", "call_id", b"call_id", "callee_id", b"callee_id", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "listening_paused", b"listening_paused", "nlu_session_name", b"nlu_session_name", "sip_response_code", b"sip_response_code", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result", "delegated_transfer", b"delegated_transfer", "timestamp", b"timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "bot_muted", b"bot_muted", "call_audio_streams", b"call_audio_streams", "call_id", b"call_id", "callee_id", b"callee_id", "capabilities", b"capabilities", "delegated_transfer", b"delegated_transfer", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "listening_paused", b"listening_paused", "nlu_session_name", b"nlu_session_name", "sip_response_code", b"sip_response_code", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id", "warm_transfer_outcome_notice_status", b"warm_transfer_outcome_notice_status"]) -> None: ...
 
 global___SipStatus = SipStatus
 
@@ -863,6 +1109,7 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
     BOT_LISTENING_FIELD_NUMBER: builtins.int
     OWNER_FIELD_NUMBER: builtins.int
     PARTICIPANTS_PRESENT_FIELD_NUMBER: builtins.int
+    WARM_TRANSFER_OUTCOME_FIELD_NUMBER: builtins.int
     bot_voice: global___MediaControlSetting.ValueType
     """<code>MEDIA_CONTROL_SETTING_ON</code>: the bot speaks. <code>MEDIA_CONTROL_SETTING_OFF</code>: the bot is muted"""
     bot_listening: global___MediaControlSetting.ValueType
@@ -881,6 +1128,19 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
     transfer of the call is in flight is refused with <code>exception_name=TransferInProgress</code> and changes
     nothing. Cleared when the call ends</p>
     """
+    @property
+    def warm_transfer_outcome(self) -> global___SipWarmTransferOutcomeNotice:
+        """<p>Optional, only with <code>MEDIA_CONTROL_OWNER_PARTICIPANT</code> (any other owner, an outcome other than
+        <code>SIP_WARM_TRANSFER_OUTCOME_DECLINED</code> / <code>SIP_WARM_TRANSFER_OUTCOME_UNREACHABLE</code>, or an empty
+        <code>request_id</code> is refused with <code>exception_name=InvalidWarmTransferOutcomeNotice</code> and changes
+        nothing). The outcome of a warm transfer that the bot must tell the caller, sent with the request that releases
+        the participant hold, so the bot speaks only once it can.</p>
+        <p>Handed to the speech-to-speech pipeline after the level, also when the level did not change; the answer is
+        returned in <code>SipStatus.warm_transfer_outcome_notice_status</code>. A notice the pipeline did not answer is
+        kept and handed over again until it answers, and dropped when the call ends. Unset (default): no notice, exactly
+        as before this field existed.</p>
+        """
+
     def __init__(
         self,
         *,
@@ -888,10 +1148,60 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
         bot_listening: global___MediaControlSetting.ValueType = ...,
         owner: global___MediaControlOwner.ValueType = ...,
         participants_present: builtins.bool = ...,
+        warm_transfer_outcome: global___SipWarmTransferOutcomeNotice | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["bot_listening", b"bot_listening", "bot_voice", b"bot_voice", "owner", b"owner", "participants_present", b"participants_present"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["warm_transfer_outcome", b"warm_transfer_outcome"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["bot_listening", b"bot_listening", "bot_voice", b"bot_voice", "owner", b"owner", "participants_present", b"participants_present", "warm_transfer_outcome", b"warm_transfer_outcome"]) -> None: ...
 
 global___SipSetCallMediaControlRequest = SipSetCallMediaControlRequest
+
+@typing.final
+class SipWarmTransferOutcomeNotice(google.protobuf.message.Message):
+    """<p>One-shot notice of a warm-transfer outcome for the bot. The pipeline tells the caller at most once per
+    <code>request_id</code> and call. Carries no reason text the target gave</p>
+    """
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    REQUEST_ID_FIELD_NUMBER: builtins.int
+    OUTCOME_FIELD_NUMBER: builtins.int
+    INTRO_SESSION_FIELD_NUMBER: builtins.int
+    CALLEE_DISPLAY_NAME_FIELD_NUMBER: builtins.int
+    CAUSE_FIELD_NUMBER: builtins.int
+    FALLBACK_TEXT_FIELD_NUMBER: builtins.int
+    request_id: builtins.str
+    """Identifier of the transfer request of the client (ONDEWO VTSI). Required; the notice is delivered at most once
+    per call for one identifier
+    """
+    outcome: global___SipWarmTransferOutcome.ValueType
+    """The outcome"""
+    intro_session: builtins.str
+    """Optional: NLU session name of the session in which the transfer target was introduced, so the pipeline can
+    relay what the target said. Empty when there was no intro
+    """
+    callee_display_name: builtins.str
+    """Optional: display name of the transfer target, at most 128 characters"""
+    cause: builtins.str
+    """Optional: a stable token naming why the transfer did not complete, e.g. <code>target-hung-up</code>,
+    <code>target-refused</code>, <code>voicemail-suspected</code>. Never free text
+    """
+    fallback_text: builtins.str
+    """Optional: the sentence the pipeline speaks itself when it cannot have the NLU phrase the outcome, rendered by the
+    client. Never contains a reason the target gave. Empty: the pipeline has no sentence of its own to fall back on
+    """
+    def __init__(
+        self,
+        *,
+        request_id: builtins.str = ...,
+        outcome: global___SipWarmTransferOutcome.ValueType = ...,
+        intro_session: builtins.str = ...,
+        callee_display_name: builtins.str = ...,
+        cause: builtins.str = ...,
+        fallback_text: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["callee_display_name", b"callee_display_name", "cause", b"cause", "fallback_text", b"fallback_text", "intro_session", b"intro_session", "outcome", b"outcome", "request_id", b"request_id"]) -> None: ...
+
+global___SipWarmTransferOutcomeNotice = SipWarmTransferOutcomeNotice
 
 @typing.final
 class SipSendDtmfRequest(google.protobuf.message.Message):

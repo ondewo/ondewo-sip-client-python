@@ -2,6 +2,14 @@
 
 *****************
 
+## Release ONDEWO SIP Python Client 5.7.0
+
+### New Features
+
+* [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Built against ondewo-sip-api 5.7.0 (`b92a13f`): transfer delegation (`SipTransferDelegation` CLAIM / EXECUTE / DISCARD, `SipTransferCallRequest.delegation` / `delegated_request_id`, `SipDelegatedTransfer` as `SipStatus.delegated_transfer`), `SipStatus.capabilities`, and the warm-transfer outcome notice (`SipWarmTransferOutcome`, `SipWarmTransferOutcomeNotice` as `SipSetCallMediaControlRequest.warm_transfer_outcome`, `SipStatus.warm_transfer_outcome_notice_status`). No new RPC: the existing `transfer_call` and `set_call_media_control` wrappers carry them.
+
+*****************
+
 ## Release ONDEWO SIP Python Client 5.6.0
 
 ### New Features

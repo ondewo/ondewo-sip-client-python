@@ -19,12 +19,12 @@
 
 # MUST BE THE SAME AS API in Mayor and Minor Version Number
 # example: API 2.9.0 --> Client 2.9.X
-ONDEWO_SIP_VERSION=5.6.0
+ONDEWO_SIP_VERSION=5.7.0
 # The version as an anchored-regex fragment (dots escaped), for every heading / version match below. No line but the
 # assignment above may carry an equals sign AFTER the version variable's name: older ondewo-sip-api release drivers
 # rewrote every such line wholesale (tests/unit/test_release_runs_in_a_fresh_clone.py replays that rewrite).
 RELEASE_VERSION_RE=$(subst .,\.,${ONDEWO_SIP_VERSION})
-ONDEWO_SIP_API_GIT_BRANCH=87b2ddcd5316c997beb235b4e95db7cb4796f792
+ONDEWO_SIP_API_GIT_BRANCH=b92a13f63696a0bc013dda19d72166f87346282e
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.15.7
 PYPI_PACKAGE=ondewo-sip-client
 
