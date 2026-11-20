@@ -16,29 +16,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import builtins
-import collections.abc
-import google.protobuf.descriptor
-import google.protobuf.internal.containers
-import google.protobuf.internal.enum_type_wrapper
-import google.protobuf.message
-import google.protobuf.timestamp_pb2
+from collections import abc as _abc
+from google.protobuf import descriptor as _descriptor
+from google.protobuf import message as _message
+from google.protobuf import timestamp_pb2 as _timestamp_pb2
+from google.protobuf.internal import containers as _containers
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+import builtins as _builtins
 import sys
-import typing
+import typing as _typing
 
-if sys.version_info >= (3, 10):
-    import typing as typing_extensions
+if sys.version_info >= (3, 11):
+    from typing import TypeAlias as _TypeAlias, Never as _Never
 else:
-    import typing_extensions
+    from typing_extensions import TypeAlias as _TypeAlias, Never as _Never
 
-DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
+DESCRIPTOR: _descriptor.FileDescriptor
 
 class _SipTransferDelegation:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _SipTransferDelegationEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipTransferDelegation.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _SipTransferDelegationEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_SipTransferDelegation.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     SIP_TRANSFER_DELEGATION_UNSPECIFIED: _SipTransferDelegation.ValueType  # 0
     """No delegated transfer is claimed: the request is an ordinary transfer, exactly as before this field existed"""
     SIP_TRANSFER_DELEGATION_CLAIM: _SipTransferDelegation.ValueType  # 1
@@ -86,14 +86,14 @@ SIP_TRANSFER_DELEGATION_DISCARD: SipTransferDelegation.ValueType  # 3
 """End the delegation and send nothing; the call stays with the bot, e.g. because the client handles the transfer
 itself (a warm transfer with an intro)
 """
-global___SipTransferDelegation = SipTransferDelegation
+Global___SipTransferDelegation: _TypeAlias = SipTransferDelegation  # noqa: Y015
 
 class _MediaControlSetting:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _MediaControlSettingEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_MediaControlSetting.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _MediaControlSettingEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_MediaControlSetting.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     MEDIA_CONTROL_SETTING_UNCHANGED: _MediaControlSetting.ValueType  # 0
     """Leave the flag as it is for this owner"""
     MEDIA_CONTROL_SETTING_ON: _MediaControlSetting.ValueType  # 1
@@ -110,14 +110,14 @@ MEDIA_CONTROL_SETTING_ON: MediaControlSetting.ValueType  # 1
 """The flag is on: the bot speaks (<code>bot_voice</code>) or the bot listens (<code>bot_listening</code>)"""
 MEDIA_CONTROL_SETTING_OFF: MediaControlSetting.ValueType  # 2
 """The flag is off: the bot is muted (<code>bot_voice</code>) or the bot's listening is paused (<code>bot_listening</code>)"""
-global___MediaControlSetting = MediaControlSetting
+Global___MediaControlSetting: _TypeAlias = MediaControlSetting  # noqa: Y015
 
 class _MediaControlOwner:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _MediaControlOwnerEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_MediaControlOwner.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _MediaControlOwnerEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_MediaControlOwner.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     MEDIA_CONTROL_OWNER_UNSPECIFIED: _MediaControlOwner.ValueType  # 0
     """Same as <code>MEDIA_CONTROL_OWNER_OPERATOR</code>"""
     MEDIA_CONTROL_OWNER_OPERATOR: _MediaControlOwner.ValueType  # 1
@@ -142,14 +142,14 @@ MEDIA_CONTROL_OWNER_PARTICIPANT: MediaControlOwner.ValueType  # 2
 hold mutes or pauses the bot only when a participant's bot policy asks for it; it also carries
 <code>SipSetCallMediaControlRequest.participants_present</code>
 """
-global___MediaControlOwner = MediaControlOwner
+Global___MediaControlOwner: _TypeAlias = MediaControlOwner  # noqa: Y015
 
 class _SipWarmTransferOutcome:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _SipWarmTransferOutcomeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcome.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _SipWarmTransferOutcomeEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcome.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     SIP_WARM_TRANSFER_OUTCOME_UNSPECIFIED: _SipWarmTransferOutcome.ValueType  # 0
     """No outcome"""
     SIP_WARM_TRANSFER_OUTCOME_DECLINED: _SipWarmTransferOutcome.ValueType  # 1
@@ -178,14 +178,14 @@ SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED: SipWarmTransferOutcome.ValueType  
 """A transfer parked in <code>SipStatus.delegated_transfer</code> was not claimed in time and was dropped without a
 REFER. Set by ONDEWO SIP itself towards the pipeline, never accepted from a client
 """
-global___SipWarmTransferOutcome = SipWarmTransferOutcome
+Global___SipWarmTransferOutcome: _TypeAlias = SipWarmTransferOutcome  # noqa: Y015
 
 class _SipWarmTransferOutcomeNoticeStatus:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _SipWarmTransferOutcomeNoticeStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcomeNoticeStatus.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _SipWarmTransferOutcomeNoticeStatusEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_SipWarmTransferOutcomeNoticeStatus.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 0
     """No notice was carried"""
     SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_QUEUED: _SipWarmTransferOutcomeNoticeStatus.ValueType  # 1
@@ -218,14 +218,14 @@ SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_PENDING: SipWarmTransferOutcomeNoticeSta
 """The pipeline did not answer (unreachable, or an older pipeline without the notice). The notice is kept and handed
 over again until it answers or the call ends
 """
-global___SipWarmTransferOutcomeNoticeStatus = SipWarmTransferOutcomeNoticeStatus
+Global___SipWarmTransferOutcomeNoticeStatus: _TypeAlias = SipWarmTransferOutcomeNoticeStatus  # noqa: Y015
 
 class _SipCallAudioMode:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _SipCallAudioModeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipCallAudioMode.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _SipCallAudioModeEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_SipCallAudioMode.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     SIP_CALL_AUDIO_MODE_UNSPECIFIED: _SipCallAudioMode.ValueType  # 0
     """Same as <code>SIP_CALL_AUDIO_MODE_LISTEN</code>"""
     SIP_CALL_AUDIO_MODE_LISTEN: _SipCallAudioMode.ValueType  # 1
@@ -242,14 +242,14 @@ SIP_CALL_AUDIO_MODE_LISTEN: SipCallAudioMode.ValueType  # 1
 """Receive the call audio only"""
 SIP_CALL_AUDIO_MODE_TALK: SipCallAudioMode.ValueType  # 2
 """Receive the caller's audio and send audio to the caller. Requires <code>take_over</code>"""
-global___SipCallAudioMode = SipCallAudioMode
+Global___SipCallAudioMode: _TypeAlias = SipCallAudioMode  # noqa: Y015
 
 class _SipCallAudioEndReason:
-    ValueType = typing.NewType("ValueType", builtins.int)
-    V: typing_extensions.TypeAlias = ValueType
+    ValueType = _typing.NewType("ValueType", _builtins.int)
+    V: _TypeAlias = ValueType  # noqa: Y015
 
-class _SipCallAudioEndReasonEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SipCallAudioEndReason.ValueType], builtins.type):
-    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+class _SipCallAudioEndReasonEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[_SipCallAudioEndReason.ValueType], _builtins.type):
+    DESCRIPTOR: _descriptor.EnumDescriptor
     SIP_CALL_AUDIO_END_REASON_UNSPECIFIED: _SipCallAudioEndReason.ValueType  # 0
     """No reason recorded"""
     SIP_CALL_AUDIO_END_REASON_CLIENT_CLOSED: _SipCallAudioEndReason.ValueType  # 1
@@ -282,20 +282,20 @@ SIP_CALL_AUDIO_END_REASON_STALLED: SipCallAudioEndReason.ValueType  # 5
 """The client did not read the audio in time"""
 SIP_CALL_AUDIO_END_REASON_INTERNAL: SipCallAudioEndReason.ValueType  # 6
 """An internal error ended the stream"""
-global___SipCallAudioEndReason = SipCallAudioEndReason
+Global___SipCallAudioEndReason: _TypeAlias = SipCallAudioEndReason  # noqa: Y015
 
-@typing.final
-class SipEndCallRequest(google.protobuf.message.Message):
+@_typing.final
+class SipEndCallRequest(_message.Message):
     """<p>Ends an ongoing call of the active SIP session of the active SIP account</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
     class _EndCallReason:
-        ValueType = typing.NewType("ValueType", builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
+        ValueType = _typing.NewType("ValueType", _builtins.int)
+        V: _TypeAlias = ValueType  # noqa: Y015
 
-    class _EndCallReasonEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipEndCallRequest._EndCallReason.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    class _EndCallReasonEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[SipEndCallRequest._EndCallReason.ValueType], _builtins.type):
+        DESCRIPTOR: _descriptor.EnumDescriptor
         END_CALL_REASON_UNSPECIFIED: SipEndCallRequest._EndCallReason.ValueType  # 0
         """No specific reason given. The call ends as an ordinary hangup, exactly as before this field existed"""
         ANSWERING_MACHINE: SipEndCallRequest._EndCallReason.ValueType  # 1
@@ -339,15 +339,15 @@ class SipEndCallRequest(google.protobuf.message.Message):
     <code>transfer_call_id</code> set to the transfer target
     """
 
-    HARD_HANGUP_FIELD_NUMBER: builtins.int
-    END_REASON_FIELD_NUMBER: builtins.int
-    AMD_RESULT_FIELD_NUMBER: builtins.int
-    hard_hangup: builtins.bool
+    HARD_HANGUP_FIELD_NUMBER: _builtins.int
+    END_REASON_FIELD_NUMBER: _builtins.int
+    AMD_RESULT_FIELD_NUMBER: _builtins.int
+    hard_hangup: _builtins.bool
     """Set to <code>True</code> to forcefully hang up the call"""
-    end_reason: global___SipEndCallRequest.EndCallReason.ValueType
+    end_reason: Global___SipEndCallRequest.EndCallReason.ValueType
     """Optional: reason for ending the call. Leave unset for an ordinary hangup"""
-    @property
-    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+    @_builtins.property
+    def amd_result(self) -> Global___AnsweringMachineDetectionResult:
         """Optional: result of the answering machine detection that decided to end the call. Only meaningful together with
         <code>end_reason = ANSWERING_MACHINE</code> or <code>end_reason = ANSWERING_MACHINE_VOICE_MESSAGE_LEFT</code>;
         it is carried into <code>SipStatus.amd_result</code> of the terminal status of the call
@@ -356,24 +356,27 @@ class SipEndCallRequest(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        hard_hangup: builtins.bool = ...,
-        end_reason: global___SipEndCallRequest.EndCallReason.ValueType = ...,
-        amd_result: global___AnsweringMachineDetectionResult | None = ...,
+        hard_hangup: _builtins.bool = ...,
+        end_reason: Global___SipEndCallRequest.EndCallReason.ValueType = ...,
+        amd_result: Global___AnsweringMachineDetectionResult | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result", "end_reason", b"end_reason", "hard_hangup", b"hard_hangup"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["amd_result", b"amd_result"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["amd_result", b"amd_result", "end_reason", b"end_reason", "hard_hangup", b"hard_hangup"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipEndCallRequest = SipEndCallRequest
+Global___SipEndCallRequest: _TypeAlias = SipEndCallRequest  # noqa: Y015
 
-@typing.final
-class SipReportAnsweringMachineDetectedRequest(google.protobuf.message.Message):
+@_typing.final
+class SipReportAnsweringMachineDetectedRequest(_message.Message):
     """<p>Reports the verdict of the answering machine detection of the ongoing outgoing call</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    AMD_RESULT_FIELD_NUMBER: builtins.int
-    @property
-    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+    AMD_RESULT_FIELD_NUMBER: _builtins.int
+    @_builtins.property
+    def amd_result(self) -> Global___AnsweringMachineDetectionResult:
         """Result of the answering machine detection. Written to <code>SipStatus.amd_result</code> of the
         <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> status of the call
         """
@@ -381,27 +384,30 @@ class SipReportAnsweringMachineDetectedRequest(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        amd_result: global___AnsweringMachineDetectionResult | None = ...,
+        amd_result: Global___AnsweringMachineDetectionResult | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["amd_result", b"amd_result"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["amd_result", b"amd_result"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["amd_result", b"amd_result"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipReportAnsweringMachineDetectedRequest = SipReportAnsweringMachineDetectedRequest
+Global___SipReportAnsweringMachineDetectedRequest: _TypeAlias = SipReportAnsweringMachineDetectedRequest  # noqa: Y015
 
-@typing.final
-class AnsweringMachineDetectionResult(google.protobuf.message.Message):
+@_typing.final
+class AnsweringMachineDetectionResult(_message.Message):
     """<p>Result of the answering machine detection (AMD) of an outbound call</p>
     <p>Carries identifiers from closed vocabularies only: never audio, transcript text or a phone number</p>
     """
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
     class _Verdict:
-        ValueType = typing.NewType("ValueType", builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
+        ValueType = _typing.NewType("ValueType", _builtins.int)
+        V: _TypeAlias = ValueType  # noqa: Y015
 
-    class _VerdictEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Verdict.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    class _VerdictEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Verdict.ValueType], _builtins.type):
+        DESCRIPTOR: _descriptor.EnumDescriptor
         VERDICT_UNSPECIFIED: AnsweringMachineDetectionResult._Verdict.ValueType  # 0
         """No verdict available"""
         HUMAN: AnsweringMachineDetectionResult._Verdict.ValueType  # 1
@@ -444,11 +450,11 @@ class AnsweringMachineDetectionResult(google.protobuf.message.Message):
     """The detection could not decide"""
 
     class _Cause:
-        ValueType = typing.NewType("ValueType", builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
+        ValueType = _typing.NewType("ValueType", _builtins.int)
+        V: _TypeAlias = ValueType  # noqa: Y015
 
-    class _CauseEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Cause.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    class _CauseEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._Cause.ValueType], _builtins.type):
+        DESCRIPTOR: _descriptor.EnumDescriptor
         CAUSE_UNSPECIFIED: AnsweringMachineDetectionResult._Cause.ValueType  # 0
         """No cause available"""
         CADENCE: AnsweringMachineDetectionResult._Cause.ValueType  # 1
@@ -491,11 +497,11 @@ class AnsweringMachineDetectionResult(google.protobuf.message.Message):
     """Silence throughout the detection window"""
 
     class _ActionTaken:
-        ValueType = typing.NewType("ValueType", builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
+        ValueType = _typing.NewType("ValueType", _builtins.int)
+        V: _TypeAlias = ValueType  # noqa: Y015
 
-    class _ActionTakenEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._ActionTaken.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    class _ActionTakenEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[AnsweringMachineDetectionResult._ActionTaken.ValueType], _builtins.type):
+        DESCRIPTOR: _descriptor.EnumDescriptor
         ACTION_TAKEN_UNSPECIFIED: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 0
         """No action recorded"""
         HUNG_UP: AnsweringMachineDetectionResult._ActionTaken.ValueType  # 1
@@ -521,176 +527,200 @@ class AnsweringMachineDetectionResult(google.protobuf.message.Message):
     LEFT_VOICE_MESSAGE: AnsweringMachineDetectionResult.ActionTaken.ValueType  # 4
     """A voice message was left on the answering machine, and the call was hung up afterwards"""
 
-    VERDICT_FIELD_NUMBER: builtins.int
-    CAUSE_FIELD_NUMBER: builtins.int
-    CONFIDENCE_FIELD_NUMBER: builtins.int
-    DECISION_MS_FIELD_NUMBER: builtins.int
-    RULE_ID_FIELD_NUMBER: builtins.int
-    MATCHED_CUE_IDS_FIELD_NUMBER: builtins.int
-    ACTION_TAKEN_FIELD_NUMBER: builtins.int
-    CALL_ID_FIELD_NUMBER: builtins.int
-    verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType
+    VERDICT_FIELD_NUMBER: _builtins.int
+    CAUSE_FIELD_NUMBER: _builtins.int
+    CONFIDENCE_FIELD_NUMBER: _builtins.int
+    DECISION_MS_FIELD_NUMBER: _builtins.int
+    RULE_ID_FIELD_NUMBER: _builtins.int
+    MATCHED_CUE_IDS_FIELD_NUMBER: _builtins.int
+    ACTION_TAKEN_FIELD_NUMBER: _builtins.int
+    CALL_ID_FIELD_NUMBER: _builtins.int
+    verdict: Global___AnsweringMachineDetectionResult.Verdict.ValueType
     """Who or what answered the call"""
-    cause: global___AnsweringMachineDetectionResult.Cause.ValueType
+    cause: Global___AnsweringMachineDetectionResult.Cause.ValueType
     """Evidence that led to the verdict"""
-    confidence: builtins.float
+    confidence: _builtins.float
     """Confidence of the verdict, between <code>0.0</code> and <code>1.0</code>"""
-    decision_ms: builtins.int
+    decision_ms: _builtins.int
     """Time in milliseconds from the call being connected until the verdict was reached"""
-    rule_id: builtins.str
+    rule_id: _builtins.str
     """Identifier of the detection rule that produced the verdict"""
-    action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType
+    action_taken: Global___AnsweringMachineDetectionResult.ActionTaken.ValueType
     """What was done because of the verdict"""
-    call_id: builtins.str
+    call_id: _builtins.str
     """Identifier of the call the result belongs to, i.e. the value of the <code>X-ondewo-vtsi-caller-call-id</code>
     header of the call. Used to match a result to its call by identity rather than by recency
     """
-    @property
-    def matched_cue_ids(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+    @_builtins.property
+    def matched_cue_ids(self) -> _containers.RepeatedScalarFieldContainer[_builtins.str]:
         """Identifiers of the cues that matched, e.g. keyword or tone identifiers. Identifiers only, never transcript text"""
 
     def __init__(
         self,
         *,
-        verdict: global___AnsweringMachineDetectionResult.Verdict.ValueType = ...,
-        cause: global___AnsweringMachineDetectionResult.Cause.ValueType = ...,
-        confidence: builtins.float = ...,
-        decision_ms: builtins.int = ...,
-        rule_id: builtins.str = ...,
-        matched_cue_ids: collections.abc.Iterable[builtins.str] | None = ...,
-        action_taken: global___AnsweringMachineDetectionResult.ActionTaken.ValueType = ...,
-        call_id: builtins.str = ...,
+        verdict: Global___AnsweringMachineDetectionResult.Verdict.ValueType = ...,
+        cause: Global___AnsweringMachineDetectionResult.Cause.ValueType = ...,
+        confidence: _builtins.float = ...,
+        decision_ms: _builtins.int = ...,
+        rule_id: _builtins.str = ...,
+        matched_cue_ids: _abc.Iterable[_builtins.str] | None = ...,
+        action_taken: Global___AnsweringMachineDetectionResult.ActionTaken.ValueType = ...,
+        call_id: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["action_taken", b"action_taken", "call_id", b"call_id", "cause", b"cause", "confidence", b"confidence", "decision_ms", b"decision_ms", "matched_cue_ids", b"matched_cue_ids", "rule_id", b"rule_id", "verdict", b"verdict"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["action_taken", b"action_taken", "call_id", b"call_id", "cause", b"cause", "confidence", b"confidence", "decision_ms", b"decision_ms", "matched_cue_ids", b"matched_cue_ids", "rule_id", b"rule_id", "verdict", b"verdict"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___AnsweringMachineDetectionResult = AnsweringMachineDetectionResult
+Global___AnsweringMachineDetectionResult: _TypeAlias = AnsweringMachineDetectionResult  # noqa: Y015
 
-@typing.final
-class SipStartCallRequest(google.protobuf.message.Message):
+@_typing.final
+class SipStartCallRequest(_message.Message):
     """<p>Request to start the call with the active SIP session of the active SIP account</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    @typing.final
-    class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    @_typing.final
+    class HeadersEntry(_message.Message):
+        DESCRIPTOR: _descriptor.Descriptor
 
-        KEY_FIELD_NUMBER: builtins.int
-        VALUE_FIELD_NUMBER: builtins.int
-        key: builtins.str
-        value: builtins.str
+        KEY_FIELD_NUMBER: _builtins.int
+        VALUE_FIELD_NUMBER: _builtins.int
+        key: _builtins.str
+        value: _builtins.str
         def __init__(
             self,
             *,
-            key: builtins.str = ...,
-            value: builtins.str = ...,
+            key: _builtins.str = ...,
+            value: _builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+        _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+        def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+        _ClearFieldArgType: _TypeAlias = _typing.Literal["key", b"key", "value", b"value"]  # noqa: Y015
+        def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+        def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-    CALLEE_ID_FIELD_NUMBER: builtins.int
-    HEADERS_FIELD_NUMBER: builtins.int
-    callee_id: builtins.str
+    CALLEE_ID_FIELD_NUMBER: _builtins.int
+    HEADERS_FIELD_NUMBER: _builtins.int
+    callee_id: _builtins.str
     """SIP account name"""
-    @property
-    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+    @_builtins.property
+    def headers(self) -> _containers.ScalarMap[_builtins.str, _builtins.str]:
         """Headers to include when starting the call"""
 
     def __init__(
         self,
         *,
-        callee_id: builtins.str = ...,
-        headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        callee_id: _builtins.str = ...,
+        headers: _abc.Mapping[_builtins.str, _builtins.str] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["callee_id", b"callee_id", "headers", b"headers"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["callee_id", b"callee_id", "headers", b"headers"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipStartCallRequest = SipStartCallRequest
+Global___SipStartCallRequest: _TypeAlias = SipStartCallRequest  # noqa: Y015
 
-@typing.final
-class SipRegisterAccountRequest(google.protobuf.message.Message):
+@_typing.final
+class SipRegisterAccountRequest(_message.Message):
     """<p>Request for registering a SIP account at a SIP server</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    ACCOUNT_NAME_FIELD_NUMBER: builtins.int
-    PASSWORD_FIELD_NUMBER: builtins.int
-    AUTH_USERNAME_FIELD_NUMBER: builtins.int
-    OUTBOUND_PROXY_FIELD_NUMBER: builtins.int
-    account_name: builtins.str
+    ACCOUNT_NAME_FIELD_NUMBER: _builtins.int
+    PASSWORD_FIELD_NUMBER: _builtins.int
+    AUTH_USERNAME_FIELD_NUMBER: _builtins.int
+    OUTBOUND_PROXY_FIELD_NUMBER: _builtins.int
+    account_name: _builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
-    password: builtins.str
+    password: _builtins.str
     """Password of the account"""
-    auth_username: builtins.str
+    auth_username: _builtins.str
     """Optional: authentication user name"""
-    outbound_proxy: builtins.str
+    outbound_proxy: _builtins.str
     """Optional: outbound proxy address, e.g. <code>my.outbound.proxy.com</code>"""
     def __init__(
         self,
         *,
-        account_name: builtins.str = ...,
-        password: builtins.str = ...,
-        auth_username: builtins.str = ...,
-        outbound_proxy: builtins.str = ...,
+        account_name: _builtins.str = ...,
+        password: _builtins.str = ...,
+        auth_username: _builtins.str = ...,
+        outbound_proxy: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "auth_username", b"auth_username", "outbound_proxy", b"outbound_proxy", "password", b"password"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["account_name", b"account_name", "auth_username", b"auth_username", "outbound_proxy", b"outbound_proxy", "password", b"password"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipRegisterAccountRequest = SipRegisterAccountRequest
+Global___SipRegisterAccountRequest: _TypeAlias = SipRegisterAccountRequest  # noqa: Y015
 
-@typing.final
-class SipStartSessionRequest(google.protobuf.message.Message):
+@_typing.final
+class SipStartSessionRequest(_message.Message):
     """<p>Request for starting a new SIP session for a specified account</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    ACCOUNT_NAME_FIELD_NUMBER: builtins.int
-    AUTO_ANSWER_INTERVAL_FIELD_NUMBER: builtins.int
-    account_name: builtins.str
+    ACCOUNT_NAME_FIELD_NUMBER: _builtins.int
+    AUTO_ANSWER_INTERVAL_FIELD_NUMBER: _builtins.int
+    account_name: _builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
-    auto_answer_interval: builtins.int
+    auto_answer_interval: _builtins.int
     """Auto-answer interval in seconds. The call will be automatically answered after this interval"""
     def __init__(
         self,
         *,
-        account_name: builtins.str = ...,
-        auto_answer_interval: builtins.int = ...,
+        account_name: _builtins.str = ...,
+        auto_answer_interval: _builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "auto_answer_interval", b"auto_answer_interval"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["account_name", b"account_name", "auto_answer_interval", b"auto_answer_interval"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipStartSessionRequest = SipStartSessionRequest
+Global___SipStartSessionRequest: _TypeAlias = SipStartSessionRequest  # noqa: Y015
 
-@typing.final
-class SipTransferCallRequest(google.protobuf.message.Message):
+@_typing.final
+class SipTransferCallRequest(_message.Message):
     """<p>Request for transferring a call with or without headers</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    @typing.final
-    class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    @_typing.final
+    class HeadersEntry(_message.Message):
+        DESCRIPTOR: _descriptor.Descriptor
 
-        KEY_FIELD_NUMBER: builtins.int
-        VALUE_FIELD_NUMBER: builtins.int
-        key: builtins.str
-        value: builtins.str
+        KEY_FIELD_NUMBER: _builtins.int
+        VALUE_FIELD_NUMBER: _builtins.int
+        key: _builtins.str
+        value: _builtins.str
         def __init__(
             self,
             *,
-            key: builtins.str = ...,
-            value: builtins.str = ...,
+            key: _builtins.str = ...,
+            value: _builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+        _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+        def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+        _ClearFieldArgType: _TypeAlias = _typing.Literal["key", b"key", "value", b"value"]  # noqa: Y015
+        def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+        def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-    TRANSFER_ID_FIELD_NUMBER: builtins.int
-    HEADERS_FIELD_NUMBER: builtins.int
-    OUTCOME_TIMEOUT_MS_FIELD_NUMBER: builtins.int
-    DELEGATION_FIELD_NUMBER: builtins.int
-    DELEGATED_REQUEST_ID_FIELD_NUMBER: builtins.int
-    transfer_id: builtins.str
+    TRANSFER_ID_FIELD_NUMBER: _builtins.int
+    HEADERS_FIELD_NUMBER: _builtins.int
+    OUTCOME_TIMEOUT_MS_FIELD_NUMBER: _builtins.int
+    DELEGATION_FIELD_NUMBER: _builtins.int
+    DELEGATED_REQUEST_ID_FIELD_NUMBER: _builtins.int
+    transfer_id: _builtins.str
     """The account name or phone number to transfer the call to"""
-    outcome_timeout_ms: builtins.int
+    outcome_timeout_ms: _builtins.int
     """<p>Optional. How long to wait, in milliseconds, for the SIP server's answer to the REFER before reporting the outcome.
     Clamped to 10000.</p>
     <p><code>0</code> (default): legacy behaviour, unchanged: REFER, then an immediate hangup.</p>
@@ -712,19 +742,19 @@ class SipTransferCallRequest(google.protobuf.message.Message):
     <p>A <code>202</code> does not mean the target answered: when the dialplan's dial to the target then fails (busy, no
     answer, unreachable) the caller is lost. Validate targets up front, or use a WARM transfer.</p>
     """
-    delegation: global___SipTransferDelegation.ValueType
+    delegation: Global___SipTransferDelegation.ValueType
     """<p>Optional. Claims the transfer parked in <code>SipStatus.delegated_transfer</code> (see
     <code>SipTransferDelegation</code>). <code>SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> (default): an ordinary
     transfer, exactly as before this field existed.</p>
     """
-    delegated_request_id: builtins.str
+    delegated_request_id: _builtins.str
     """<p>Required with every <code>delegation</code> other than <code>SIP_TRANSFER_DELEGATION_UNSPECIFIED</code>, ignored
     otherwise: must equal <code>SipStatus.delegated_transfer.request_id</code> of the parked transfer, otherwise the
     request is refused with <code>exception_name=DelegatedRequestMismatch</code> and nothing is sent. Empty (default):
     no delegated transfer is claimed.</p>
     """
-    @property
-    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+    @_builtins.property
+    def headers(self) -> _containers.ScalarMap[_builtins.str, _builtins.str]:
         """The headers to include when transferring the call. They are sent on the REFER. Note that Asterisk (res_pjsip,
         measured on 18.6 and 22) does NOT forward headers of a REFER to the transfer target: the target receives the
         headers of the transferred caller's original INVITE. Hand headers to the target through the dialplan instead
@@ -733,18 +763,22 @@ class SipTransferCallRequest(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        transfer_id: builtins.str = ...,
-        headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
-        outcome_timeout_ms: builtins.int = ...,
-        delegation: global___SipTransferDelegation.ValueType = ...,
-        delegated_request_id: builtins.str = ...,
+        transfer_id: _builtins.str = ...,
+        headers: _abc.Mapping[_builtins.str, _builtins.str] | None = ...,
+        outcome_timeout_ms: _builtins.int = ...,
+        delegation: Global___SipTransferDelegation.ValueType = ...,
+        delegated_request_id: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["delegated_request_id", b"delegated_request_id", "delegation", b"delegation", "headers", b"headers", "outcome_timeout_ms", b"outcome_timeout_ms", "transfer_id", b"transfer_id"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["delegated_request_id", b"delegated_request_id", "delegation", b"delegation", "headers", b"headers", "outcome_timeout_ms", b"outcome_timeout_ms", "transfer_id", b"transfer_id"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipTransferCallRequest = SipTransferCallRequest
+Global___SipTransferCallRequest: _TypeAlias = SipTransferCallRequest  # noqa: Y015
 
-@typing.final
-class SipDelegatedTransfer(google.protobuf.message.Message):
+@_typing.final
+class SipDelegatedTransfer(_message.Message):
     """<p>A transfer that the in-container speech-to-speech pipeline asked for and the container handed to a client instead
     of sending it (see <code>SipTransferDelegation</code>). Call-scoped: empty when no transfer is parked, when no call
     is ongoing, and after the call ended.</p>
@@ -753,48 +787,52 @@ class SipDelegatedTransfer(google.protobuf.message.Message):
     are filled ONLY in the response of a <code>SIP_TRANSFER_DELEGATION_CLAIM</code>.</p>
     """
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    @typing.final
-    class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    @_typing.final
+    class HeadersEntry(_message.Message):
+        DESCRIPTOR: _descriptor.Descriptor
 
-        KEY_FIELD_NUMBER: builtins.int
-        VALUE_FIELD_NUMBER: builtins.int
-        key: builtins.str
-        value: builtins.str
+        KEY_FIELD_NUMBER: _builtins.int
+        VALUE_FIELD_NUMBER: _builtins.int
+        key: _builtins.str
+        value: _builtins.str
         def __init__(
             self,
             *,
-            key: builtins.str = ...,
-            value: builtins.str = ...,
+            key: _builtins.str = ...,
+            value: _builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+        _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+        def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+        _ClearFieldArgType: _TypeAlias = _typing.Literal["key", b"key", "value", b"value"]  # noqa: Y015
+        def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+        def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-    REQUEST_ID_FIELD_NUMBER: builtins.int
-    REQUESTED_AT_FIELD_NUMBER: builtins.int
-    TARGET_IS_PHONE_NUMBER_FIELD_NUMBER: builtins.int
-    TRANSFER_ID_FIELD_NUMBER: builtins.int
-    HEADERS_FIELD_NUMBER: builtins.int
-    request_id: builtins.str
+    REQUEST_ID_FIELD_NUMBER: _builtins.int
+    REQUESTED_AT_FIELD_NUMBER: _builtins.int
+    TARGET_IS_PHONE_NUMBER_FIELD_NUMBER: _builtins.int
+    TRANSFER_ID_FIELD_NUMBER: _builtins.int
+    HEADERS_FIELD_NUMBER: _builtins.int
+    request_id: _builtins.str
     """Identifier of the parked transfer, a UUID minted by ONDEWO SIP. Sent back as
     <code>SipTransferCallRequest.delegated_request_id</code>. Empty when no transfer is parked
     """
-    target_is_phone_number: builtins.bool
+    target_is_phone_number: _builtins.bool
     """<code>true</code> when the target is a phone number by the transfer target policy of ONDEWO SIP (a leading
     <code>+</code> followed by digits, or a trunk-routed number), <code>false</code> for an account name such as a
     softphone
     """
-    transfer_id: builtins.str
+    transfer_id: _builtins.str
     """The target the pipeline asked for, already checked by the transfer target policy. Only in the response of a
     <code>SIP_TRANSFER_DELEGATION_CLAIM</code>, empty everywhere else
     """
-    @property
-    def requested_at(self) -> google.protobuf.timestamp_pb2.Timestamp:
+    @_builtins.property
+    def requested_at(self) -> _timestamp_pb2.Timestamp:
         """When the pipeline asked for the transfer"""
 
-    @property
-    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+    @_builtins.property
+    def headers(self) -> _containers.ScalarMap[_builtins.str, _builtins.str]:
         """The headers the pipeline sent with the transfer. Only in the response of a
         <code>SIP_TRANSFER_DELEGATION_CLAIM</code>, empty everywhere else
         """
@@ -802,29 +840,32 @@ class SipDelegatedTransfer(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        request_id: builtins.str = ...,
-        requested_at: google.protobuf.timestamp_pb2.Timestamp | None = ...,
-        target_is_phone_number: builtins.bool = ...,
-        transfer_id: builtins.str = ...,
-        headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        request_id: _builtins.str = ...,
+        requested_at: _timestamp_pb2.Timestamp | None = ...,
+        target_is_phone_number: _builtins.bool = ...,
+        transfer_id: _builtins.str = ...,
+        headers: _abc.Mapping[_builtins.str, _builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["requested_at", b"requested_at"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["headers", b"headers", "request_id", b"request_id", "requested_at", b"requested_at", "target_is_phone_number", b"target_is_phone_number", "transfer_id", b"transfer_id"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["requested_at", b"requested_at"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["headers", b"headers", "request_id", b"request_id", "requested_at", b"requested_at", "target_is_phone_number", b"target_is_phone_number", "transfer_id", b"transfer_id"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipDelegatedTransfer = SipDelegatedTransfer
+Global___SipDelegatedTransfer: _TypeAlias = SipDelegatedTransfer  # noqa: Y015
 
-@typing.final
-class SipStatus(google.protobuf.message.Message):
+@_typing.final
+class SipStatus(_message.Message):
     """<p>Status information for a SIP account, session, or call</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
     class _StatusType:
-        ValueType = typing.NewType("ValueType", builtins.int)
-        V: typing_extensions.TypeAlias = ValueType
+        ValueType = _typing.NewType("ValueType", _builtins.int)
+        V: _TypeAlias = ValueType  # noqa: Y015
 
-    class _StatusTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SipStatus._StatusType.ValueType], builtins.type):
-        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    class _StatusTypeEnumTypeWrapper(_enum_type_wrapper._EnumTypeWrapper[SipStatus._StatusType.ValueType], _builtins.type):
+        DESCRIPTOR: _descriptor.EnumDescriptor
         NO_SESSION: SipStatus._StatusType.ValueType  # 0
         """No session is currently active"""
         REGISTERED: SipStatus._StatusType.ValueType  # 1
@@ -938,110 +979,114 @@ class SipStatus(google.protobuf.message.Message):
     <code>Answering machine detected, call ended by the answering machine after leaving a voice message</code>
     """
 
-    @typing.final
-    class HeadersEntry(google.protobuf.message.Message):
-        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    @_typing.final
+    class HeadersEntry(_message.Message):
+        DESCRIPTOR: _descriptor.Descriptor
 
-        KEY_FIELD_NUMBER: builtins.int
-        VALUE_FIELD_NUMBER: builtins.int
-        key: builtins.str
-        value: builtins.str
+        KEY_FIELD_NUMBER: _builtins.int
+        VALUE_FIELD_NUMBER: _builtins.int
+        key: _builtins.str
+        value: _builtins.str
         def __init__(
             self,
             *,
-            key: builtins.str = ...,
-            value: builtins.str = ...,
+            key: _builtins.str = ...,
+            value: _builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+        _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+        def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+        _ClearFieldArgType: _TypeAlias = _typing.Literal["key", b"key", "value", b"value"]  # noqa: Y015
+        def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+        def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-    ACCOUNT_NAME_FIELD_NUMBER: builtins.int
-    TIMESTAMP_FIELD_NUMBER: builtins.int
-    STATUS_TYPE_FIELD_NUMBER: builtins.int
-    CALLEE_ID_FIELD_NUMBER: builtins.int
-    TRANSFER_CALL_ID_FIELD_NUMBER: builtins.int
-    HEADERS_FIELD_NUMBER: builtins.int
-    DESCRIPTION_FIELD_NUMBER: builtins.int
-    EXCEPTION_NAME_FIELD_NUMBER: builtins.int
-    EXCEPTION_TRACEBACK_FIELD_NUMBER: builtins.int
-    NLU_SESSION_NAME_FIELD_NUMBER: builtins.int
-    AMD_RESULT_FIELD_NUMBER: builtins.int
-    CALL_ID_FIELD_NUMBER: builtins.int
-    BOT_MUTED_FIELD_NUMBER: builtins.int
-    LISTENING_PAUSED_FIELD_NUMBER: builtins.int
-    CALL_AUDIO_STREAMS_FIELD_NUMBER: builtins.int
-    SIP_RESPONSE_CODE_FIELD_NUMBER: builtins.int
-    DELEGATED_TRANSFER_FIELD_NUMBER: builtins.int
-    CAPABILITIES_FIELD_NUMBER: builtins.int
-    WARM_TRANSFER_OUTCOME_NOTICE_STATUS_FIELD_NUMBER: builtins.int
-    account_name: builtins.str
+    ACCOUNT_NAME_FIELD_NUMBER: _builtins.int
+    TIMESTAMP_FIELD_NUMBER: _builtins.int
+    STATUS_TYPE_FIELD_NUMBER: _builtins.int
+    CALLEE_ID_FIELD_NUMBER: _builtins.int
+    TRANSFER_CALL_ID_FIELD_NUMBER: _builtins.int
+    HEADERS_FIELD_NUMBER: _builtins.int
+    DESCRIPTION_FIELD_NUMBER: _builtins.int
+    EXCEPTION_NAME_FIELD_NUMBER: _builtins.int
+    EXCEPTION_TRACEBACK_FIELD_NUMBER: _builtins.int
+    NLU_SESSION_NAME_FIELD_NUMBER: _builtins.int
+    AMD_RESULT_FIELD_NUMBER: _builtins.int
+    CALL_ID_FIELD_NUMBER: _builtins.int
+    BOT_MUTED_FIELD_NUMBER: _builtins.int
+    LISTENING_PAUSED_FIELD_NUMBER: _builtins.int
+    CALL_AUDIO_STREAMS_FIELD_NUMBER: _builtins.int
+    SIP_RESPONSE_CODE_FIELD_NUMBER: _builtins.int
+    DELEGATED_TRANSFER_FIELD_NUMBER: _builtins.int
+    CAPABILITIES_FIELD_NUMBER: _builtins.int
+    WARM_TRANSFER_OUTCOME_NOTICE_STATUS_FIELD_NUMBER: _builtins.int
+    account_name: _builtins.str
     """Account name of the sip user. Usually something like <code>sip-user-1@mydomain.com</code> or <code>sip-user-1@192.168.123.123</code> which uses the default SIP port <code>5060</code>.
     Also a non-default SIP port can be specified via <code>sip-user-1@mydomain.com:5099</code> to connect to a SIP server running on port <code>5099</code>
     """
-    status_type: global___SipStatus.StatusType.ValueType
+    status_type: Global___SipStatus.StatusType.ValueType
     """Status type"""
-    callee_id: builtins.str
+    callee_id: _builtins.str
     """SIP account name"""
-    transfer_call_id: builtins.str
+    transfer_call_id: _builtins.str
     """SIP account of the transfer"""
-    description: builtins.str
+    description: _builtins.str
     """More detailed description of the status"""
-    exception_name: builtins.str
+    exception_name: _builtins.str
     """Name of the exception"""
-    exception_traceback: builtins.str
+    exception_traceback: _builtins.str
     """Traceback of the exception"""
-    nlu_session_name: builtins.str
+    nlu_session_name: _builtins.str
     """session name of the NLU session"""
-    call_id: builtins.str
+    call_id: _builtins.str
     """Identifier of the ongoing call, minted per call: the value of the <code>X-ondewo-vtsi-caller-call-id</code> header of
     an outgoing call when present, otherwise a random UUID. Empty when no call is ongoing. Set on every status of the
     call, including the entries of <code>SipGetSipStatusHistory</code>. Clients send it back as the
     <code>x-ondewo-expected-call-id</code> metadatum to scope a request to this call
     """
-    bot_muted: builtins.bool
+    bot_muted: _builtins.bool
     """<code>true</code> while the bot is muted by an operator, a conference participant policy or a TALK take-over of
     <code>SipSetCallMediaControl</code> / <code>SipStreamCallAudio</code>. Not the bot's own pipeline mute
     (<code>MICROPHONE_MUTED</code>). Cleared when the call ends
     """
-    listening_paused: builtins.bool
+    listening_paused: _builtins.bool
     """<code>true</code> while the bot does not listen to the caller (see <code>bot_muted</code> for who sets it). Cleared
     when the call ends
     """
-    call_audio_streams: builtins.int
+    call_audio_streams: _builtins.int
     """Number of connected <code>SipStreamCallAudio</code> streams of the ongoing call"""
-    sip_response_code: builtins.int
+    sip_response_code: _builtins.int
     """SIP response code of the last transfer attempt of the ongoing call (<code>202</code> when accepted, the refusal code
     otherwise, <code>0</code> when unknown). Call-scoped
     """
-    warm_transfer_outcome_notice_status: global___SipWarmTransferOutcomeNoticeStatus.ValueType
+    warm_transfer_outcome_notice_status: Global___SipWarmTransferOutcomeNoticeStatus.ValueType
     """Answer of the speech-to-speech pipeline to the <code>warm_transfer_outcome</code> notice of a
     <code>SipSetCallMediaControl</code> request. Only in the response of that request;
     <code>SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED</code> everywhere else and when the request carried no
     notice
     """
-    @property
-    def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
+    @_builtins.property
+    def timestamp(self) -> _timestamp_pb2.Timestamp:
         """Timestamp of the status"""
 
-    @property
-    def headers(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
+    @_builtins.property
+    def headers(self) -> _containers.ScalarMap[_builtins.str, _builtins.str]:
         """Headers to include when calling outbound or transfer"""
 
-    @property
-    def amd_result(self) -> global___AnsweringMachineDetectionResult:
+    @_builtins.property
+    def amd_result(self) -> Global___AnsweringMachineDetectionResult:
         """Result of the answering machine detection of the call. Set on
         <code>OUTGOING_CALL_ANSWERING_MACHINE_DETECTED</code> and on the terminal status of every call on which answering machine detection ran, including a
         <code>HUMAN</code> verdict; unset otherwise
         """
 
-    @property
-    def delegated_transfer(self) -> global___SipDelegatedTransfer:
+    @_builtins.property
+    def delegated_transfer(self) -> Global___SipDelegatedTransfer:
         """The transfer parked for a client to claim (see <code>SipTransferDelegation</code>). Unset (empty) when no transfer
         is parked, which is always the case in a container started without <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code>.
         Call-scoped
         """
 
-    @property
-    def capabilities(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+    @_builtins.property
+    def capabilities(self) -> _containers.RepeatedScalarFieldContainer[_builtins.str]:
         """<p>Optional features this container supports, as stable tokens. Fixed for the life of the container, so it is the
         same on every status. Empty (default): none of them, as for a container built before this field existed. Clients
         ignore tokens they do not know.</p>
@@ -1054,71 +1099,78 @@ class SipStatus(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        account_name: builtins.str = ...,
-        timestamp: google.protobuf.timestamp_pb2.Timestamp | None = ...,
-        status_type: global___SipStatus.StatusType.ValueType = ...,
-        callee_id: builtins.str = ...,
-        transfer_call_id: builtins.str = ...,
-        headers: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
-        description: builtins.str = ...,
-        exception_name: builtins.str = ...,
-        exception_traceback: builtins.str = ...,
-        nlu_session_name: builtins.str = ...,
-        amd_result: global___AnsweringMachineDetectionResult | None = ...,
-        call_id: builtins.str = ...,
-        bot_muted: builtins.bool = ...,
-        listening_paused: builtins.bool = ...,
-        call_audio_streams: builtins.int = ...,
-        sip_response_code: builtins.int = ...,
-        delegated_transfer: global___SipDelegatedTransfer | None = ...,
-        capabilities: collections.abc.Iterable[builtins.str] | None = ...,
-        warm_transfer_outcome_notice_status: global___SipWarmTransferOutcomeNoticeStatus.ValueType = ...,
+        account_name: _builtins.str = ...,
+        timestamp: _timestamp_pb2.Timestamp | None = ...,
+        status_type: Global___SipStatus.StatusType.ValueType = ...,
+        callee_id: _builtins.str = ...,
+        transfer_call_id: _builtins.str = ...,
+        headers: _abc.Mapping[_builtins.str, _builtins.str] | None = ...,
+        description: _builtins.str = ...,
+        exception_name: _builtins.str = ...,
+        exception_traceback: _builtins.str = ...,
+        nlu_session_name: _builtins.str = ...,
+        amd_result: Global___AnsweringMachineDetectionResult | None = ...,
+        call_id: _builtins.str = ...,
+        bot_muted: _builtins.bool = ...,
+        listening_paused: _builtins.bool = ...,
+        call_audio_streams: _builtins.int = ...,
+        sip_response_code: _builtins.int = ...,
+        delegated_transfer: Global___SipDelegatedTransfer | None = ...,
+        capabilities: _abc.Iterable[_builtins.str] | None = ...,
+        warm_transfer_outcome_notice_status: Global___SipWarmTransferOutcomeNoticeStatus.ValueType = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["amd_result", b"amd_result", "delegated_transfer", b"delegated_transfer", "timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "bot_muted", b"bot_muted", "call_audio_streams", b"call_audio_streams", "call_id", b"call_id", "callee_id", b"callee_id", "capabilities", b"capabilities", "delegated_transfer", b"delegated_transfer", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "listening_paused", b"listening_paused", "nlu_session_name", b"nlu_session_name", "sip_response_code", b"sip_response_code", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id", "warm_transfer_outcome_notice_status", b"warm_transfer_outcome_notice_status"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["amd_result", b"amd_result", "delegated_transfer", b"delegated_transfer", "timestamp", b"timestamp"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["account_name", b"account_name", "amd_result", b"amd_result", "bot_muted", b"bot_muted", "call_audio_streams", b"call_audio_streams", "call_id", b"call_id", "callee_id", b"callee_id", "capabilities", b"capabilities", "delegated_transfer", b"delegated_transfer", "description", b"description", "exception_name", b"exception_name", "exception_traceback", b"exception_traceback", "headers", b"headers", "listening_paused", b"listening_paused", "nlu_session_name", b"nlu_session_name", "sip_response_code", b"sip_response_code", "status_type", b"status_type", "timestamp", b"timestamp", "transfer_call_id", b"transfer_call_id", "warm_transfer_outcome_notice_status", b"warm_transfer_outcome_notice_status"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipStatus = SipStatus
+Global___SipStatus: _TypeAlias = SipStatus  # noqa: Y015
 
-@typing.final
-class SipStatusHistoryResponse(google.protobuf.message.Message):
+@_typing.final
+class SipStatusHistoryResponse(_message.Message):
     """<p>History of SIP status</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    STATUS_HISTORY_FIELD_NUMBER: builtins.int
-    @property
-    def status_history(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SipStatus]:
+    STATUS_HISTORY_FIELD_NUMBER: _builtins.int
+    @_builtins.property
+    def status_history(self) -> _containers.RepeatedCompositeFieldContainer[Global___SipStatus]:
         """History of SIP status"""
 
     def __init__(
         self,
         *,
-        status_history: collections.abc.Iterable[global___SipStatus] | None = ...,
+        status_history: _abc.Iterable[Global___SipStatus] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["status_history", b"status_history"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["status_history", b"status_history"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipStatusHistoryResponse = SipStatusHistoryResponse
+Global___SipStatusHistoryResponse: _TypeAlias = SipStatusHistoryResponse  # noqa: Y015
 
-@typing.final
-class SipSetCallMediaControlRequest(google.protobuf.message.Message):
+@_typing.final
+class SipSetCallMediaControlRequest(_message.Message):
     """<p>Request of <code>SipSetCallMediaControl</code></p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    BOT_VOICE_FIELD_NUMBER: builtins.int
-    BOT_LISTENING_FIELD_NUMBER: builtins.int
-    OWNER_FIELD_NUMBER: builtins.int
-    PARTICIPANTS_PRESENT_FIELD_NUMBER: builtins.int
-    WARM_TRANSFER_OUTCOME_FIELD_NUMBER: builtins.int
-    bot_voice: global___MediaControlSetting.ValueType
+    BOT_VOICE_FIELD_NUMBER: _builtins.int
+    BOT_LISTENING_FIELD_NUMBER: _builtins.int
+    OWNER_FIELD_NUMBER: _builtins.int
+    PARTICIPANTS_PRESENT_FIELD_NUMBER: _builtins.int
+    WARM_TRANSFER_OUTCOME_FIELD_NUMBER: _builtins.int
+    bot_voice: Global___MediaControlSetting.ValueType
     """<code>MEDIA_CONTROL_SETTING_ON</code>: the bot speaks. <code>MEDIA_CONTROL_SETTING_OFF</code>: the bot is muted"""
-    bot_listening: global___MediaControlSetting.ValueType
+    bot_listening: Global___MediaControlSetting.ValueType
     """<code>MEDIA_CONTROL_SETTING_ON</code>: caller audio reaches speech-to-text. <code>MEDIA_CONTROL_SETTING_OFF</code>:
     listening is paused
     """
-    owner: global___MediaControlOwner.ValueType
+    owner: Global___MediaControlOwner.ValueType
     """Owner whose hold is set"""
-    participants_present: builtins.bool
+    participants_present: _builtins.bool
     """<p>Only for <code>MEDIA_CONTROL_OWNER_PARTICIPANT</code>, ignored for every other owner: whether at least one
     invited participant is ringing or joined. Every participant request carries the full value, so the request that
     reports the last participant gone sends <code>false</code>.</p>
@@ -1128,8 +1180,8 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
     transfer of the call is in flight is refused with <code>exception_name=TransferInProgress</code> and changes
     nothing. Cleared when the call ends</p>
     """
-    @property
-    def warm_transfer_outcome(self) -> global___SipWarmTransferOutcomeNotice:
+    @_builtins.property
+    def warm_transfer_outcome(self) -> Global___SipWarmTransferOutcomeNotice:
         """<p>Optional, only with <code>MEDIA_CONTROL_OWNER_PARTICIPANT</code> (any other owner, an outcome other than
         <code>SIP_WARM_TRANSFER_OUTCOME_DECLINED</code> / <code>SIP_WARM_TRANSFER_OUTCOME_UNREACHABLE</code>, or an empty
         <code>request_id</code> is refused with <code>exception_name=InvalidWarmTransferOutcomeNotice</code> and changes
@@ -1144,73 +1196,80 @@ class SipSetCallMediaControlRequest(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        bot_voice: global___MediaControlSetting.ValueType = ...,
-        bot_listening: global___MediaControlSetting.ValueType = ...,
-        owner: global___MediaControlOwner.ValueType = ...,
-        participants_present: builtins.bool = ...,
-        warm_transfer_outcome: global___SipWarmTransferOutcomeNotice | None = ...,
+        bot_voice: Global___MediaControlSetting.ValueType = ...,
+        bot_listening: Global___MediaControlSetting.ValueType = ...,
+        owner: Global___MediaControlOwner.ValueType = ...,
+        participants_present: _builtins.bool = ...,
+        warm_transfer_outcome: Global___SipWarmTransferOutcomeNotice | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["warm_transfer_outcome", b"warm_transfer_outcome"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["bot_listening", b"bot_listening", "bot_voice", b"bot_voice", "owner", b"owner", "participants_present", b"participants_present", "warm_transfer_outcome", b"warm_transfer_outcome"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["warm_transfer_outcome", b"warm_transfer_outcome"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["bot_listening", b"bot_listening", "bot_voice", b"bot_voice", "owner", b"owner", "participants_present", b"participants_present", "warm_transfer_outcome", b"warm_transfer_outcome"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipSetCallMediaControlRequest = SipSetCallMediaControlRequest
+Global___SipSetCallMediaControlRequest: _TypeAlias = SipSetCallMediaControlRequest  # noqa: Y015
 
-@typing.final
-class SipWarmTransferOutcomeNotice(google.protobuf.message.Message):
+@_typing.final
+class SipWarmTransferOutcomeNotice(_message.Message):
     """<p>One-shot notice of a warm-transfer outcome for the bot. The pipeline tells the caller at most once per
     <code>request_id</code> and call. Carries no reason text the target gave</p>
     """
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    REQUEST_ID_FIELD_NUMBER: builtins.int
-    OUTCOME_FIELD_NUMBER: builtins.int
-    INTRO_SESSION_FIELD_NUMBER: builtins.int
-    CALLEE_DISPLAY_NAME_FIELD_NUMBER: builtins.int
-    CAUSE_FIELD_NUMBER: builtins.int
-    FALLBACK_TEXT_FIELD_NUMBER: builtins.int
-    request_id: builtins.str
+    REQUEST_ID_FIELD_NUMBER: _builtins.int
+    OUTCOME_FIELD_NUMBER: _builtins.int
+    INTRO_SESSION_FIELD_NUMBER: _builtins.int
+    CALLEE_DISPLAY_NAME_FIELD_NUMBER: _builtins.int
+    CAUSE_FIELD_NUMBER: _builtins.int
+    FALLBACK_TEXT_FIELD_NUMBER: _builtins.int
+    request_id: _builtins.str
     """Identifier of the transfer request of the client (ONDEWO VTSI). Required; the notice is delivered at most once
     per call for one identifier
     """
-    outcome: global___SipWarmTransferOutcome.ValueType
+    outcome: Global___SipWarmTransferOutcome.ValueType
     """The outcome"""
-    intro_session: builtins.str
+    intro_session: _builtins.str
     """Optional: NLU session name of the session in which the transfer target was introduced, so the pipeline can
     relay what the target said. Empty when there was no intro
     """
-    callee_display_name: builtins.str
+    callee_display_name: _builtins.str
     """Optional: display name of the transfer target, at most 128 characters"""
-    cause: builtins.str
+    cause: _builtins.str
     """Optional: a stable token naming why the transfer did not complete, e.g. <code>target-hung-up</code>,
     <code>target-refused</code>, <code>voicemail-suspected</code>. Never free text
     """
-    fallback_text: builtins.str
+    fallback_text: _builtins.str
     """Optional: the sentence the pipeline speaks itself when it cannot have the NLU phrase the outcome, rendered by the
     client. Never contains a reason the target gave. Empty: the pipeline has no sentence of its own to fall back on
     """
     def __init__(
         self,
         *,
-        request_id: builtins.str = ...,
-        outcome: global___SipWarmTransferOutcome.ValueType = ...,
-        intro_session: builtins.str = ...,
-        callee_display_name: builtins.str = ...,
-        cause: builtins.str = ...,
-        fallback_text: builtins.str = ...,
+        request_id: _builtins.str = ...,
+        outcome: Global___SipWarmTransferOutcome.ValueType = ...,
+        intro_session: _builtins.str = ...,
+        callee_display_name: _builtins.str = ...,
+        cause: _builtins.str = ...,
+        fallback_text: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["callee_display_name", b"callee_display_name", "cause", b"cause", "fallback_text", b"fallback_text", "intro_session", b"intro_session", "outcome", b"outcome", "request_id", b"request_id"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["callee_display_name", b"callee_display_name", "cause", b"cause", "fallback_text", b"fallback_text", "intro_session", b"intro_session", "outcome", b"outcome", "request_id", b"request_id"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipWarmTransferOutcomeNotice = SipWarmTransferOutcomeNotice
+Global___SipWarmTransferOutcomeNotice: _TypeAlias = SipWarmTransferOutcomeNotice  # noqa: Y015
 
-@typing.final
-class SipSendDtmfRequest(google.protobuf.message.Message):
+@_typing.final
+class SipSendDtmfRequest(_message.Message):
     """<p>Request of <code>SipSendDtmf</code></p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    DIGITS_FIELD_NUMBER: builtins.int
-    digits: builtins.str
+    DIGITS_FIELD_NUMBER: _builtins.int
+    digits: _builtins.str
     """The keys to send, in order: <code>0</code>-<code>9</code>, <code>*</code>, <code>#</code>,
     <code>A</code>-<code>D</code>; at most 64. Any other character refuses the request (<code>InvalidDtmf</code>)
     and sends nothing
@@ -1218,250 +1277,286 @@ class SipSendDtmfRequest(google.protobuf.message.Message):
     def __init__(
         self,
         *,
-        digits: builtins.str = ...,
+        digits: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["digits", b"digits"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["digits", b"digits"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipSendDtmfRequest = SipSendDtmfRequest
+Global___SipSendDtmfRequest: _TypeAlias = SipSendDtmfRequest  # noqa: Y015
 
-@typing.final
-class SipCallAudioConfig(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioConfig(_message.Message):
     """<p>Configuration of a <code>SipStreamCallAudio</code> stream. Must be the first request of the stream</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    MODE_FIELD_NUMBER: builtins.int
-    SAMPLE_RATE_HZ_FIELD_NUMBER: builtins.int
-    FRAME_MS_FIELD_NUMBER: builtins.int
-    TAKE_OVER_FIELD_NUMBER: builtins.int
-    STREAM_ID_FIELD_NUMBER: builtins.int
-    MAX_DURATION_S_FIELD_NUMBER: builtins.int
-    mode: global___SipCallAudioMode.ValueType
+    MODE_FIELD_NUMBER: _builtins.int
+    SAMPLE_RATE_HZ_FIELD_NUMBER: _builtins.int
+    FRAME_MS_FIELD_NUMBER: _builtins.int
+    TAKE_OVER_FIELD_NUMBER: _builtins.int
+    STREAM_ID_FIELD_NUMBER: _builtins.int
+    MAX_DURATION_S_FIELD_NUMBER: _builtins.int
+    mode: Global___SipCallAudioMode.ValueType
     """Mode of the stream. Unspecified means LISTEN"""
-    sample_rate_hz: builtins.int
+    sample_rate_hz: _builtins.int
     """Sample rate in Hz of the audio in both directions: <code>8000</code> or <code>16000</code>. <code>0</code> means
     <code>16000</code>
     """
-    frame_ms: builtins.int
+    frame_ms: _builtins.int
     """Frame length in milliseconds. Only <code>20</code> is supported; <code>0</code> means <code>20</code>"""
-    take_over: builtins.bool
+    take_over: _builtins.bool
     """REQUIRED for TALK: the bot is muted and does not listen while the stream is connected. Released when the stream
     ends
     """
-    stream_id: builtins.str
+    stream_id: _builtins.str
     """Identifier of the stream for logs and audit correlation, minted by the client (a UUID)"""
-    max_duration_s: builtins.int
+    max_duration_s: _builtins.int
     """Maximum duration of the stream in seconds. <code>0</code> means the server default (3600)"""
     def __init__(
         self,
         *,
-        mode: global___SipCallAudioMode.ValueType = ...,
-        sample_rate_hz: builtins.int = ...,
-        frame_ms: builtins.int = ...,
-        take_over: builtins.bool = ...,
-        stream_id: builtins.str = ...,
-        max_duration_s: builtins.int = ...,
+        mode: Global___SipCallAudioMode.ValueType = ...,
+        sample_rate_hz: _builtins.int = ...,
+        frame_ms: _builtins.int = ...,
+        take_over: _builtins.bool = ...,
+        stream_id: _builtins.str = ...,
+        max_duration_s: _builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["frame_ms", b"frame_ms", "max_duration_s", b"max_duration_s", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id", "take_over", b"take_over"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["frame_ms", b"frame_ms", "max_duration_s", b"max_duration_s", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id", "take_over", b"take_over"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipCallAudioConfig = SipCallAudioConfig
+Global___SipCallAudioConfig: _TypeAlias = SipCallAudioConfig  # noqa: Y015
 
-@typing.final
-class SipCallAudioFrame(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioFrame(_message.Message):
     """<p>One frame of call audio</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    PCM_S16LE_FIELD_NUMBER: builtins.int
-    SEQUENCE_FIELD_NUMBER: builtins.int
-    pcm_s16le: builtins.bytes
+    PCM_S16LE_FIELD_NUMBER: _builtins.int
+    SEQUENCE_FIELD_NUMBER: _builtins.int
+    pcm_s16le: _builtins.bytes
     """LINEAR16 little-endian mono samples of one frame, i.e. <code>sample_rate_hz * frame_ms / 1000 * 2</code> bytes"""
-    sequence: builtins.int
+    sequence: _builtins.int
     """Monotonic sequence number of the frame within its direction of the stream"""
     def __init__(
         self,
         *,
-        pcm_s16le: builtins.bytes = ...,
-        sequence: builtins.int = ...,
+        pcm_s16le: _builtins.bytes = ...,
+        sequence: _builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["pcm_s16le", b"pcm_s16le", "sequence", b"sequence"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["pcm_s16le", b"pcm_s16le", "sequence", b"sequence"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipCallAudioFrame = SipCallAudioFrame
+Global___SipCallAudioFrame: _TypeAlias = SipCallAudioFrame  # noqa: Y015
 
-@typing.final
-class SipCallAudioRequest(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioRequest(_message.Message):
     """<p>Request of <code>SipStreamCallAudio</code></p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    CONFIG_FIELD_NUMBER: builtins.int
-    AUDIO_FIELD_NUMBER: builtins.int
-    AGENT_MUTED_FIELD_NUMBER: builtins.int
-    agent_muted: builtins.bool
+    CONFIG_FIELD_NUMBER: _builtins.int
+    AUDIO_FIELD_NUMBER: _builtins.int
+    AGENT_MUTED_FIELD_NUMBER: _builtins.int
+    agent_muted: _builtins.bool
     """<code>true</code>: the agent's audio is not sent to the caller (silence instead) until set to <code>false</code>"""
-    @property
-    def config(self) -> global___SipCallAudioConfig:
+    @_builtins.property
+    def config(self) -> Global___SipCallAudioConfig:
         """Configuration; must be the first request and is accepted only once"""
 
-    @property
-    def audio(self) -> global___SipCallAudioFrame:
+    @_builtins.property
+    def audio(self) -> Global___SipCallAudioFrame:
         """Agent audio to send to the caller (TALK only)"""
 
     def __init__(
         self,
         *,
-        config: global___SipCallAudioConfig | None = ...,
-        audio: global___SipCallAudioFrame | None = ...,
-        agent_muted: builtins.bool = ...,
+        config: Global___SipCallAudioConfig | None = ...,
+        audio: Global___SipCallAudioFrame | None = ...,
+        agent_muted: _builtins.bool = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing.Literal["request", b"request"]) -> typing.Literal["config", "audio", "agent_muted"] | None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["agent_muted", b"agent_muted", "audio", b"audio", "config", b"config", "request", b"request"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    _WhichOneofReturnType_request: _TypeAlias = _typing.Literal["config", "audio", "agent_muted"]  # noqa: Y015
+    _WhichOneofArgType_request: _TypeAlias = _typing.Literal["request", b"request"]  # noqa: Y015
+    def WhichOneof(self, oneof_group: _WhichOneofArgType_request) -> _WhichOneofReturnType_request | None: ...
 
-global___SipCallAudioRequest = SipCallAudioRequest
+Global___SipCallAudioRequest: _TypeAlias = SipCallAudioRequest  # noqa: Y015
 
-@typing.final
-class SipCallAudioStarted(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioStarted(_message.Message):
     """<p>Sent once when a <code>SipStreamCallAudio</code> stream is connected</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    STREAM_ID_FIELD_NUMBER: builtins.int
-    SAMPLE_RATE_HZ_FIELD_NUMBER: builtins.int
-    FRAME_MS_FIELD_NUMBER: builtins.int
-    MODE_FIELD_NUMBER: builtins.int
-    stream_id: builtins.str
+    STREAM_ID_FIELD_NUMBER: _builtins.int
+    SAMPLE_RATE_HZ_FIELD_NUMBER: _builtins.int
+    FRAME_MS_FIELD_NUMBER: _builtins.int
+    MODE_FIELD_NUMBER: _builtins.int
+    stream_id: _builtins.str
     """Identifier of the stream"""
-    sample_rate_hz: builtins.int
+    sample_rate_hz: _builtins.int
     """Sample rate in Hz of the audio in both directions"""
-    frame_ms: builtins.int
+    frame_ms: _builtins.int
     """Frame length in milliseconds"""
-    mode: global___SipCallAudioMode.ValueType
+    mode: Global___SipCallAudioMode.ValueType
     """Mode of the stream"""
     def __init__(
         self,
         *,
-        stream_id: builtins.str = ...,
-        sample_rate_hz: builtins.int = ...,
-        frame_ms: builtins.int = ...,
-        mode: global___SipCallAudioMode.ValueType = ...,
+        stream_id: _builtins.str = ...,
+        sample_rate_hz: _builtins.int = ...,
+        frame_ms: _builtins.int = ...,
+        mode: Global___SipCallAudioMode.ValueType = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["frame_ms", b"frame_ms", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["frame_ms", b"frame_ms", "mode", b"mode", "sample_rate_hz", b"sample_rate_hz", "stream_id", b"stream_id"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipCallAudioStarted = SipCallAudioStarted
+Global___SipCallAudioStarted: _TypeAlias = SipCallAudioStarted  # noqa: Y015
 
-@typing.final
-class SipCallAudioStats(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioStats(_message.Message):
     """<p>Counters of a <code>SipStreamCallAudio</code> stream, sent periodically</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    FRAMES_SENT_FIELD_NUMBER: builtins.int
-    FRAMES_DROPPED_FIELD_NUMBER: builtins.int
-    FRAMES_RECEIVED_FIELD_NUMBER: builtins.int
-    UNDERRUNS_FIELD_NUMBER: builtins.int
-    FRAMES_DISCARDED_FIELD_NUMBER: builtins.int
-    frames_sent: builtins.int
+    FRAMES_SENT_FIELD_NUMBER: _builtins.int
+    FRAMES_DROPPED_FIELD_NUMBER: _builtins.int
+    FRAMES_RECEIVED_FIELD_NUMBER: _builtins.int
+    UNDERRUNS_FIELD_NUMBER: _builtins.int
+    FRAMES_DISCARDED_FIELD_NUMBER: _builtins.int
+    frames_sent: _builtins.int
     """Frames sent to the client"""
-    frames_dropped: builtins.int
+    frames_dropped: _builtins.int
     """Frames to the client dropped because the client read too slowly"""
-    frames_received: builtins.int
+    frames_received: _builtins.int
     """Frames received from the client"""
-    underruns: builtins.int
+    underruns: _builtins.int
     """Playback underruns of the agent audio (silence was played)"""
-    frames_discarded: builtins.int
+    frames_discarded: _builtins.int
     """Frames from the client discarded because the playback buffer was full"""
     def __init__(
         self,
         *,
-        frames_sent: builtins.int = ...,
-        frames_dropped: builtins.int = ...,
-        frames_received: builtins.int = ...,
-        underruns: builtins.int = ...,
-        frames_discarded: builtins.int = ...,
+        frames_sent: _builtins.int = ...,
+        frames_dropped: _builtins.int = ...,
+        frames_received: _builtins.int = ...,
+        underruns: _builtins.int = ...,
+        frames_discarded: _builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["frames_discarded", b"frames_discarded", "frames_dropped", b"frames_dropped", "frames_received", b"frames_received", "frames_sent", b"frames_sent", "underruns", b"underruns"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["frames_discarded", b"frames_discarded", "frames_dropped", b"frames_dropped", "frames_received", b"frames_received", "frames_sent", b"frames_sent", "underruns", b"underruns"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipCallAudioStats = SipCallAudioStats
+Global___SipCallAudioStats: _TypeAlias = SipCallAudioStats  # noqa: Y015
 
-@typing.final
-class SipCallAudioEnded(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioEnded(_message.Message):
     """<p>Sent once when a <code>SipStreamCallAudio</code> stream ends normally</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    REASON_FIELD_NUMBER: builtins.int
-    DETAIL_FIELD_NUMBER: builtins.int
-    reason: global___SipCallAudioEndReason.ValueType
+    REASON_FIELD_NUMBER: _builtins.int
+    DETAIL_FIELD_NUMBER: _builtins.int
+    reason: Global___SipCallAudioEndReason.ValueType
     """Why the stream ended"""
-    detail: builtins.str
+    detail: _builtins.str
     """Optional detail, a stable token"""
     def __init__(
         self,
         *,
-        reason: global___SipCallAudioEndReason.ValueType = ...,
-        detail: builtins.str = ...,
+        reason: Global___SipCallAudioEndReason.ValueType = ...,
+        detail: _builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["detail", b"detail", "reason", b"reason"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["detail", b"detail", "reason", b"reason"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipCallAudioEnded = SipCallAudioEnded
+Global___SipCallAudioEnded: _TypeAlias = SipCallAudioEnded  # noqa: Y015
 
-@typing.final
-class SipCallAudioResponse(google.protobuf.message.Message):
+@_typing.final
+class SipCallAudioResponse(_message.Message):
     """<p>Response of <code>SipStreamCallAudio</code></p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    STARTED_FIELD_NUMBER: builtins.int
-    AUDIO_FIELD_NUMBER: builtins.int
-    STATS_FIELD_NUMBER: builtins.int
-    ENDED_FIELD_NUMBER: builtins.int
-    @property
-    def started(self) -> global___SipCallAudioStarted:
+    STARTED_FIELD_NUMBER: _builtins.int
+    AUDIO_FIELD_NUMBER: _builtins.int
+    STATS_FIELD_NUMBER: _builtins.int
+    ENDED_FIELD_NUMBER: _builtins.int
+    @_builtins.property
+    def started(self) -> Global___SipCallAudioStarted:
         """The stream is connected"""
 
-    @property
-    def audio(self) -> global___SipCallAudioFrame:
+    @_builtins.property
+    def audio(self) -> Global___SipCallAudioFrame:
         """Call audio"""
 
-    @property
-    def stats(self) -> global___SipCallAudioStats:
+    @_builtins.property
+    def stats(self) -> Global___SipCallAudioStats:
         """Stream counters"""
 
-    @property
-    def ended(self) -> global___SipCallAudioEnded:
+    @_builtins.property
+    def ended(self) -> Global___SipCallAudioEnded:
         """The stream ended"""
 
     def __init__(
         self,
         *,
-        started: global___SipCallAudioStarted | None = ...,
-        audio: global___SipCallAudioFrame | None = ...,
-        stats: global___SipCallAudioStats | None = ...,
-        ended: global___SipCallAudioEnded | None = ...,
+        started: Global___SipCallAudioStarted | None = ...,
+        audio: Global___SipCallAudioFrame | None = ...,
+        stats: Global___SipCallAudioStats | None = ...,
+        ended: Global___SipCallAudioEnded | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing.Literal["response", b"response"]) -> typing.Literal["started", "audio", "stats", "ended"] | None: ...
+    _HasFieldArgType: _TypeAlias = _typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["audio", b"audio", "ended", b"ended", "response", b"response", "started", b"started", "stats", b"stats"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    _WhichOneofReturnType_response: _TypeAlias = _typing.Literal["started", "audio", "stats", "ended"]  # noqa: Y015
+    _WhichOneofArgType_response: _TypeAlias = _typing.Literal["response", b"response"]  # noqa: Y015
+    def WhichOneof(self, oneof_group: _WhichOneofArgType_response) -> _WhichOneofReturnType_response | None: ...
 
-global___SipCallAudioResponse = SipCallAudioResponse
+Global___SipCallAudioResponse: _TypeAlias = SipCallAudioResponse  # noqa: Y015
 
-@typing.final
-class SipPlayWavFilesRequest(google.protobuf.message.Message):
+@_typing.final
+class SipPlayWavFilesRequest(_message.Message):
     """<p>Plays a list of wav files</p>"""
 
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+    DESCRIPTOR: _descriptor.Descriptor
 
-    WAV_FILES_FIELD_NUMBER: builtins.int
-    @property
-    def wav_files(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.bytes]:
+    WAV_FILES_FIELD_NUMBER: _builtins.int
+    @_builtins.property
+    def wav_files(self) -> _containers.RepeatedScalarFieldContainer[_builtins.bytes]:
         """Wav files as bytes in a list that will be played"""
 
     def __init__(
         self,
         *,
-        wav_files: collections.abc.Iterable[builtins.bytes] | None = ...,
+        wav_files: _abc.Iterable[_builtins.bytes] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["wav_files", b"wav_files"]) -> None: ...
+    _HasFieldArgType: _TypeAlias = _Never  # noqa: Y015
+    def HasField(self, field_name: _HasFieldArgType) -> _builtins.bool: ...
+    _ClearFieldArgType: _TypeAlias = _typing.Literal["wav_files", b"wav_files"]  # noqa: Y015
+    def ClearField(self, field_name: _ClearFieldArgType) -> None: ...
+    def WhichOneof(self, oneof_group: _Never) -> None: ...
 
-global___SipPlayWavFilesRequest = SipPlayWavFilesRequest
+Global___SipPlayWavFilesRequest: _TypeAlias = SipPlayWavFilesRequest  # noqa: Y015

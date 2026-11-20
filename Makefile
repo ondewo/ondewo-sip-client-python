@@ -24,8 +24,8 @@ ONDEWO_SIP_VERSION=5.7.0
 # assignment above may carry an equals sign AFTER the version variable's name: older ondewo-sip-api release drivers
 # rewrote every such line wholesale (tests/unit/test_release_runs_in_a_fresh_clone.py replays that rewrite).
 RELEASE_VERSION_RE=$(subst .,\.,${ONDEWO_SIP_VERSION})
-ONDEWO_SIP_API_GIT_BRANCH=b92a13f63696a0bc013dda19d72166f87346282e
-ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.16.0
+ONDEWO_SIP_API_GIT_BRANCH=tags/5.7.0
+ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.17.0
 PYPI_PACKAGE=ondewo-sip-client
 
 # The credentials have NO defaults: GITHUB_GH_TOKEN (push access to this repository), PYPI_USERNAME and

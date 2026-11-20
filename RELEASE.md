@@ -8,6 +8,11 @@
 
 * [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Built against ondewo-sip-api 5.7.0 (`b92a13f`): transfer delegation (`SipTransferDelegation` CLAIM / EXECUTE / DISCARD, `SipTransferCallRequest.delegation` / `delegated_request_id`, `SipDelegatedTransfer` as `SipStatus.delegated_transfer`), `SipStatus.capabilities`, and the warm-transfer outcome notice (`SipWarmTransferOutcome`, `SipWarmTransferOutcomeNotice` as `SipSetCallMediaControlRequest.warm_transfer_outcome`, `SipStatus.warm_transfer_outcome_notice_status`). No new RPC: the existing `transfer_call` and `set_call_media_control` wrappers carry them.
 
+### Improvements
+
+* [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) Generated with ondewo-proto-compiler 5.17.0 (grpcio-tools 1.85.1, mypy-protobuf 5.1.0). New runtime floors: Python >= 3.10, `protobuf>=7.35.1,<8`, `grpcio>=1.85.1`; `sip_pb2.py` is stamped `Protobuf Python Version: 7.35.1` and `sip_pb2_grpc.py` `GRPC_GENERATED_VERSION = '1.85.1'`, and both refuse an older runtime at import.
+* [[OND236-120]](https://ondewo.atlassian.net/browse/OND236-120) `grpcio-tools` and `grpcio-reflection` are no longer runtime dependencies (nothing outside the generated code imports them). `ondewo-client-utils` 4.1.1 still declares both, so they are installed transitively until it drops them.
+
 *****************
 
 ## Release ONDEWO SIP Python Client 5.6.0
