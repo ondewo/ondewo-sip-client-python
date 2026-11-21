@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ondewo-sip-client"
-version = "5.7.2"
+version = "5.7.3"
 description = "ONDEWO Session Initiation Protocol (SIP) Client library for Python"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -39,6 +39,9 @@ dependencies = [
     "protobuf>=7.35.1,<8",
     "regex",
     "requests",
+    # utils/keycloak.py logs through loguru at runtime; declared only in the dev extra, a wheel installed on its
+    # own raised ModuleNotFoundError on `import ondewo...client` (5.7.2, ondewo-t2s-release PR-221 #4).
+    "loguru",
 ]
 
 [project.optional-dependencies]
@@ -46,7 +49,6 @@ dev = [
     # The mutual-TLS end-to-end tests mint their PKI with it (tests/unit/client/test_mutual_tls_end_to_end.py).
     "cryptography",
     "jupyter",
-    "loguru",
     "mypy",
     "mypy-protobuf",
     "pre-commit",

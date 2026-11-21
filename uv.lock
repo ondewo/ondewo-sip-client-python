@@ -1866,13 +1866,14 @@ wheels = [
 
 [[package]]
 name = "ondewo-sip-client"
-version = "5.7.2"
+version = "5.7.3"
 source = { editable = "." }
 dependencies = [
     { name = "dataclasses-json" },
     { name = "google-api-core" },
     { name = "googleapis-common-protos" },
     { name = "grpcio" },
+    { name = "loguru" },
     { name = "ondewo-client-utils", version = "3.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "ondewo-client-utils", version = "4.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "polling" },
@@ -1885,7 +1886,6 @@ dependencies = [
 dev = [
     { name = "cryptography" },
     { name = "jupyter" },
-    { name = "loguru" },
     { name = "mypy" },
     { name = "mypy-protobuf" },
     { name = "pre-commit" },
@@ -1906,7 +1906,7 @@ requires-dist = [
     { name = "googleapis-common-protos" },
     { name = "grpcio", specifier = ">=1.85.1" },
     { name = "jupyter", marker = "extra == 'dev'" },
-    { name = "loguru", marker = "extra == 'dev'" },
+    { name = "loguru" },
     { name = "mypy", marker = "extra == 'dev'" },
     { name = "mypy-protobuf", marker = "extra == 'dev'" },
     { name = "ondewo-client-utils", marker = "python_full_version < '3.12'", specifier = ">=3.2.0" },
